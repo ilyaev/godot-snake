@@ -49,10 +49,15 @@ func map2cell(vector):
 
 
 func spawn_food(snake):
+	if snake.food:
+		snake.food.destroy()
+		snake.food = false
+
 	if !snake.food:
 		snake.food = food_class.instance()
 		snake.food.add_to_group("food")
 		foods.add_child(snake.food)
+		snake.food.snake = snake
 
 	randomize()
 
@@ -79,7 +84,7 @@ func snake_next_command(snake):
 		spawn_food(snake)
 
 func snake_collide(snake):
-	snake.food.queue_free()
+	snake.food.destroy()
 	snake.queue_free()
 	if !snake.is_in_group("foe"):
 		spawn_player_snake()

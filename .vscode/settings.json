@@ -11,6 +11,6 @@
         "engine.cfg": true,
         "icon.png": true
     },
-    "GodotTools.godotProjectRoot": "/Users/ilyaev/godot/Snake",
+    "GodotTools.godotProjectRoot": "/Users/ilyaev/godot/godot-snake",
     "GodotTools.editorPath": "/Applications/Godot.app/Contents/MacOS/Godot"
 }
