@@ -9,7 +9,6 @@ onready var sprite = get_node("sprite")
 func _ready():
 	sprite.set_scale(Vector2(0,0))
 	animation.play("show")
-	pass
 
 func destroy():
 	timer.set_wait_time(animation.get_animation("show").get_length())

@@ -19,6 +19,12 @@ func _ready():
 func relocate(position):
 	head.relocate(position)
 
+func is_moving():
+	if current_direction.x == 0 and current_direction.y == 0:
+		return false
+	else:
+		return true
+
 func next_move():
 	head.get_node("sprite").set_flip_h(head.target_direction.x < 0)
 	head.set_rot(0)

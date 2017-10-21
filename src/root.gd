@@ -6,6 +6,9 @@ var snake
 var direction = Vector2(0,0)
 var food_class = preload("res://src/food.tscn")
 var snake_class = preload("res://src/snake.tscn")
+var wall_map = {}
+var cell_id_to_index = {}
+var astar
 
 var maxX = 0
 var maxY = 0
@@ -25,8 +28,15 @@ onready var foods = get_node("foods")
 
 func _ready():
 	adjust_map()
+	build_wall_map()
 	spawn_player_snake()
 	set_process(true)
+
+	# print(OS.get_frames_per_second())
+
+func _draw():
+	for cell in get_path(map.world_to_map(snake.head.get_pos() + snake.current_direction), map.world_to_map(snake.food.get_pos())):
+		draw_circle(map2cell(cell), 20, Color(1,0,0,0.5))
 
 func spawn_player_snake():
 	snake = snake_class.instance()
@@ -34,6 +44,8 @@ func spawn_player_snake():
 	snake.relocate(map2cell(Vector2(1, 1)))
 	snake.head.connect("move_finish", self, "snake_next_command", [snake])
 	spawn_food(snake)
+	for i in range(10):
+		snake.doGrow()
 
 func spawn_enemy_snake():
 	var foe = snake_class.instance()
@@ -43,10 +55,60 @@ func spawn_enemy_snake():
 	foe.head.connect("move_finish", self, "snake_next_command", [foe])
 	foe.add_to_group("foe")
 	spawn_food(foe)
+	build_wall_map()
 
 func map2cell(vector):
 	return Vector2(vector.x * snake_size * snake_scale + (snake_size / 2), vector.y * snake_size * snake_scale + (snake_size / 2) )
 
+func build_astar():
+	if astar:
+		astar.clear()
+	else:
+		astar = AStar.new()
+	for x in range(maxX):
+		for y in range(maxY):
+			var cell_id = get_cell_id(x, y)
+			var cell_index = cell_id_to_index[cell_id]
+			if !wall_map[cell_id]:
+				astar.add_point(cell_index, Vector3(x, y, 0))
+
+	for x in range(maxX):
+		for y in range(maxY):
+			var cell_id = get_cell_id(x, y)
+			var cell_index = cell_id_to_index[cell_id]
+			if !wall_map[cell_id]:
+				for cell in [get_cell_id(x-1, y), get_cell_id(x+1, y), get_cell_id(x, y-1), get_cell_id(x, y+1)]:
+					if wall_map.has(cell) and !wall_map[cell]:
+						astar.connect_points(cell_index, cell_id_to_index[cell])
+
+
+func get_path(from, to):
+	return astar.get_point_path(cell_id_to_index[get_cell_id(from.x, from.y)],
+			cell_id_to_index[get_cell_id(to.x, to.y)])
+
+func build_wall_map():
+	var index = 1
+	for x in range(maxX):
+		for y in range(maxY):
+			var cell_id = get_cell_id(x,y)
+			cell_id_to_index[cell_id] = index
+			index = index + 1
+			if decor.get_cell(x, y) == TILE_WALL:
+				wall_map[cell_id] = true
+			else:
+				wall_map[cell_id] = false
+
+	for snake in snakes.get_children():
+		var cell = map.world_to_map(snake.head.get_pos())
+		wall_map[get_cell_id(cell.x, cell.y)] = true
+		for body in snake.tail.get_children():
+			var cell = map.world_to_map(body.get_pos())
+			wall_map[get_cell_id(cell.x, cell.y)] = true
+
+	build_astar()
+
+func get_cell_id(x, y):
+	return str(x, 'x', y)
 
 func spawn_food(snake):
 	if snake.food:
@@ -64,7 +126,7 @@ func spawn_food(snake):
 	var food_x = round(rand_range(0, maxX - 1))
 	var food_y = round(rand_range(0, maxY - 1))
 
-	while decor.get_cell(food_x, food_y) != -1:
+	while wall_map[get_cell_id(food_x, food_y)] == true:
 		food_x = round(rand_range(0, maxX - 1))
 		food_y = round(rand_range(0, maxY - 1))
 
@@ -74,7 +136,7 @@ func snake_next_command(snake):
 	var food = snake.food
 	var next_cell = map.world_to_map(snake.head.get_pos() + snake.head.target_direction)
 
-	if next_cell.x < 0 or next_cell.y < 0 or next_cell.x > maxX - 1 or next_cell.y > maxY - 1 or decor.get_cell(next_cell.x, next_cell.y) == TILE_WALL:
+	if next_cell.x < 0 or next_cell.y < 0 or next_cell.x > maxX - 1 or next_cell.y > maxY - 1 or wall_map[get_cell_id(next_cell.x, next_cell.y)]:
 		snake_collide(snake)
 
 	if food and map.world_to_map(snake.head.get_pos()) == map.world_to_map(food.get_pos()):
@@ -83,7 +145,12 @@ func snake_next_command(snake):
 			snake.doGrow()
 		spawn_food(snake)
 
+	build_wall_map()
+
 func snake_collide(snake):
+	if !snake.is_moving():
+		return
+
 	snake.food.destroy()
 	snake.queue_free()
 	if !snake.is_in_group("foe"):
@@ -114,6 +181,8 @@ func _process(delta):
 	for foe in snakes.get_children():
 		if foe.is_in_group("foe"):
 			foe.set_target(foe.current_direction)
+
+	update()
 
 func adjust_map():
 	maxX = map.get_used_rect().end.x
@@ -147,4 +216,5 @@ func adjust_map():
 				index += 1
 
 func _on_snake_spawn_timer_timeout():
-	spawn_enemy_snake()
+	if direction.x != 0 or direction.y != 0:
+		spawn_enemy_snake()
