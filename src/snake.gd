@@ -2,11 +2,15 @@ extends Node2D
 
 onready var head = get_node("head")
 onready var tail = get_node("tail")
+onready var map = get_node("/root/world/walls/map")
+
 var body = preload("res://src/body.tscn")
 var needGrow = false
 var current_direction = Vector2(0,0)
 var id = -1
 var food = false
+var path = [] setget _set_path, _get_path
+var commands = []
 
 func _ready():
 	head.add_to_group("head")
@@ -15,6 +19,17 @@ func _ready():
 	head.connect("move_finish", self, "next_move")
 	randomize()
 	id = round(rand_range(0, 100000))
+
+func _get_path():
+	return path
+
+func _set_path(new_path):
+	commands = []
+	var cur_pos = map.world_to_map(head.get_pos())
+	for node in new_path:
+		commands.append(Vector2(node.x, node.y) - cur_pos)
+		cur_pos = Vector2(node.x, node.y)
+	path = new_path
 
 func relocate(position):
 	head.relocate(position)
