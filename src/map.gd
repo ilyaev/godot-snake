@@ -1,13 +1,14 @@
 extends TileMap
 
-onready var foreground = get_node("../foreground")
-onready var snakes = get_node("../snakes")
+onready var foreground = get_node("/root/world/foreground_layer/foreground")
+onready var snakes = get_node("/root/world/snakes")
 onready var layers = []
-onready var map = get_node("map")
+onready var map = get_node("/root/world/map")
 
 var maxX = 0
 var maxY = 0
 var half_size = 0
+var snake_size = 0
 var wall_map = {}
 var cell_id_to_index = {}
 var astar
@@ -20,8 +21,8 @@ const TILE_WALL_UP = 5
 const TILE_WALL_DOWN = 4
 
 func _ready():
-
-	half_size = get_cell_size().x / 2
+	snake_size = get_cell_size().x
+	half_size = snake_size / 2
 
 	layers.append(foreground)
 	for layer in foreground.get_children():
@@ -35,6 +36,14 @@ func map_to_screen(pos):
 
 func get_cell_id(x, y):
 	return str(x, 'x', y)
+
+func is_wall_world(pos):
+	var cell = world_to_map(pos)
+	var cell_id = get_cell_id(cell.x, cell.y)
+	if wall_map.has(cell_id) and !wall_map[cell_id]:
+		return false
+	else:
+		return true
 
 func get_path(from, to):
 	var from_cell = get_cell_id(from.x, from.y)
