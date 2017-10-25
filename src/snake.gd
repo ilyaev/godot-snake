@@ -11,6 +11,7 @@ var food_class = preload("res://src/food.tscn")
 var directions = []
 
 var needGrow = false
+var needShrink = false
 var current_direction = Vector2(0,0)
 var food = false
 var path = [] # setget _set_path, _get_path
@@ -19,6 +20,7 @@ var commands = []
 var food_scenario = [] #[Vector2(2,1), Vector2(2, 5)]
 
 signal collide
+signal tail_shrink
 
 func _ready():
 	directions = [Vector2(-1, 0), Vector2(1,0), Vector2(0, -1), Vector2(0,1)]
@@ -59,17 +61,24 @@ func next_move():
 	if needGrow:
 		doGrow()
 		needGrow = false
+	if needShrink:
+		doShrink()
+		needShrink = false
 
 	snake_next_command()
 
 func snake_next_command():
 
-	if food and map.world_to_map(head.get_pos()) == map.world_to_map(food.get_pos()):
-		doGrow()
-		if get_size() == 2: # double grow after first body part. weird bug
+	for one_food in foods.get_children():
+		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()):
 			doGrow()
-		spawn_food()
-		find_route()
+			if get_size() == 2: # double grow after first body part. weird bug
+				doGrow()
+			if one_food.snake:
+				one_food.snake.spawn_food()
+				one_food.snake.find_route()
+				if one_food.snake != self:
+					one_food.snake.shrink()
 
 	map.build_wall_map()
 
@@ -135,8 +144,19 @@ func set_target(direction):
 func grow():
 	needGrow = true
 
+func shrink():
+	needShrink = true
+
 func get_size():
 	return tail.get_child_count()
+
+func doShrink():
+	if tail.get_children().size() > 0:
+		var pos = tail.get_children().back().get_pos()
+		tail.get_children().back().destroy()
+		tail.get_children().pop_back()
+		emit_signal("tail_shrink", pos)
+
 
 func doGrow():
 	var one = body.instance()

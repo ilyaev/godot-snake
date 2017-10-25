@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://art/gray.png" type="Texture" id=1]
+[ext_resource path="res://src/explode.gd" type="Script" id=2]
+
+[node name="explode" type="Particles2D"]
+
+config/amount = 32
+config/lifetime = 1.0
+config/process_mode = 1
+config/explosiveness = 0.1
+config/flip_h = true
+config/flip_v = true
+config/texture = ExtResource( 1 )
+params/direction = 180.0
+params/spread = 360.0
+params/linear_velocity = 160.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 70.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 1.0
+params/final_size = 3.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/direction = 56.0
+randomness/spread = 1.0
+randomness/linear_velocity = 1.0
+randomness/spin_velocity = 1.0
+randomness/orbit_velocity = 1.0
+randomness/gravity_direction = 1.0
+randomness/gravity_strength = 1.0
+randomness/radial_accel = 1.0
+color/color = Color( 1, 0, 0, 1 )
+script/script = ExtResource( 2 )
+
+[node name="timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
+
+
