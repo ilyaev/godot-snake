@@ -1,6 +1,6 @@
 extends TileMap
 
-onready var foreground = get_node("/root/world/foreground_layer/foreground")
+onready var foreground = get_node("/root/world/foreground")
 onready var snakes = get_node("/root/world/snakes")
 onready var layers = []
 onready var map = get_node("/root/world/map")

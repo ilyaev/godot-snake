@@ -2,7 +2,7 @@ extends Node2D
 
 onready var head = get_node("head")
 onready var tail = get_node("tail")
-onready var map = get_node("/root/world/foreground_layer/walls")
+onready var map = get_node("/root/world/walls")
 onready var foods = get_node("/root/world/foods")
 
 
@@ -18,6 +18,7 @@ var path = [] # setget _set_path, _get_path
 var commands = []
 
 var food_scenario = [] #[Vector2(2,1), Vector2(2, 5)]
+var active = false
 
 signal collide
 signal tail_shrink
@@ -28,6 +29,7 @@ func _ready():
 	relocate(head.get_pos())
 	call_deferred("doGrow")
 	head.connect("move_finish", self, "next_move")
+	active = true
 
 func _get_path():
 	return path
@@ -52,6 +54,8 @@ func is_moving():
 		return true
 
 func next_move():
+	if !active:
+		return
 	head.get_node("sprite").set_flip_h(head.target_direction.x < 0)
 	head.set_rot(0)
 	if head.target_direction.y < 0:
@@ -74,11 +78,8 @@ func snake_next_command():
 			doGrow()
 			if get_size() == 2: # double grow after first body part. weird bug
 				doGrow()
-			if one_food.snake:
-				one_food.snake.spawn_food()
-				one_food.snake.find_route()
-				if one_food.snake != self:
-					one_food.snake.shrink()
+			if one_food and one_food.snake:
+				call_deferred("spawn_food_by_snake", one_food.snake)
 
 	map.build_wall_map()
 
@@ -89,6 +90,14 @@ func snake_next_command():
 	if next_cell.x < 0 or next_cell.y < 0 or next_cell.x > map.maxX - 1 or next_cell.y > map.maxY - 1 or map.wall_map[map.get_cell_id(next_cell.x, next_cell.y)]:
 		snake_collide()
 
+func spawn_food_by_snake(snake):
+	if !snake or snake == null or !weakref(snake).get_ref() or !snake.has_method("spawn_food"):
+		return
+	snake.spawn_food()
+	snake.find_route()
+	if snake != self:
+		snake.shrink()
+
 func snake_collide():
 	if !is_moving():
 		return
@@ -97,11 +106,13 @@ func snake_collide():
 		find_route()
 		if path.size() == 0:
 			food.destroy()
+			destroy()
 			queue_free()
 		else:
 			next_command()
 	else:
 		food.destroy()
+		destroy()
 
 	emit_signal("collide")
 
@@ -151,7 +162,7 @@ func get_size():
 	return tail.get_child_count()
 
 func doShrink():
-	if tail.get_children().size() > 0:
+	if tail.get_children().size() > 2:
 		var pos = tail.get_children().back().get_pos()
 		tail.get_children().back().destroy()
 		tail.get_children().pop_back()
@@ -187,3 +198,8 @@ func build_path():
 	find_route()
 	next_command()
 
+func destroy():
+	active = false
+	for body in tail.get_children():
+		body.destroy()
+	head.destroy()

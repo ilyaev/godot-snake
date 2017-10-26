@@ -1,7 +1,7 @@
 extends Node2D
 
 onready var world = get_node("/root/world")
-onready var map = get_node("/root/world/foreground_layer/walls")
+onready var map = get_node("/root/world/walls")
 
 
 

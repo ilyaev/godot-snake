@@ -6,7 +6,7 @@ var snake_class = preload("res://src/snake.tscn")
 
 export var show_debug = true
 
-onready var map = get_node("foreground_layer/walls")
+onready var map = get_node("walls")
 onready var snakes = get_node("snakes")
 onready var foods = get_node("foods")
 
@@ -63,9 +63,9 @@ func _process(delta):
 		snake.set_target(direction)
 
 	for foe in snakes.get_children():
-		if foe.is_in_group("foe"):
+		if foe.active and foe.is_in_group("foe"):
 			foe.set_target(foe.current_direction)
 
 func _on_snake_spawn_timer_timeout():
-	get_node("snake_spawn_timer").set_wait_time(3)
+	get_node("snake_spawn_timer").set_wait_time(1)
 	spawn_enemy_snake()
