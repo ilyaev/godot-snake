@@ -191,8 +191,6 @@ func next_command():
 		commands.pop_front()
 		set_target(command * map.snake_size)
 		head.target_direction = head.next_target_direction
-	#else:
-		#build_path()
 
 func build_path():
 	find_route()

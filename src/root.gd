@@ -66,6 +66,8 @@ func _process(delta):
 		if foe.active and foe.is_in_group("foe"):
 			foe.set_target(foe.current_direction)
 
+	get_node("camera").align_to(snake.head.get_pos())
+
 func _on_snake_spawn_timer_timeout():
 	get_node("snake_spawn_timer").set_wait_time(1)
 	spawn_enemy_snake()

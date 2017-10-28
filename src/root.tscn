@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://src/root.gd" type="Script" id=1]
 [ext_resource path="res://art/medium/tiles.xml" type="TileSet" id=2]
 [ext_resource path="res://src/debug.gd" type="Script" id=3]
 [ext_resource path="res://art/medium/tiles3.xml" type="TileSet" id=4]
 [ext_resource path="res://src/map.gd" type="Script" id=5]
+[ext_resource path="res://src/camera.gd" type="Script" id=6]
 
 [node name="world" type="Node2D"]
 
@@ -162,6 +163,26 @@ script/script = ExtResource( 5 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="camera" type="Camera2D" parent="."]
+
+anchor_mode = 0
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+script/script = ExtResource( 6 )
 
 [connection signal="timeout" from="snake_spawn_timer" to="." method="_on_snake_spawn_timer_timeout"]
 
