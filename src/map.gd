@@ -14,11 +14,13 @@ var cell_id_to_index = {}
 var astar
 
 const TILE_WALL = 1
-const TILE_GRASS = 0
+const TILE_GRASS = 8
 const TILE_WALL_LEFT = 3
 const TILE_WALL_RIGHT = 2
 const TILE_WALL_UP = 5
 const TILE_WALL_DOWN = 4
+const GRASS_TILES = [0, 9, 10, 11]
+
 
 func _ready():
 	snake_size = get_cell_size().x
@@ -78,6 +80,13 @@ func build_astar():
 						astar.connect_points(cell_index, cell_id_to_index[cell])
 
 
+func get_grass_tile():
+	if rand_range(1, 100) < 50:
+		var index = rand_range(1, GRASS_TILES.size())
+		return GRASS_TILES[index]
+	else:
+		return TILE_GRASS
+
 func build_wall_map():
 	var index = 1
 	for x in range(maxX):
@@ -105,9 +114,8 @@ func adjust_map():
 	maxY = map.get_used_rect().end.y
 	for x in range(map.get_used_rect().end.x):
 		for y in range(map.get_used_rect().end.y):
-			map.set_cell(x, y, TILE_GRASS)
-			if get_cell(x,y) == TILE_WALL:
-				continue
+			map.set_cell(x, y, get_grass_tile())
+
 			var d_map = {
 				"self": get_cell(x, y),
 				"left": get_cell(x-1, y),

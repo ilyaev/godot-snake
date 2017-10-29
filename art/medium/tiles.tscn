@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://art/medium/sprite_04.png" type="Texture" id=1]
 [ext_resource path="res://art/medium/sprite_11.png" type="Texture" id=2]
@@ -6,6 +6,10 @@
 [ext_resource path="res://art/medium/sprite_12.png" type="Texture" id=4]
 [ext_resource path="res://art/medium/sprite_13.png" type="Texture" id=5]
 [ext_resource path="res://art/medium/sprite_05.png" type="Texture" id=6]
+[ext_resource path="res://art/medium/grass_0.png" type="Texture" id=7]
+[ext_resource path="res://art/medium/grass_1.png" type="Texture" id=8]
+[ext_resource path="res://art/medium/grass_2.png" type="Texture" id=9]
+[ext_resource path="res://art/medium/grass_3.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -21,6 +25,7 @@ texture = ExtResource( 1 )
 
 [node name="wall" type="Sprite" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 377.836, 344.857 )
 texture = ExtResource( 2 )
 
@@ -50,5 +55,25 @@ texture = ExtResource( 5 )
 
 transform/pos = Vector2( 60.6382, 207.139 )
 texture = ExtResource( 6 )
+
+[node name="grass_0" type="Sprite" parent="."]
+
+transform/pos = Vector2( 139.992, 89.0859 )
+texture = ExtResource( 7 )
+
+[node name="grass_1" type="Sprite" parent="."]
+
+transform/pos = Vector2( 379.676, 103.934 )
+texture = ExtResource( 8 )
+
+[node name="grass_2" type="Sprite" parent="."]
+
+transform/pos = Vector2( 379.676, 103.934 )
+texture = ExtResource( 9 )
+
+[node name="grass_3" type="Sprite" parent="."]
+
+transform/pos = Vector2( 379.676, 103.934 )
+texture = ExtResource( 10 )
 
 
