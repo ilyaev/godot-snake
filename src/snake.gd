@@ -4,6 +4,7 @@ onready var head = get_node("head")
 onready var tail = get_node("tail")
 onready var map = get_node("/root/world/walls")
 onready var foods = get_node("/root/world/foods")
+onready var world = get_node("/root/world")
 
 
 var body = preload("res://src/body.tscn")
@@ -58,6 +59,25 @@ func next_move():
 		return
 	head.get_node("sprite").set_flip_h(head.target_direction.x < 0)
 	head.set_rot(0)
+
+	var last_body = tail.get_children().back()
+	var prelast_body = head
+	if tail.get_children().size() > 2:
+		prelast_body = tail.get_children()[tail.get_children().size() - 2]
+
+	var tdiff = prelast_body.get_pos() - last_body.get_pos()
+
+	last_body.get_node("sprite").set_flip_h(tdiff.x < 0)
+	last_body.set_rot(0)
+
+	if tdiff.y < 0:
+		last_body.set_rot(PI / 2)
+	elif tdiff.y > 0:
+		last_body.set_rot(-PI / 2)
+
+
+
+
 	if head.target_direction.y < 0:
 		head.set_rot(PI/2)
 	elif head.target_direction.y > 0:
@@ -163,6 +183,7 @@ func get_size():
 
 func doShrink():
 	if tail.get_children().size() > 2:
+		tail.get_children()[tail.get_children().size() - 2].set_texture(world.snake_tail_texture)
 		var pos = tail.get_children().back().get_pos()
 		tail.get_children().back().destroy()
 		tail.get_children().pop_back()
@@ -176,7 +197,11 @@ func doGrow():
 	if tail.get_child_count() > 0:
 		last = tail.get_child(tail.get_child_count() - 1)
 
+	for body in tail.get_children():
+		body.set_texture(world.snake_body_texture)
+
 	tail.add_child(one)
+	one.set_texture(world.snake_tail_texture)
 	one.relocate(last.get_pos())
 
 func find_route():

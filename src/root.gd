@@ -3,6 +3,8 @@ extends Node2D
 var snake
 var direction = Vector2(0,0)
 var snake_class = preload("res://src/snake.tscn")
+var snake_tail_texture = preload("res://art/medium/snake_tail.png")
+var snake_body_texture = preload("res://art/medium/sprite_01.png")
 
 export var show_debug = true
 

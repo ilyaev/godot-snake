@@ -60,3 +60,7 @@ func destroy():
 	explode.set_pos(get_pos())
 	get_node("/root/world").add_child(explode)
 	queue_free()
+
+
+func set_texture(texture):
+	get_node("sprite").set_texture(texture)
