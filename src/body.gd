@@ -11,7 +11,7 @@ const STATE_INTWEEN = 2
 const STATE_END = 3
 
 var state = STATE_START
-
+var active = true
 var explode_class = preload("res://src/explode.tscn")
 
 onready var tween = get_node("tween")
@@ -33,6 +33,8 @@ func relocate(position):
 
 func tween_complete(obj, key):
 	set_pos(target_position)
+	if !active:
+		return
 	target_direction = next_target_direction
 	target_position = get_pos() + target_direction
 	start_position = get_pos()
@@ -49,9 +51,6 @@ func _process(delta):
 		tween.interpolate_property(self, "transform/pos", start_position, target_position, snake_speed, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		tween.start()
 
-	if is_in_group("head") and get_overlapping_areas().size() > 0 and (target_direction.x > 0 or target_direction.y > 0):
-		emit_signal("collide")
-
 func set_target(direction):
 	next_target_direction = direction
 
@@ -64,3 +63,6 @@ func destroy():
 
 func set_texture(texture):
 	get_node("sprite").set_texture(texture)
+
+func deactivate():
+	active = false

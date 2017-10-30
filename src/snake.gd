@@ -15,10 +15,11 @@ var needGrow = false
 var needShrink = false
 var current_direction = Vector2(0,0)
 var food = false
-var path = [] # setget _set_path, _get_path
+var path = []
 var commands = []
+var id
 
-var food_scenario = [] #[Vector2(2,1), Vector2(2, 5)]
+var food_scenario = [] # [Vector2(2,1), Vector2(2, 5), Vector2(1,7)]
 var active = false
 
 signal collide
@@ -32,21 +33,13 @@ func _ready():
 	head.connect("move_finish", self, "next_move")
 	active = true
 
-func _get_path():
-	return path
-
-func _set_path(new_path):
-	commands.clear()
-	var cur_pos = map.world_to_map(head.get_pos())
-	for node in new_path:
-		commands.append(Vector2(node.x, node.y) - cur_pos)
-		cur_pos = Vector2(node.x, node.y)
-	path = new_path
 
 func relocate(position):
 	head.relocate(position)
 
 func is_moving():
+	if !active:
+		return true
 	if current_direction.x == 0 and current_direction.y == 0:
 		return false
 	if head.target_direction.x == 0 and head.target_direction.y == 0:
@@ -92,26 +85,39 @@ func next_move():
 	snake_next_command()
 
 func snake_next_command():
-
+	map.build_wall_map()
 	for one_food in foods.get_children():
 		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()):
 			doGrow()
 			if get_size() == 2: # double grow after first body part. weird bug
 				doGrow()
 			if one_food and one_food.snake:
-				call_deferred("spawn_food_by_snake", one_food.snake)
-
-	map.build_wall_map()
+				spawn_food_by_snake(one_food.snake)
+				# call_deferred("spawn_food_by_snake", one_food.snake)
 
 	if is_in_group("foe") and commands.size() > 0:
 		next_command()
 
 	var next_cell = map.world_to_map(head.get_pos() + head.target_direction)
-	if next_cell.x < 0 or next_cell.y < 0 or next_cell.x > map.maxX - 1 or next_cell.y > map.maxY - 1 or map.wall_map[map.get_cell_id(next_cell.x, next_cell.y)]:
+	var head_snakes = world.check_heads(self)
+
+	if head_snakes.size() > 0:
+		if is_in_group("foe"):
+			destroy()
+		else:
+			emit_signal("collide")
+			food.destroy()
+		for one in head_snakes:
+			if one.is_in_group("foe"):
+				one.destroy()
+			else:
+				one.emit_signal("collide")
+				one.food.destroy()
+	elif next_cell.x < 0 or next_cell.y < 0 or next_cell.x > map.maxX - 1 or next_cell.y > map.maxY - 1 or map.wall_map[map.get_cell_id(next_cell.x, next_cell.y)]:
 		snake_collide()
 
 func spawn_food_by_snake(snake):
-	if !snake or snake == null or !weakref(snake).get_ref() or !snake.has_method("spawn_food"):
+	if !snake or snake == null or !weakref(snake).get_ref() or !world.snakes.get_children().has(snake) or !snake.active or !snake.has_method("spawn_food"):
 		return
 	snake.spawn_food()
 	snake.find_route()
@@ -125,16 +131,13 @@ func snake_collide():
 	if is_in_group("foe"):
 		find_route()
 		if path.size() == 0:
-			food.destroy()
 			destroy()
-			queue_free()
+			emit_signal("collide")
 		else:
-			next_command()
+		 	next_command()
 	else:
-		food.destroy()
 		destroy()
-
-	emit_signal("collide")
+		emit_signal("collide")
 
 func spawn_food():
 	if food:
@@ -204,16 +207,31 @@ func doGrow():
 	one.set_texture(world.snake_tail_texture)
 	one.relocate(last.get_pos())
 
+func _set_path(new_path):
+	commands.clear()
+	var cur_pos = map.world_to_map(head.get_pos())
+	for node in new_path:
+		commands.append(Vector2(node.x, node.y) - cur_pos)
+		cur_pos = Vector2(node.x, node.y)
+	path = new_path
+
 func find_route():
 	path.resize(0)
+	var default_path = []
 	for direction in directions:
 		if path.size() == 0 and !map.is_wall_world(head.get_pos() + direction * map.snake_size):
+			if default_path.size() == 0:
+				default_path.append(map.world_to_map(head.get_pos() + direction * map.snake_size))
 			_set_path(map.get_path(map.world_to_map(head.get_pos() + direction * map.snake_size), map.world_to_map(food.get_pos())))
+	if path.size() == 0:
+		if default_path.size() > 0:
+			_set_path([Vector3(default_path[0].x, default_path[0].y, 0)])
 
 func next_command():
 	if commands.size() > 0:
 		var command = commands[0]
 		commands.pop_front()
+		path.remove(0)
 		set_target(command * map.snake_size)
 		head.target_direction = head.next_target_direction
 
@@ -222,7 +240,17 @@ func build_path():
 	next_command()
 
 func destroy():
-	active = false
+	food.destroy()
+	deactivate()
 	for body in tail.get_children():
 		body.destroy()
 	head.destroy()
+	if is_in_group("foe"):
+		queue_free()
+
+
+func deactivate():
+	active = false
+	head.deactivate()
+	for body in tail.get_children():
+		body.deactivate()

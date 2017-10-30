@@ -5,6 +5,7 @@ var direction = Vector2(0,0)
 var snake_class = preload("res://src/snake.tscn")
 var snake_tail_texture = preload("res://art/medium/snake_tail.png")
 var snake_body_texture = preload("res://art/medium/sprite_01.png")
+var last_id = 0
 
 export var show_debug = true
 
@@ -20,6 +21,7 @@ func _ready():
 
 func spawn_player_snake():
 	snake = snake_class.instance()
+	snake.id = next_id()
 	snake.connect("collide", self, "snake_collide", [snake])
 	snakes.add_child(snake)
 	snake.relocate(map.map_to_screen(Vector2(10, 1)))
@@ -27,19 +29,32 @@ func spawn_player_snake():
 
 func spawn_enemy_snake():
 	var foe = snake_class.instance()
+	foe.id = next_id()
 	snakes.add_child(foe)
 	foe.relocate(map.map_to_screen(Vector2(3,1)))
 	foe.set_target(direction)
 	foe.add_to_group("foe")
 	foe.spawn_food()
 	map.build_wall_map()
-	foe.build_path()
+	foe.find_route()
 
+func next_id():
+	last_id += 1
+	return last_id
+
+func check_heads(snake):
+	var cell = map.world_to_map(snake.head.get_pos())
+	var result = []
+	for one in snakes.get_children():
+		if one != snake and map.world_to_map(one.head.get_pos()) == cell:
+			result.append(one)
+	return result
 
 func snake_collide(snake):
 	if !snake.is_moving():
 		return
 	snake.queue_free()
+	snake = false
 	spawn_player_snake()
 	direction.x = 0
 	direction.y = 0
@@ -59,6 +74,8 @@ func _process(delta):
 		direction.y = map.snake_size
 	elif Input.is_action_pressed("ui_accept"):
 		get_tree().set_pause(true)
+	elif Input.is_action_pressed("ui_focus_next"):
+		show_debug = !show_debug
 
 
 	if snake:
@@ -71,5 +88,5 @@ func _process(delta):
 	get_node("camera").align_to(snake.head.get_pos())
 
 func _on_snake_spawn_timer_timeout():
-	get_node("snake_spawn_timer").set_wait_time(1)
+	get_node("snake_spawn_timer").set_wait_time(2)
 	spawn_enemy_snake()

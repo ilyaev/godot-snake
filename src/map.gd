@@ -100,11 +100,15 @@ func build_wall_map():
 				wall_map[cell_id] = false
 
 	for snake in snakes.get_children():
-		var cell = world_to_map(snake.head.get_pos())
+		var direction = Vector2(0,0)
+		var cell = world_to_map(snake.head.get_pos() + direction)
 		wall_map[get_cell_id(cell.x, cell.y)] = true
+		# var index = 1
 		for body in snake.tail.get_children():
+			# if index != snake.tail.get_children().size():
 			var cell = world_to_map(body.get_pos())
 			wall_map[get_cell_id(cell.x, cell.y)] = true
+			#index += 1
 
 	build_astar()
 
