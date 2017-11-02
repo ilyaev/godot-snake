@@ -31,6 +31,8 @@ func _ready():
 	relocate(head.get_pos())
 	call_deferred("doGrow")
 	head.connect("move_finish", self, "next_move")
+	if is_in_group("foe"):
+		head.set_texture(world.enemy_head_texture)
 	active = true
 
 
@@ -120,6 +122,8 @@ func spawn_food_by_snake(snake):
 	if !snake or snake == null or !weakref(snake).get_ref() or !world.snakes.get_children().has(snake) or !snake.active or !snake.has_method("spawn_food"):
 		return
 	snake.spawn_food()
+	if snake.is_in_group("foe"):
+		snake.food.set_texture(world.enemy_food_texture)
 	snake.find_route()
 	if snake != self:
 		snake.shrink()
@@ -186,7 +190,10 @@ func get_size():
 
 func doShrink():
 	if tail.get_children().size() > 2:
-		tail.get_children()[tail.get_children().size() - 2].set_texture(world.snake_tail_texture)
+		if is_in_group("foe"):
+			tail.get_children()[tail.get_children().size() - 2].set_texture(world.enemy_snake_tail_texture)
+		else:
+			tail.get_children()[tail.get_children().size() - 2].set_texture(world.snake_tail_texture)
 		var pos = tail.get_children().back().get_pos()
 		tail.get_children().back().destroy()
 		tail.get_children().pop_back()
@@ -201,10 +208,16 @@ func doGrow():
 		last = tail.get_child(tail.get_child_count() - 1)
 
 	for body in tail.get_children():
-		body.set_texture(world.snake_body_texture)
+		if is_in_group("foe"):
+			body.set_texture(world.enemy_snake_body_texture)
+		else:
+			body.set_texture(world.snake_body_texture)
 
 	tail.add_child(one)
-	one.set_texture(world.snake_tail_texture)
+	if is_in_group("foe"):
+		one.set_texture(world.enemy_snake_tail_texture)
+	else:
+		one.set_texture(world.snake_tail_texture)
 	one.relocate(last.get_pos())
 
 func _set_path(new_path):

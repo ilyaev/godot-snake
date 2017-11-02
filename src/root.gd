@@ -4,7 +4,11 @@ var snake
 var direction = Vector2(0,0)
 var snake_class = preload("res://src/snake.tscn")
 var snake_tail_texture = preload("res://art/medium/snake_tail.png")
+var enemy_food_texture = preload("res://art/medium/sprite_03_1.png")
+var enemy_snake_tail_texture = preload("res://art/medium/snake_tail_1.png")
 var snake_body_texture = preload("res://art/medium/sprite_01.png")
+var enemy_snake_body_texture = preload("res://art/medium/sprite_01_1.png")
+var enemy_head_texture = preload("res://art/medium/sprite_02_1.png")
 var last_id = 0
 
 export var show_debug = true
@@ -17,6 +21,26 @@ func _ready():
 	spawn_player_snake()
 	spawn_enemy_snake()
 	set_process(true)
+	set_process_input(true)
+	self.show_debug = false
+
+func _input(event):
+	if event.is_action_pressed("ui_right"):
+		direction.x = map.snake_size
+		direction.y = 0
+	elif event.is_action_pressed("ui_left"):
+		direction.x = -map.snake_size
+		direction.y = 0
+	elif event.is_action_pressed("ui_up"):
+		direction.x = 0
+		direction.y = -map.snake_size
+	elif event.is_action_pressed("ui_down"):
+		direction.x = 0
+		direction.y = map.snake_size
+	elif event.is_action_pressed("ui_accept"):
+		get_tree().set_pause(true)
+	elif event.is_action_pressed("ui_focus_next"):
+		self.show_debug = !self.show_debug
 
 
 func spawn_player_snake():
@@ -29,12 +53,14 @@ func spawn_player_snake():
 
 func spawn_enemy_snake():
 	var foe = snake_class.instance()
+	foe.add_to_group("foe")
 	foe.id = next_id()
 	snakes.add_child(foe)
 	foe.relocate(map.map_to_screen(Vector2(3,1)))
 	foe.set_target(direction)
-	foe.add_to_group("foe")
+
 	foe.spawn_food()
+	foe.food.set_texture(enemy_food_texture)
 	map.build_wall_map()
 	foe.find_route()
 
@@ -60,24 +86,6 @@ func snake_collide(snake):
 	direction.y = 0
 
 func _process(delta):
-	if Input.is_action_pressed("ui_right"):
-		direction.x = map.snake_size
-		direction.y = 0
-	elif Input.is_action_pressed("ui_left"):
-		direction.x = -map.snake_size
-		direction.y = 0
-	elif Input.is_action_pressed("ui_up"):
-		direction.x = 0
-		direction.y = -map.snake_size
-	elif Input.is_action_pressed("ui_down"):
-		direction.x = 0
-		direction.y = map.snake_size
-	elif Input.is_action_pressed("ui_accept"):
-		get_tree().set_pause(true)
-	elif Input.is_action_pressed("ui_focus_next"):
-		show_debug = !show_debug
-
-
 	if snake:
 		snake.set_target(direction)
 

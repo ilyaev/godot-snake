@@ -17,3 +17,6 @@ func destroy():
 
 func _on_timer_timeout():
 	queue_free()
+
+func set_texture(texture):
+	sprite.set_texture(texture)

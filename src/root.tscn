@@ -10,7 +10,7 @@
 [node name="world" type="Node2D"]
 
 script/script = ExtResource( 1 )
-show_debug = false
+show_debug = true
 
 [node name="map" type="TileMap" parent="."]
 

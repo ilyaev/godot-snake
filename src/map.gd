@@ -143,5 +143,3 @@ func adjust_map():
 				if d_map.down == TILE_WALL or y == maxY - 1:
 					layers[index].set_cell(x,y,TILE_WALL_DOWN)
 					index += 1
-				if index > 0:
-					print("DMPA ", x, ' / ', y, ' / ', index)
