@@ -122,23 +122,26 @@ func adjust_map():
 
 			var d_map = {
 				"self": get_cell(x, y),
-				"left": get_cell(x-1, y),
-				"right": get_cell(x+1, y),
-				"up": get_cell(x, y-1),
-				"down": get_cell(x, y+1)
+				"left": get_cell(x - 1, y),
+				"right": get_cell(x + 1, y),
+				"up": get_cell(x, y - 1),
+				"down": get_cell(x, y + 1)
 			}
 
-			var index = 0
+			if get_cell(x,y) != TILE_WALL:
+				var index = 0
 
-			if d_map.left == 1 or x == 0:
-				layers[index].set_cell(x,y,TILE_WALL_LEFT)
-				index += 1
-			if d_map.right == 1 or x == maxX - 1:
-				layers[index].set_cell(x,y,TILE_WALL_RIGHT)
-				index += 1
-			if d_map.up == 1 or y == 0:
-				layers[index].set_cell(x,y,TILE_WALL_UP)
-				index += 1
-			if d_map.down == 1 or y == maxY - 1:
-				layers[index].set_cell(x,y,TILE_WALL_DOWN)
-				index += 1
+				if d_map.left == TILE_WALL or x == 0:
+					layers[index].set_cell(x,y,TILE_WALL_LEFT)
+					index += 1
+				if d_map.right == TILE_WALL or x == maxX - 1:
+					layers[index].set_cell(x,y,TILE_WALL_RIGHT)
+					index += 1
+				if d_map.up == TILE_WALL or y == 0:
+					layers[index].set_cell(x,y,TILE_WALL_UP)
+					index += 1
+				if d_map.down == TILE_WALL or y == maxY - 1:
+					layers[index].set_cell(x,y,TILE_WALL_DOWN)
+					index += 1
+				if index > 0:
+					print("DMPA ", x, ' / ', y, ' / ', index)
