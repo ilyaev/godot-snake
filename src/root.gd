@@ -9,6 +9,9 @@ var enemy_snake_tail_texture = preload("res://art/medium/snake_tail_1.png")
 var snake_body_texture = preload("res://art/medium/sprite_01.png")
 var enemy_snake_body_texture = preload("res://art/medium/sprite_01_1.png")
 var enemy_head_texture = preload("res://art/medium/sprite_02_1.png")
+var explode_class = preload("res://src/explode.tscn")
+var body_class = preload("res://src/body.tscn")
+var food_class = preload("res://src/food.tscn")
 var last_id = 0
 
 export var show_debug = true

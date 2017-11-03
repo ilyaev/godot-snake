@@ -12,9 +12,10 @@ const STATE_END = 3
 
 var state = STATE_START
 var active = true
-var explode_class = preload("res://src/explode.tscn")
+
 
 onready var tween = get_node("tween")
+onready var world = get_node("/root/world")
 
 signal move_finish
 signal collide
@@ -55,7 +56,7 @@ func set_target(direction):
 	next_target_direction = direction
 
 func destroy():
-	var explode = explode_class.instance()
+	var explode = world.explode_class.instance()
 	explode.set_pos(get_pos())
 	get_node("/root/world").add_child(explode)
 	queue_free()

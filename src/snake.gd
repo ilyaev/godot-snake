@@ -7,8 +7,6 @@ onready var foods = get_node("/root/world/foods")
 onready var world = get_node("/root/world")
 
 
-var body = preload("res://src/body.tscn")
-var food_class = preload("res://src/food.tscn")
 var directions = []
 
 var needGrow = false
@@ -148,7 +146,7 @@ func spawn_food():
 		food.destroy()
 		food = false
 
-	food = food_class.instance()
+	food = world.food_class.instance()
 	food.add_to_group("food")
 	foods.add_child(food)
 	food.snake = self
@@ -201,7 +199,7 @@ func doShrink():
 
 
 func doGrow():
-	var one = body.instance()
+	var one = world.body_class.instance()
 	var last = head
 
 	if tail.get_child_count() > 0:
