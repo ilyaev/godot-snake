@@ -11,9 +11,6 @@ extents = Vector2( 4.01137, 3.95353 )
 [node name="body" type="Area2D"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 8, 0, 0, 8, 0.0612793, 0.0612564 )
-shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1

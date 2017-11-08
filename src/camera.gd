@@ -24,7 +24,7 @@ func _ready():
 
 func size_changed():
 	size = get_tree().get_root().get_children()[0].get_viewport_rect().size
-	scale = max(field_height / size.y, field_width / size.x)
+	# scale = max(field_height / size.y, field_width / size.x)
 	scale = field_height / size.y
 	set_zoom(original_zoom * scale)
 	perX = size.x / (map.snake_size / scale)

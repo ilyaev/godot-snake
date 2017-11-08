@@ -10,7 +10,7 @@
 [node name="world" type="Node2D"]
 
 script/script = ExtResource( 1 )
-show_debug = true
+show_debug = false
 
 [node name="map" type="TileMap" parent="."]
 
@@ -51,7 +51,7 @@ __meta__ = {
 process_mode = 1
 wait_time = 1.0
 one_shot = false
-autostart = false
+autostart = true
 
 [node name="debug" type="Node2D" parent="."]
 
@@ -145,7 +145,7 @@ __meta__ = {
 
 visibility/behind_parent = true
 mode = 0
-tile_set = ExtResource( 4 )
+tile_set = ExtResource( 2 )
 cell/size = Vector2( 64, 64 )
 cell/quadrant_size = 16
 cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )

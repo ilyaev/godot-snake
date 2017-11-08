@@ -45,14 +45,18 @@ func _input(event):
 	elif event.is_action_pressed("ui_focus_next"):
 		self.show_debug = !self.show_debug
 
+	snake.set_target(direction)
+
+
 
 func spawn_player_snake():
 	snake = snake_class.instance()
 	snake.id = next_id()
 	snake.connect("collide", self, "snake_collide", [snake])
 	snakes.add_child(snake)
-	snake.relocate(map.map_to_screen(Vector2(10, 1)))
+	snake.relocate(map.map_to_screen(Vector2(0, 0)))
 	snake.spawn_food()
+	map.add_wall(snake.head.get_pos())
 
 func spawn_enemy_snake():
 	var foe = snake_class.instance()
@@ -61,10 +65,9 @@ func spawn_enemy_snake():
 	snakes.add_child(foe)
 	foe.relocate(map.map_to_screen(Vector2(3,1)))
 	foe.set_target(direction)
-
 	foe.spawn_food()
 	foe.food.set_texture(enemy_food_texture)
-	map.build_wall_map()
+	map.add_wall(foe.head.get_pos())
 	foe.find_route()
 
 func next_id():
@@ -89,13 +92,6 @@ func snake_collide(snake):
 	direction.y = 0
 
 func _process(delta):
-	if snake:
-		snake.set_target(direction)
-
-	for foe in snakes.get_children():
-		if foe.active and foe.is_in_group("foe"):
-			foe.set_target(foe.current_direction)
-
 	get_node("camera").align_to(snake.head.get_pos())
 
 func _on_snake_spawn_timer_timeout():

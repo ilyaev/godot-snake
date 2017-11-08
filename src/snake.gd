@@ -9,15 +9,16 @@ onready var world = get_node("/root/world")
 
 var directions = []
 
-var needGrow = false
-var needShrink = false
 var current_direction = Vector2(0,0)
 var food = false
 var path = []
 var commands = []
 var id
+var turn = 1
+var search_food = false
+var need_shrink = false
 
-var food_scenario = [] # [Vector2(2,1), Vector2(2, 5), Vector2(1,7)]
+var food_scenario = []#[Vector2(1,0), Vector2(2, 5), Vector2(1,7)]
 var active = false
 
 signal collide
@@ -53,10 +54,14 @@ func next_move():
 	head.get_node("sprite").set_flip_h(head.target_direction.x < 0)
 	head.set_rot(0)
 
-	var last_body = tail.get_children().back()
+	var last_body = head
 	var prelast_body = head
-	if tail.get_children().size() > 2:
-		prelast_body = tail.get_children()[tail.get_children().size() - 2]
+
+	if tail.get_children().size() > 0:
+		last_body = tail.get_children().back()
+
+	if tail.get_children().size() > 1:
+		prelast_body = tail.get_children()[tail.get_children().size() - 1]
 
 	var tdiff = prelast_body.get_pos() - last_body.get_pos()
 
@@ -70,33 +75,32 @@ func next_move():
 
 
 
+	snake_next_command()
 
 	if head.target_direction.y < 0:
 		head.set_rot(PI/2)
 	elif head.target_direction.y > 0:
 		head.set_rot(-PI/2)
-	if needGrow:
-		doGrow()
-		needGrow = false
-	if needShrink:
-		doShrink()
-		needShrink = false
 
-	snake_next_command()
 
 func snake_next_command():
-	map.build_wall_map()
+
+	turn += 1
+
+	if search_food:
+		search_food = false
+		find_route()
+
+	if is_in_group("foe"):
+		next_command()
+	else:
+		set_target(world.direction)
+
 	for one_food in foods.get_children():
 		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()):
 			doGrow()
-			if get_size() == 2: # double grow after first body part. weird bug
-				doGrow()
 			if one_food and one_food.snake:
 				spawn_food_by_snake(one_food.snake)
-				# call_deferred("spawn_food_by_snake", one_food.snake)
-
-	if is_in_group("foe") and commands.size() > 0:
-		next_command()
 
 	var next_cell = map.world_to_map(head.get_pos() + head.target_direction)
 	var head_snakes = world.check_heads(self)
@@ -113,8 +117,27 @@ func snake_next_command():
 			else:
 				one.emit_signal("collide")
 				one.food.destroy()
+
 	elif next_cell.x < 0 or next_cell.y < 0 or next_cell.x > map.maxX - 1 or next_cell.y > map.maxY - 1 or map.wall_map[map.get_cell_id(next_cell.x, next_cell.y)]:
 		snake_collide()
+
+	move_to_target()
+
+	if is_moving() and active == true:
+		map.add_wall(head.get_pos() + head.target_direction)
+		var tail_body = head
+		if tail.get_children().size() > 0:
+			tail_body = tail.get_children().back()
+		map.remove_wall(tail_body.start_position)
+
+
+	if need_shrink:
+		need_shrink = false
+		doShrink()
+
+
+
+
 
 func spawn_food_by_snake(snake):
 	if !snake or snake == null or !weakref(snake).get_ref() or !world.snakes.get_children().has(snake) or !snake.active or !snake.has_method("spawn_food"):
@@ -122,9 +145,14 @@ func spawn_food_by_snake(snake):
 	snake.spawn_food()
 	if snake.is_in_group("foe"):
 		snake.food.set_texture(world.enemy_food_texture)
-	snake.find_route()
+		if snake == self:
+			snake.find_route()
+			snake.next_command()
+		else:
+			snake.search_food = true
+
 	if snake != self:
-		snake.shrink()
+		snake.need_shrink = true
 
 func snake_collide():
 	if !is_moving():
@@ -171,30 +199,34 @@ func spawn_food():
 
 func set_target(direction):
 	current_direction = direction
-	head.set_target(direction)
+	head.target_direction = direction
+	if head.state == head.STATE_STOP:
+		move_to_target()
+
+
+func move_to_target():
+	if !active:
+		return
+	head.move_to(current_direction)
 	var prev = head
 	for one in tail.get_children():
-		one.set_target(prev.target_position - one.target_position)
+		one.move_to(prev.get_pos() - one.get_pos())
 		prev = one
-
-func grow():
-	needGrow = true
-
-func shrink():
-	needShrink = true
 
 func get_size():
 	return tail.get_child_count()
 
 func doShrink():
-	if tail.get_children().size() > 2:
+	if tail.get_children().size() > 1:
 		if is_in_group("foe"):
 			tail.get_children()[tail.get_children().size() - 2].set_texture(world.enemy_snake_tail_texture)
 		else:
 			tail.get_children()[tail.get_children().size() - 2].set_texture(world.snake_tail_texture)
-		var pos = tail.get_children().back().get_pos()
-		tail.get_children().back().destroy()
-		tail.get_children().pop_back()
+
+		var back = tail.get_children().back()
+		var pos = back.get_pos()
+		map.remove_wall(pos + back.target_direction)
+		back.destroy()
 		emit_signal("tail_shrink", pos)
 
 
@@ -203,19 +235,19 @@ func doGrow():
 	var last = head
 
 	if tail.get_child_count() > 0:
-		last = tail.get_child(tail.get_child_count() - 1)
-
-	for body in tail.get_children():
+		last = tail.get_children().back()
 		if is_in_group("foe"):
-			body.set_texture(world.enemy_snake_body_texture)
+			last.set_texture(world.enemy_snake_body_texture)
 		else:
-			body.set_texture(world.snake_body_texture)
+			last.set_texture(world.snake_body_texture)
 
 	tail.add_child(one)
+
 	if is_in_group("foe"):
 		one.set_texture(world.enemy_snake_tail_texture)
 	else:
 		one.set_texture(world.snake_tail_texture)
+
 	one.relocate(last.get_pos())
 
 func _set_path(new_path):
@@ -242,9 +274,13 @@ func next_command():
 	if commands.size() > 0:
 		var command = commands[0]
 		commands.pop_front()
-		path.remove(0)
-		set_target(command * map.snake_size)
-		head.target_direction = head.next_target_direction
+		if path.size() > 0:
+			path.remove(0)
+		if !map.is_wall_world(head.get_pos() + command * map.snake_size):
+			set_target(command * map.snake_size)
+		else:
+			find_route()
+			next_command()
 
 func build_path():
 	find_route()
@@ -253,9 +289,12 @@ func build_path():
 func destroy():
 	food.destroy()
 	deactivate()
+
+
+	head.destroy()
 	for body in tail.get_children():
 		body.destroy()
-	head.destroy()
+
 	if is_in_group("foe"):
 		queue_free()
 
@@ -263,5 +302,7 @@ func destroy():
 func deactivate():
 	active = false
 	head.deactivate()
+	map.remove_wall(head.get_pos())
 	for body in tail.get_children():
+		map.remove_wall(body.get_pos())
 		body.deactivate()

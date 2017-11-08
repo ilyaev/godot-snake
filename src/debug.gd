@@ -33,7 +33,7 @@ func _draw():
 	for cellid in map.wall_map:
 		if map.wall_map[cellid]:
 			var pos = cellid.split('x')
-			draw_circle(map.map_to_screen(Vector2(pos[0], pos[1])), 25, Color(0,1,0,0.8))
+			draw_circle(map.map_to_screen(Vector2(pos[0], pos[1])), 25, Color(0,0.4,0,1))
 
 
 func _process(delta):

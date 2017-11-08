@@ -63,6 +63,8 @@ func build_astar():
 	else:
 		astar = AStar.new()
 
+	var existing_connections = []
+
 	for x in range(maxX):
 		for y in range(maxY):
 			var cell_id = get_cell_id(x, y)
@@ -77,7 +79,11 @@ func build_astar():
 			if !wall_map[cell_id]:
 				for cell in [get_cell_id(x-1, y), get_cell_id(x+1, y), get_cell_id(x, y-1), get_cell_id(x, y+1)]:
 					if wall_map.has(cell) and !wall_map[cell]:
-						astar.connect_points(cell_index, cell_id_to_index[cell])
+						var connection_key = String(cell_index) + '/' + String(cell_id_to_index[cell])
+						if !existing_connections.has(connection_key):
+							existing_connections.append(connection_key)
+							existing_connections.append(String(cell_id_to_index[cell]) + '/' + String(cell_index))
+							astar.connect_points(cell_index, cell_id_to_index[cell], true)
 
 
 func get_grass_tile():
@@ -87,7 +93,45 @@ func get_grass_tile():
 	else:
 		return TILE_GRASS
 
+
+func add_wall(pos):
+	var cell = world_to_map(pos)
+	var cell_id = get_cell_id(cell.x, cell.y)
+	if !cell_id_to_index.has(cell_id):
+		return
+	var cell_index = cell_id_to_index[cell_id]
+	#print("ADD WALL: ", cell, ' / ', cell_id, ' / ', cell_index)
+	for dx in [-1, 0, 1]:
+		for dy in [-1, 0, 1]:
+			if (dx == 0 or dy == 0) and (dx + dy) != 0:
+				var id = get_cell_id(cell.x + dx, cell.y + dy)
+				if  cell_id_to_index.has(id) and astar.has_point(cell_id_to_index[id]):
+					var index = cell_id_to_index[id]
+					if astar.are_points_connected(cell_index, index):
+						astar.disconnect_points(cell_index, index)
+	wall_map[cell_id] = true
+
+
+func remove_wall(pos):
+	var cell = world_to_map(pos)
+	var cell_id = get_cell_id(cell.x, cell.y)
+	if !cell_id_to_index.has(cell_id):
+		return
+	var cell_index = cell_id_to_index[cell_id]
+	#print("REMOVE WALL: ", cell, ' / ', cell_id, ' / ', cell_index)
+	for dx in [-1, 0, 1]:
+		for dy in [-1, 0, 1]:
+			if (dx == 0 or dy == 0) and (dx + dy) != 0:
+				var id = get_cell_id(cell.x + dx, cell.y + dy)
+				if cell_id_to_index.has(id) and astar.has_point(cell_id_to_index[id]):
+					var index = cell_id_to_index[id]
+					if !astar.are_points_connected(cell_index, index):
+						astar.connect_points(cell_index, index, true)
+	wall_map[cell_id] = false
+
+
 func build_wall_map():
+	var start_time = OS.get_ticks_msec()
 	var index = 1
 	for x in range(maxX):
 		for y in range(maxY):
@@ -100,17 +144,15 @@ func build_wall_map():
 				wall_map[cell_id] = false
 
 	for snake in snakes.get_children():
-		var direction = Vector2(0,0)
-		var cell = world_to_map(snake.head.get_pos() + direction)
+		var cell = world_to_map(snake.head.get_pos())
 		wall_map[get_cell_id(cell.x, cell.y)] = true
-		# var index = 1
 		for body in snake.tail.get_children():
-			# if index != snake.tail.get_children().size():
 			var cell = world_to_map(body.get_pos())
 			wall_map[get_cell_id(cell.x, cell.y)] = true
-			#index += 1
-
-	build_astar()
+	if !astar:
+		build_astar()
+	var run_time = OS.get_ticks_msec() -  start_time
+	print("MB: ",run_time)
 
 
 func adjust_map():
@@ -118,7 +160,7 @@ func adjust_map():
 	maxY = map.get_used_rect().end.y
 	for x in range(map.get_used_rect().end.x):
 		for y in range(map.get_used_rect().end.y):
-			map.set_cell(x, y, get_grass_tile())
+			map.set_cellv(Vector2(x, y), get_grass_tile())
 
 			var d_map = {
 				"self": get_cell(x, y),
@@ -132,14 +174,14 @@ func adjust_map():
 				var index = 0
 
 				if d_map.left == TILE_WALL or x == 0:
-					layers[index].set_cell(x,y,TILE_WALL_LEFT)
+					layers[index].set_cellv(Vector2(x, y),TILE_WALL_LEFT)
 					index += 1
 				if d_map.right == TILE_WALL or x == maxX - 1:
-					layers[index].set_cell(x,y,TILE_WALL_RIGHT)
+					layers[index].set_cellv(Vector2(x, y),TILE_WALL_RIGHT)
 					index += 1
 				if d_map.up == TILE_WALL or y == 0:
-					layers[index].set_cell(x,y,TILE_WALL_UP)
+					layers[index].set_cellv(Vector2(x, y),TILE_WALL_UP)
 					index += 1
 				if d_map.down == TILE_WALL or y == maxY - 1:
-					layers[index].set_cell(x,y,TILE_WALL_DOWN)
+					layers[index].set_cellv(Vector2(x, y),TILE_WALL_DOWN)
 					index += 1
