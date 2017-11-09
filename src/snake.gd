@@ -23,6 +23,7 @@ var active = false
 
 signal collide
 signal tail_shrink
+signal after_move
 
 func _ready():
 	directions = [Vector2(-1, 0), Vector2(1,0), Vector2(0, -1), Vector2(0,1)]
@@ -61,7 +62,7 @@ func next_move():
 		last_body = tail.get_children().back()
 
 	if tail.get_children().size() > 1:
-		prelast_body = tail.get_children()[tail.get_children().size() - 1]
+		prelast_body = tail.get_children()[tail.get_children().size() - 2]
 
 	var tdiff = prelast_body.get_pos() - last_body.get_pos()
 
@@ -81,6 +82,8 @@ func next_move():
 		head.set_rot(PI/2)
 	elif head.target_direction.y > 0:
 		head.set_rot(-PI/2)
+
+	emit_signal("after_move")
 
 
 func snake_next_command():
@@ -227,6 +230,7 @@ func doShrink():
 		var pos = back.get_pos()
 		map.remove_wall(pos + back.target_direction)
 		back.destroy()
+		world.add_explode(back.get_pos(), 1)
 		emit_signal("tail_shrink", pos)
 
 
@@ -290,9 +294,10 @@ func destroy():
 	food.destroy()
 	deactivate()
 
-
+	world.add_explode(head.get_pos(), 1)
 	head.destroy()
 	for body in tail.get_children():
+		world.add_explode(body.get_pos(), rand_range(0, 100))
 		body.destroy()
 
 	if is_in_group("foe"):

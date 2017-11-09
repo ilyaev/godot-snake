@@ -13,6 +13,7 @@ var explode_class = preload("res://src/explode.tscn")
 var body_class = preload("res://src/body.tscn")
 var food_class = preload("res://src/food.tscn")
 var last_id = 0
+var need_spawn = false
 
 export var show_debug = true
 
@@ -53,6 +54,7 @@ func spawn_player_snake():
 	snake = snake_class.instance()
 	snake.id = next_id()
 	snake.connect("collide", self, "snake_collide", [snake])
+	snake.connect("after_move", self, "game_tick")
 	snakes.add_child(snake)
 	snake.relocate(map.map_to_screen(Vector2(0, 0)))
 	snake.spawn_food()
@@ -69,6 +71,11 @@ func spawn_enemy_snake():
 	foe.food.set_texture(enemy_food_texture)
 	map.add_wall(foe.head.get_pos())
 	foe.find_route()
+
+func game_tick():
+	if need_spawn:
+		need_spawn = false
+		spawn_enemy_snake()
 
 func next_id():
 	last_id += 1
@@ -96,4 +103,19 @@ func _process(delta):
 
 func _on_snake_spawn_timer_timeout():
 	get_node("snake_spawn_timer").set_wait_time(2)
-	spawn_enemy_snake()
+	need_spawn = true
+
+func add_explode(pos, delay):
+	var ms_delay = 0.3 * delay / 100
+	var timer = Timer.new()
+	timer.set_one_shot(true)
+	timer.connect("timeout", self, "do_explode", [pos])
+	timer.set_wait_time(ms_delay)
+	timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
+	timer.start()
+	add_child(timer)
+
+func do_explode(pos):
+	var explode = explode_class.instance()
+	explode.set_pos(pos)
+	add_child(explode)
