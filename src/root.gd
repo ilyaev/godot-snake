@@ -14,19 +14,40 @@ var body_class = preload("res://src/body.tscn")
 var food_class = preload("res://src/food.tscn")
 var last_id = 0
 var need_spawn = false
+var websocket
 
 export var show_debug = true
 
 onready var map = get_node("walls")
 onready var snakes = get_node("snakes")
 onready var foods = get_node("foods")
+onready var camera = get_node("camera")
+onready var hud = get_node("hud")
 
 func _ready():
 	spawn_player_snake()
 	spawn_enemy_snake()
 	set_process(true)
 	set_process_input(true)
+	camera.connect("resize", self, "_on_world_resize")
 	self.show_debug = false
+	#test_server()
+
+func _on_world_resize(zoom, offset):
+	hud.rescale(zoom, offset)
+
+func test_server():
+	print('TEST SERVER')
+	websocket = preload('websocket.gd').new(self)
+	#websocket.start('godot-snake-server.herokuapp.com',80)
+	websocket.start('localhost', 3000)
+	websocket.set_reciever(self,'_on_message_recieved')
+	websocket.send("Hi server")
+
+
+func _on_message_recieved(msg):
+	print("REC: ", msg)
+	websocket.disconnect()
 
 func _input(event):
 	if event.is_action_pressed("ui_right"):
@@ -76,6 +97,7 @@ func game_tick():
 	if need_spawn:
 		need_spawn = false
 		spawn_enemy_snake()
+	hud.update_score(String(1 + snake.tail.get_children().size()))
 
 func next_id():
 	last_id += 1

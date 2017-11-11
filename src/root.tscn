@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://src/root.gd" type="Script" id=1]
 [ext_resource path="res://art/medium/tiles.xml" type="TileSet" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://art/medium/tiles3.xml" type="TileSet" id=4]
 [ext_resource path="res://src/map.gd" type="Script" id=5]
 [ext_resource path="res://src/camera.gd" type="Script" id=6]
+[ext_resource path="res://src/hud.tscn" type="PackedScene" id=7]
 
 [node name="world" type="Node2D"]
 
@@ -59,6 +60,7 @@ script/script = ExtResource( 3 )
 
 [node name="foreground" type="TileMap" parent="."]
 
+editor/display_folded = true
 mode = 0
 tile_set = ExtResource( 4 )
 cell/size = Vector2( 64, 64 )
@@ -183,6 +185,8 @@ drag_margin/top = 0.2
 drag_margin/right = 0.2
 drag_margin/bottom = 0.2
 script/script = ExtResource( 6 )
+
+[node name="hud" parent="." instance=ExtResource( 7 )]
 
 [connection signal="timeout" from="snake_spawn_timer" to="." method="_on_snake_spawn_timer_timeout"]
 

@@ -14,6 +14,7 @@ var min_margin = 3
 var original_zoom
 
 onready var map = get_node("/root/world/walls")
+signal resize
 
 func _ready():
 	original_zoom = get_zoom()
@@ -29,6 +30,7 @@ func size_changed():
 	set_zoom(original_zoom * scale)
 	perX = size.x / (map.snake_size / scale)
 	perY = size.y / (map.snake_size / scale)
+	emit_signal("resize", get_zoom(), get_offset())
 
 
 func align_to(pos):
