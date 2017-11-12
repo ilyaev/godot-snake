@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://src/hud.gd" type="Script" id=1]
-[ext_resource path="res://art/font.fnt" type="BitmapFont" id=2]
+[ext_resource path="res://art/fonts/yanone.fnt" type="BitmapFont" id=2]
 [ext_resource path="res://art/medium/sprite_03.png" type="Texture" id=3]
 
 [node name="hud" type="CanvasLayer"]
@@ -46,22 +46,24 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 220.0
-margin/top = 20.0
-margin/right = 20.0
-margin/bottom = 120.0
+margin/left = 219.0
+margin/top = 0.0
+margin/right = 19.0
+margin/bottom = 100.0
 
 [node name="score" type="Label" parent="ui/top_right"]
 
+rect/scale = Vector2( 1.5, 1.5 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 64.0
+margin/left = 117.0
 margin/top = 0.0
-margin/right = 163.0
-margin/bottom = 100.0
+margin/right = 175.0
+margin/bottom = 60.0
 custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.0163574, 0.0259418, 0.261719, 1 )
 text = "3"
 align = 1
 valign = 1
@@ -72,7 +74,7 @@ max_lines_visible = -1
 [node name="Sprite" type="Sprite" parent="ui/top_right"]
 
 visibility/self_opacity = 0.7
-transform/pos = Vector2( 42.0802, 50.2249 )
+transform/pos = Vector2( 95.2775, 49.1818 )
 transform/scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 3 )
 flip_h = true
