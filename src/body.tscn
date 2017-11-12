@@ -36,4 +36,11 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
+[node name="rotation" type="Tween" parent="."]
+
+playback/process_mode = 1
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
 

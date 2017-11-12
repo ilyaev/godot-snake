@@ -15,6 +15,7 @@ var active = true
 
 onready var tween = get_node("tween")
 onready var world = get_node("/root/world")
+onready var rotation = get_node("rotation")
 
 signal move_finish
 signal collide
@@ -33,11 +34,22 @@ func tween_complete(obj, key):
 	emit_signal("move_finish")
 
 
-func move_to(direction):
+func move_to(direction, next_direction):
 	state = STATE_INTWEEN
+
+	var corner_transition = Tween.TRANS_SINE
+	var start_rotation = round(get_rot() / 90)
+
 	target_direction = direction
 	tween.interpolate_property(self, "transform/pos", start_position, start_position + direction, snake_speed, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
+
+	if direction.x == 0 and next_direction.x != 0:
+		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation + 90 * sign(next_direction.x) * sign(direction.y), snake_speed, corner_transition, Tween.EASE_IN_OUT)
+		rotation.start()
+	if direction.y == 0 and next_direction.y != 0:
+		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation - 90 * sign(next_direction.y) * sign(direction.x), snake_speed, corner_transition, Tween.EASE_IN_OUT)
+		rotation.start()
 
 func destroy():
 	queue_free()

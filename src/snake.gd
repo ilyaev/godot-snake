@@ -210,10 +210,12 @@ func set_target(direction):
 func move_to_target():
 	if !active:
 		return
-	head.move_to(current_direction)
+	head.move_to(current_direction, Vector2(0,0))
 	var prev = head
+	var prev_prev = head
 	for one in tail.get_children():
-		one.move_to(prev.get_pos() - one.get_pos())
+		one.move_to(prev.get_pos() - one.get_pos(), prev_prev.get_pos() - prev.get_pos())
+		prev_prev = prev
 		prev = one
 
 func get_size():
