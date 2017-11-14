@@ -15,6 +15,28 @@ var food_class = preload("res://src/food.tscn")
 var last_id = 0
 var need_spawn = false
 var websocket
+onready var food_sprites = [
+	preload("res://art/big/food/sprite_00.png"),
+	preload("res://art/big/food/sprite_01.png"),
+	preload("res://art/big/food/sprite_02.png"),
+	preload("res://art/big/food/sprite_03.png"),
+	preload("res://art/big/food/sprite_04.png"),
+	preload("res://art/big/food/sprite_05.png"),
+	preload("res://art/big/food/sprite_06.png"),
+	preload("res://art/big/food/sprite_07.png"),
+	preload("res://art/big/food/sprite_08.png"),
+	preload("res://art/big/food/sprite_09.png"),
+	preload("res://art/big/food/sprite_10.png"),
+	preload("res://art/big/food/sprite_11.png"),
+	preload("res://art/big/food/sprite_12.png"),
+	preload("res://art/big/food/sprite_13.png"),
+	preload("res://art/big/food/sprite_14.png"),
+	preload("res://art/big/food/sprite_15.png"),
+	preload("res://art/big/food/sprite_16.png"),
+	preload("res://art/big/food/sprite_17.png"),
+	preload("res://art/big/food/sprite_18.png"),
+	preload("res://art/big/food/sprite_19.png")
+]
 
 export var show_debug = true
 
@@ -30,6 +52,7 @@ func _ready():
 	set_process(true)
 	set_process_input(true)
 	camera.connect("resize", self, "_on_world_resize")
+	camera.size_changed()
 	self.show_debug = false
 	#test_server()
 
@@ -89,7 +112,7 @@ func spawn_enemy_snake():
 	foe.relocate(map.map_to_screen(Vector2(3,1)))
 	foe.set_target(direction)
 	foe.spawn_food()
-	foe.food.set_texture(enemy_food_texture)
+	#foe.food.set_texture(enemy_food_texture)
 	map.add_wall(foe.head.get_pos())
 	foe.find_route()
 

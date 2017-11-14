@@ -7,6 +7,7 @@ extends CanvasLayer
 onready var ui = get_node("ui")
 onready var world = get_node("/root/world")
 onready var label_score = get_node("ui/top_right/score")
+onready var animation = get_node("ui/top_right/animation")
 
 var original_height = 0
 var score = "0"
@@ -29,6 +30,7 @@ func rescale(zoom, offset):
 func update_score(new_score):
 	if new_score == score:
 		return
+	animation.play("label")
 	score = new_score
 	label_score.set_text(score)
 

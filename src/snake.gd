@@ -147,7 +147,7 @@ func spawn_food_by_snake(snake):
 		return
 	snake.spawn_food()
 	if snake.is_in_group("foe"):
-		snake.food.set_texture(world.enemy_food_texture)
+		#snake.food.set_texture(world.enemy_food_texture)
 		if snake == self:
 			snake.find_route()
 			snake.next_command()
@@ -180,6 +180,7 @@ func spawn_food():
 	food = world.food_class.instance()
 	food.add_to_group("food")
 	foods.add_child(food)
+	food.set_texture(world.food_sprites[rand_range(0,20)])
 	food.snake = self
 
 	randomize()
@@ -212,10 +213,10 @@ func move_to_target():
 		return
 	head.move_to(current_direction, Vector2(0,0))
 	var prev = head
-	var prev_prev = head
+	var prev_prev = head.get_pos() + current_direction
 	for one in tail.get_children():
-		one.move_to(prev.get_pos() - one.get_pos(), prev_prev.get_pos() - prev.get_pos())
-		prev_prev = prev
+		one.move_to(prev.get_pos() - one.get_pos(), prev_prev - prev.get_pos())
+		prev_prev = prev.get_pos()
 		prev = one
 
 func get_size():

@@ -15,10 +15,10 @@ var astar
 
 const TILE_WALL = 1
 const TILE_GRASS = 8
-const TILE_WALL_LEFT = 3
-const TILE_WALL_RIGHT = 2
-const TILE_WALL_UP = 5
-const TILE_WALL_DOWN = 4
+const TILE_WALL_LEFT = 5
+const TILE_WALL_RIGHT = 4
+const TILE_WALL_UP = 7
+const TILE_WALL_DOWN = 6
 const GRASS_TILES = [0, 9, 10, 11]
 
 

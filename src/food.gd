@@ -5,6 +5,7 @@ var snake = false
 onready var animation = get_node("animation")
 onready var timer = get_node("timer")
 onready var sprite = get_node("sprite")
+onready var world = get_node("/root/world")
 
 func _ready():
 	sprite.set_scale(Vector2(0,0))
