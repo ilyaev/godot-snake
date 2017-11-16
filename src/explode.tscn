@@ -5,6 +5,7 @@
 
 [node name="explode" type="Particles2D"]
 
+z/z = 4
 config/amount = 32
 config/lifetime = 1.0
 config/process_mode = 1

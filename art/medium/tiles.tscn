@@ -10,11 +10,7 @@
 [ext_resource path="res://art/medium/grass_1.png" type="Texture" id=8]
 [ext_resource path="res://art/medium/grass_2.png" type="Texture" id=9]
 [ext_resource path="res://art/medium/grass_3.png" type="Texture" id=10]
-
-[sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
-extents = Vector2( 32, 32 )
+[ext_resource path="res://art/medium/grass_pit.png" type="Texture" id=11]
 
 [node name="tiles" type="Node2D"]
 
@@ -25,16 +21,8 @@ texture = ExtResource( 1 )
 
 [node name="wall" type="Sprite" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 377.836, 344.857 )
 texture = ExtResource( 2 )
-
-[node name="collision" type="CollisionShape2D" parent="wall"]
-
-transform/pos = Vector2( 0.422791, 0 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
 
 [node name="wall_right" type="Sprite" parent="."]
 
@@ -75,5 +63,10 @@ texture = ExtResource( 9 )
 
 transform/pos = Vector2( 379.676, 103.934 )
 texture = ExtResource( 10 )
+
+[node name="grass_pit" type="Sprite" parent="."]
+
+transform/pos = Vector2( 483.61, 219.534 )
+texture = ExtResource( 11 )
 
 

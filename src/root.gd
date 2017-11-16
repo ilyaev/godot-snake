@@ -16,26 +16,45 @@ var last_id = 0
 var need_spawn = false
 var websocket
 onready var food_sprites = [
-	preload("res://art/big/food/sprite_00.png"),
-	preload("res://art/big/food/sprite_01.png"),
-	preload("res://art/big/food/sprite_02.png"),
-	preload("res://art/big/food/sprite_03.png"),
-	preload("res://art/big/food/sprite_04.png"),
-	preload("res://art/big/food/sprite_05.png"),
-	preload("res://art/big/food/sprite_06.png"),
-	preload("res://art/big/food/sprite_07.png"),
-	preload("res://art/big/food/sprite_08.png"),
-	preload("res://art/big/food/sprite_09.png"),
-	preload("res://art/big/food/sprite_10.png"),
-	preload("res://art/big/food/sprite_11.png"),
-	preload("res://art/big/food/sprite_12.png"),
-	preload("res://art/big/food/sprite_13.png"),
-	preload("res://art/big/food/sprite_14.png"),
-	preload("res://art/big/food/sprite_15.png"),
-	preload("res://art/big/food/sprite_16.png"),
-	preload("res://art/big/food/sprite_17.png"),
-	preload("res://art/big/food/sprite_18.png"),
-	preload("res://art/big/food/sprite_19.png")
+	preload("res://art/big/fruits/orange_small.png"),
+	preload("res://art/big/fruits/banana_small.png"),
+	preload("res://art/big/fruits/black-berry-dark_small.png"),
+	preload("res://art/big/fruits/black-berry-light_small.png"),
+	preload("res://art/big/fruits/black-cherry_small.png"),
+	preload("res://art/big/fruits/coconut_small.png"),
+	preload("res://art/big/fruits/lemon_small.png"),
+	preload("res://art/big/fruits/lime_small.png"),
+	preload("res://art/big/fruits/peach_small.png"),
+	preload("res://art/big/fruits/pear_small.png"),
+	preload("res://art/big/fruits/plum_small.png"),
+	preload("res://art/big/fruits/green-apple_small.png"),
+	preload("res://art/big/fruits/green-grape_small.png"),
+	preload("res://art/big/fruits/raspberry_small.png"),
+	preload("res://art/big/fruits/red-apple_small.png"),
+	preload("res://art/big/fruits/red-grape_small.png"),
+	preload("res://art/big/fruits/star-fruit_small.png"),
+	preload("res://art/big/fruits/strawberry_small.png"),
+	preload("res://art/big/fruits/watermelon_small.png"),
+	# preload("res://art/big/food/sprite_00.png"),
+	# preload("res://art/big/food/sprite_01.png"),
+	# preload("res://art/big/food/sprite_02.png"),
+	# preload("res://art/big/food/sprite_03.png"),
+	# preload("res://art/big/food/sprite_04.png"),
+	# preload("res://art/big/food/sprite_05.png"),
+	# preload("res://art/big/food/sprite_06.png"),
+	# preload("res://art/big/food/sprite_07.png"),
+	# preload("res://art/big/food/sprite_08.png"),
+	# preload("res://art/big/food/sprite_09.png"),
+	# preload("res://art/big/food/sprite_10.png"),
+	# preload("res://art/big/food/sprite_11.png"),
+	# preload("res://art/big/food/sprite_12.png"),
+	# preload("res://art/big/food/sprite_13.png"),
+	# preload("res://art/big/food/sprite_14.png"),
+	# preload("res://art/big/food/sprite_15.png"),
+	# preload("res://art/big/food/sprite_16.png"),
+	# preload("res://art/big/food/sprite_17.png"),
+	# preload("res://art/big/food/sprite_18.png"),
+	# preload("res://art/big/food/sprite_19.png")
 ]
 
 export var show_debug = true
@@ -109,7 +128,8 @@ func spawn_enemy_snake():
 	foe.add_to_group("foe")
 	foe.id = next_id()
 	snakes.add_child(foe)
-	foe.relocate(map.map_to_screen(Vector2(3,1)))
+	#foe.relocate(map.map_to_screen(Vector2(3,1)))
+	foe.relocate(map.map_to_screen(map.get_next_spawn_pos()))
 	foe.set_target(direction)
 	foe.spawn_food()
 	#foe.food.set_texture(enemy_food_texture)

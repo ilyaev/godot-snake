@@ -12,9 +12,11 @@ var snake_size = 0
 var wall_map = {}
 var cell_id_to_index = {}
 var astar
+var spawn_spots = []
 
 const TILE_WALL = 1
 const TILE_GRASS = 8
+const TILE_GRASS_PIT = 12
 const TILE_WALL_LEFT = 5
 const TILE_WALL_RIGHT = 4
 const TILE_WALL_UP = 7
@@ -46,6 +48,15 @@ func is_wall_world(pos):
 		return false
 	else:
 		return true
+
+func get_next_spawn_pos():
+	if spawn_spots.size() == 0:
+		for x in range(maxX):
+			for y in range(maxY):
+				if map.get_cell(x,y) == TILE_GRASS_PIT:
+					spawn_spots.append(Vector2(x,y))
+
+	return spawn_spots[rand_range(0, spawn_spots.size())]
 
 func get_path(from, to):
 	var from_cell = get_cell_id(from.x, from.y)
@@ -160,7 +171,8 @@ func adjust_map():
 	maxY = map.get_used_rect().end.y
 	for x in range(map.get_used_rect().end.x):
 		for y in range(map.get_used_rect().end.y):
-			map.set_cellv(Vector2(x, y), get_grass_tile())
+			if map.get_cell(x,y) != TILE_GRASS_PIT:
+				map.set_cellv(Vector2(x, y), get_grass_tile())
 
 			var d_map = {
 				"self": get_cell(x, y),

@@ -180,7 +180,7 @@ func spawn_food():
 	food = world.food_class.instance()
 	food.add_to_group("food")
 	foods.add_child(food)
-	food.set_texture(world.food_sprites[rand_range(0,20)])
+	food.set_texture(world.food_sprites[rand_range(0,world.food_sprites.size())])
 	food.snake = self
 
 	randomize()
