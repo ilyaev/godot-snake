@@ -16,12 +16,13 @@ var spawn_spots = []
 
 const TILE_WALL = 1
 const TILE_GRASS = 8
-const TILE_GRASS_PIT = 12
+const TILE_GRASS_PIT = 13
 const TILE_WALL_LEFT = 5
 const TILE_WALL_RIGHT = 4
 const TILE_WALL_UP = 7
 const TILE_WALL_DOWN = 6
 const GRASS_TILES = [0, 9, 10, 11]
+const PIT_TILES = [13, 14, 15]
 
 
 func _ready():
@@ -53,7 +54,7 @@ func get_next_spawn_pos():
 	if spawn_spots.size() == 0:
 		for x in range(maxX):
 			for y in range(maxY):
-				if map.get_cell(x,y) == TILE_GRASS_PIT:
+				if PIT_TILES.has(map.get_cell(x,y)):
 					spawn_spots.append(Vector2(x,y))
 
 	return spawn_spots[rand_range(0, spawn_spots.size())]
@@ -171,7 +172,7 @@ func adjust_map():
 	maxY = map.get_used_rect().end.y
 	for x in range(map.get_used_rect().end.x):
 		for y in range(map.get_used_rect().end.y):
-			if map.get_cell(x,y) != TILE_GRASS_PIT:
+			if !PIT_TILES.has(map.get_cell(x,y)):
 				map.set_cellv(Vector2(x, y), get_grass_tile())
 
 			var d_map = {

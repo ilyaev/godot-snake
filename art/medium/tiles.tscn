@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://art/medium/sprite_04.png" type="Texture" id=1]
 [ext_resource path="res://art/medium/sprite_11.png" type="Texture" id=2]
@@ -11,6 +11,9 @@
 [ext_resource path="res://art/medium/grass_2.png" type="Texture" id=9]
 [ext_resource path="res://art/medium/grass_3.png" type="Texture" id=10]
 [ext_resource path="res://art/medium/grass_pit.png" type="Texture" id=11]
+[ext_resource path="res://art/medium/sprite_pit_64.png" type="Texture" id=12]
+[ext_resource path="res://art/medium/sprite_pit_lava_64.png" type="Texture" id=13]
+[ext_resource path="res://art/medium/sprite_pit_coal_64.png" type="Texture" id=14]
 
 [node name="tiles" type="Node2D"]
 
@@ -68,5 +71,20 @@ texture = ExtResource( 10 )
 
 transform/pos = Vector2( 483.61, 219.534 )
 texture = ExtResource( 11 )
+
+[node name="snake_pit_earth" type="Sprite" parent="."]
+
+transform/pos = Vector2( 483.61, 219.534 )
+texture = ExtResource( 12 )
+
+[node name="snake_pit_lava" type="Sprite" parent="."]
+
+transform/pos = Vector2( 534.567, 115.183 )
+texture = ExtResource( 13 )
+
+[node name="snake_pit_coal" type="Sprite" parent="."]
+
+transform/pos = Vector2( 546.705, 336.098 )
+texture = ExtResource( 14 )
 
 

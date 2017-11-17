@@ -34,27 +34,7 @@ onready var food_sprites = [
 	preload("res://art/big/fruits/red-grape_small.png"),
 	preload("res://art/big/fruits/star-fruit_small.png"),
 	preload("res://art/big/fruits/strawberry_small.png"),
-	preload("res://art/big/fruits/watermelon_small.png"),
-	# preload("res://art/big/food/sprite_00.png"),
-	# preload("res://art/big/food/sprite_01.png"),
-	# preload("res://art/big/food/sprite_02.png"),
-	# preload("res://art/big/food/sprite_03.png"),
-	# preload("res://art/big/food/sprite_04.png"),
-	# preload("res://art/big/food/sprite_05.png"),
-	# preload("res://art/big/food/sprite_06.png"),
-	# preload("res://art/big/food/sprite_07.png"),
-	# preload("res://art/big/food/sprite_08.png"),
-	# preload("res://art/big/food/sprite_09.png"),
-	# preload("res://art/big/food/sprite_10.png"),
-	# preload("res://art/big/food/sprite_11.png"),
-	# preload("res://art/big/food/sprite_12.png"),
-	# preload("res://art/big/food/sprite_13.png"),
-	# preload("res://art/big/food/sprite_14.png"),
-	# preload("res://art/big/food/sprite_15.png"),
-	# preload("res://art/big/food/sprite_16.png"),
-	# preload("res://art/big/food/sprite_17.png"),
-	# preload("res://art/big/food/sprite_18.png"),
-	# preload("res://art/big/food/sprite_19.png")
+	preload("res://art/big/fruits/watermelon_small.png")
 ]
 
 export var show_debug = true
