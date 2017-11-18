@@ -80,6 +80,7 @@ func spawn_player_snake():
 
 func spawn_enemy_snake():
 	var foe = snake_class.instance()
+	foe.speed = rand_range(5, 50) / 100
 	foe.add_to_group("foe")
 	foe.id = next_id()
 	snakes.add_child(foe)

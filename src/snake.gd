@@ -9,6 +9,7 @@ onready var world = get_node("/root/world")
 
 var directions = []
 var score = 0
+var speed = 0.2
 
 var current_direction = Vector2(0,0)
 var food = false
@@ -29,6 +30,7 @@ signal after_move
 func _ready():
 	directions = [Vector2(-1, 0), Vector2(1,0), Vector2(0, -1), Vector2(0,1)]
 	head.add_to_group("head")
+	head.speed = speed
 	relocate(head.get_pos())
 	call_deferred("doGrow")
 	head.connect("move_finish", self, "next_move")
@@ -218,6 +220,7 @@ func doShrink():
 
 func doGrow():
 	var one = world.body_class.instance()
+	one.speed = speed
 	var last = head
 
 	if tail.get_child_count() > 0:

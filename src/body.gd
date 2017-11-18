@@ -1,6 +1,6 @@
 extends Area2D
 
-var snake_speed = 0.2
+var speed = 0.2
 var start_position = Vector2(0, 0)
 var target_direction = Vector2(0, 0)
 
@@ -41,14 +41,14 @@ func move_to(direction, next_direction):
 	var start_rotation = round(get_rot() / 90)
 
 	target_direction = direction
-	tween.interpolate_property(self, "transform/pos", start_position, start_position + direction, snake_speed, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.interpolate_property(self, "transform/pos", start_position, start_position + direction, speed, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 
 	if direction.x == 0 and next_direction.x != 0:
-		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation + 90 * sign(next_direction.x) * sign(direction.y), snake_speed, corner_transition, Tween.EASE_IN_OUT)
+		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation + 90 * sign(next_direction.x) * sign(direction.y), speed, corner_transition, Tween.EASE_IN_OUT)
 		rotation.start()
 	if direction.y == 0 and next_direction.y != 0:
-		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation - 90 * sign(next_direction.y) * sign(direction.x), snake_speed, corner_transition, Tween.EASE_IN_OUT)
+		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation - 90 * sign(next_direction.y) * sign(direction.x), speed, corner_transition, Tween.EASE_IN_OUT)
 		rotation.start()
 
 func destroy():
