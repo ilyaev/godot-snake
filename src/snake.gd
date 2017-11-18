@@ -8,6 +8,7 @@ onready var world = get_node("/root/world")
 
 
 var directions = []
+var score = 0
 
 var current_direction = Vector2(0,0)
 var food = false
@@ -101,6 +102,7 @@ func snake_next_command():
 
 	for one_food in foods.get_children():
 		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()):
+			score += one_food.experience
 			doGrow()
 			if one_food and one_food.snake:
 				spawn_food_by_snake(one_food.snake)
@@ -147,7 +149,6 @@ func spawn_food_by_snake(snake):
 		return
 	snake.spawn_food()
 	if snake.is_in_group("foe"):
-		#snake.food.set_texture(world.enemy_food_texture)
 		if snake == self:
 			snake.find_route()
 			snake.next_command()
@@ -176,29 +177,7 @@ func spawn_food():
 	if food:
 		food.destroy()
 		food = false
-
-	food = world.food_class.instance()
-	food.add_to_group("food")
-	foods.add_child(food)
-	food.set_texture(world.food_sprites[rand_range(0,world.food_sprites.size())])
-	food.snake = self
-
-	randomize()
-
-	var food_x = round(rand_range(0, map.maxX - 1))
-	var food_y = round(rand_range(0, map.maxY - 1))
-
-	while map.wall_map[map.get_cell_id(food_x, food_y)] == true:
-		food_x = round(rand_range(0, map.maxX - 1))
-		food_y = round(rand_range(0, map.maxY - 1))
-
-	if food_scenario.size() > 0:
-		var _f = food_scenario[0]
-		food_scenario.pop_front()
-		food_x = _f.x
-		food_y = _f.y
-
-	food.set_pos(map.map_to_screen(Vector2(food_x, food_y)))
+	world.spawn_food(self)
 
 
 func set_target(direction):

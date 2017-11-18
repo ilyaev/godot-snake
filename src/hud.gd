@@ -1,16 +1,14 @@
 extends CanvasLayer
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-
 onready var ui = get_node("ui")
 onready var world = get_node("/root/world")
 onready var label_score = get_node("ui/top_right/score")
+onready var label_experience = get_node("ui/top_left/score")
 onready var animation = get_node("ui/top_right/animation")
 
 var original_height = 0
 var score = "0"
+var experience = "0"
 
 func _ready():
 	original_height = ui.get_size().y
@@ -27,10 +25,13 @@ func rescale(zoom, offset):
 	ui.set_scale(Vector2(1,1) / zoom)
 	ui.set_pos((offset / zoom) * -1)
 
-func update_score(new_score):
-	if new_score == score:
+func update_score(new_score, new_experience):
+	if new_score == score and new_experience == experience:
 		return
 	animation.play("label")
 	score = new_score
+	experience = new_experience
 	label_score.set_text(score)
+	label_experience.set_text(experience)
+
 

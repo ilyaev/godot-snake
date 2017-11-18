@@ -15,27 +15,8 @@ var food_class = preload("res://src/food.tscn")
 var last_id = 0
 var need_spawn = false
 var websocket
-onready var food_sprites = [
-	preload("res://art/big/fruits/orange_small.png"),
-	preload("res://art/big/fruits/banana_small.png"),
-	preload("res://art/big/fruits/black-berry-dark_small.png"),
-	preload("res://art/big/fruits/black-berry-light_small.png"),
-	preload("res://art/big/fruits/black-cherry_small.png"),
-	preload("res://art/big/fruits/coconut_small.png"),
-	preload("res://art/big/fruits/lemon_small.png"),
-	preload("res://art/big/fruits/lime_small.png"),
-	preload("res://art/big/fruits/peach_small.png"),
-	preload("res://art/big/fruits/pear_small.png"),
-	preload("res://art/big/fruits/plum_small.png"),
-	preload("res://art/big/fruits/green-apple_small.png"),
-	preload("res://art/big/fruits/green-grape_small.png"),
-	preload("res://art/big/fruits/raspberry_small.png"),
-	preload("res://art/big/fruits/red-apple_small.png"),
-	preload("res://art/big/fruits/red-grape_small.png"),
-	preload("res://art/big/fruits/star-fruit_small.png"),
-	preload("res://art/big/fruits/strawberry_small.png"),
-	preload("res://art/big/fruits/watermelon_small.png")
-]
+var fruits_config_class = preload("res://src/config_fruits.tscn")
+var fruits_config
 
 export var show_debug = true
 
@@ -46,6 +27,7 @@ onready var camera = get_node("camera")
 onready var hud = get_node("hud")
 
 func _ready():
+	fruits_config = fruits_config_class.instance()
 	spawn_player_snake()
 	spawn_enemy_snake()
 	set_process(true)
@@ -99,7 +81,7 @@ func spawn_player_snake():
 	snake.connect("collide", self, "snake_collide", [snake])
 	snake.connect("after_move", self, "game_tick")
 	snakes.add_child(snake)
-	snake.relocate(map.map_to_screen(Vector2(0, 0)))
+	snake.relocate(map.map_to_screen(Vector2(2, 2)))
 	snake.spawn_food()
 	map.add_wall(snake.head.get_pos())
 
@@ -108,19 +90,40 @@ func spawn_enemy_snake():
 	foe.add_to_group("foe")
 	foe.id = next_id()
 	snakes.add_child(foe)
-	#foe.relocate(map.map_to_screen(Vector2(3,1)))
 	foe.relocate(map.map_to_screen(map.get_next_spawn_pos()))
 	foe.set_target(direction)
 	foe.spawn_food()
-	#foe.food.set_texture(enemy_food_texture)
 	map.add_wall(foe.head.get_pos())
 	foe.find_route()
+
+
+func spawn_food(snake):
+	var fruit_index = rand_range(0, fruits_config.get_children().size())
+	var fruit = fruits_config.get_children()[fruit_index]
+	var food = food_class.instance()
+	food.add_to_group("food")
+	foods.add_child(food)
+	food.set_texture(fruit.get_texture())
+	food.experience = fruit.experience
+	food.snake = snake
+	snake.food = food
+
+	randomize()
+
+	var food_x = round(rand_range(0, map.maxX - 1))
+	var food_y = round(rand_range(0, map.maxY - 1))
+
+	while map.wall_map[map.get_cell_id(food_x, food_y)] == true:
+		food_x = round(rand_range(0, map.maxX - 1))
+		food_y = round(rand_range(0, map.maxY - 1))
+
+	food.set_pos(map.map_to_screen(Vector2(food_x, food_y)))
 
 func game_tick():
 	if need_spawn:
 		need_spawn = false
 		spawn_enemy_snake()
-	hud.update_score(String(1 + snake.tail.get_children().size()))
+	hud.update_score(String(1 + snake.tail.get_children().size()), String(snake.score))
 
 func next_id():
 	last_id += 1

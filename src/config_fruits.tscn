@@ -1,0 +1,326 @@
+[gd_scene load_steps=31 format=1]
+
+[ext_resource path="res://art/big/fruits/banana_small.png" type="Texture" id=1]
+[ext_resource path="res://src/config-fruit-item.gd" type="Script" id=2]
+[ext_resource path="res://art/big/fruits/black-berry-dark_small.png" type="Texture" id=3]
+[ext_resource path="res://art/big/fruits/black-berry-light_small.png" type="Texture" id=4]
+[ext_resource path="res://art/big/fruits/black-cherry_small.png" type="Texture" id=5]
+[ext_resource path="res://art/big/fruits/coconut_small.png" type="Texture" id=6]
+[ext_resource path="res://art/big/fruits/green-apple_small.png" type="Texture" id=7]
+[ext_resource path="res://art/big/fruits/green-grape_small.png" type="Texture" id=8]
+[ext_resource path="res://art/big/fruits/lemon_small.png" type="Texture" id=9]
+[ext_resource path="res://art/big/fruits/lime_small.png" type="Texture" id=10]
+[ext_resource path="res://art/big/fruits/orange_small.png" type="Texture" id=11]
+[ext_resource path="res://art/big/fruits/peach_small.png" type="Texture" id=12]
+[ext_resource path="res://art/big/fruits/pear_small.png" type="Texture" id=13]
+[ext_resource path="res://art/big/fruits/plum_small.png" type="Texture" id=14]
+[ext_resource path="res://art/big/fruits/raspberry_small.png" type="Texture" id=15]
+[ext_resource path="res://art/big/fruits/red-apple_small.png" type="Texture" id=16]
+[ext_resource path="res://art/big/fruits/red-cherry_small.png" type="Texture" id=17]
+[ext_resource path="res://art/big/fruits/red-grape_small.png" type="Texture" id=18]
+[ext_resource path="res://art/big/fruits/star-fruit_small.png" type="Texture" id=19]
+[ext_resource path="res://art/big/fruits/strawberry_small.png" type="Texture" id=20]
+[ext_resource path="res://art/big/fruits/watermelon_small.png" type="Texture" id=21]
+[ext_resource path="res://art/spice/alchemy (2).png" type="Texture" id=22]
+[ext_resource path="res://art/spice/alchemy (3).png" type="Texture" id=23]
+[ext_resource path="res://art/spice/alchemy (1).png" type="Texture" id=24]
+[ext_resource path="res://art/spice/alchemy (5).png" type="Texture" id=25]
+[ext_resource path="res://art/spice/alchemy (6).png" type="Texture" id=26]
+[ext_resource path="res://art/spice/alchemy (7).png" type="Texture" id=27]
+[ext_resource path="res://art/spice/alchemy (8).png" type="Texture" id=28]
+[ext_resource path="res://art/spice/alchemy (9).png" type="Texture" id=29]
+[ext_resource path="res://art/spice/alchemy (10).png" type="Texture" id=30]
+
+[node name="config_fruits" type="Node2D"]
+
+[node name="banana" type="Sprite" parent="."]
+
+transform/pos = Vector2( 157.018, 161.73 )
+texture = ExtResource( 1 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="black-berry" type="Sprite" parent="."]
+
+transform/pos = Vector2( 401.566, 166.621 )
+texture = ExtResource( 3 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="black-berry-light" type="Sprite" parent="."]
+
+transform/pos = Vector2( 179.028, 403.833 )
+texture = ExtResource( 4 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="black-cherry" type="Sprite" parent="."]
+
+transform/pos = Vector2( 416.239, 398.942 )
+texture = ExtResource( 5 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="coconut" type="Sprite" parent="."]
+
+transform/pos = Vector2( 586.2, 181.294 )
+texture = ExtResource( 6 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="green_apple" type="Sprite" parent="."]
+
+transform/pos = Vector2( 591.091, 394.051 )
+texture = ExtResource( 7 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="green_grape" type="Sprite" parent="."]
+
+transform/pos = Vector2( 157.018, 633.708 )
+texture = ExtResource( 8 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="lemon" type="Sprite" parent="."]
+
+transform/pos = Vector2( 405.235, 621.481 )
+texture = ExtResource( 9 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="lime" type="Sprite" parent="."]
+
+transform/pos = Vector2( 586.2, 609.253 )
+texture = ExtResource( 10 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="orange" type="Sprite" parent="."]
+
+transform/pos = Vector2( 780.616, 177.626 )
+texture = ExtResource( 11 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="peach" type="Sprite" parent="."]
+
+transform/pos = Vector2( 778.17, 390.383 )
+texture = ExtResource( 12 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="pear" type="Sprite" parent="."]
+
+transform/pos = Vector2( 780.616, 592.135 )
+texture = ExtResource( 13 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="plum" type="Sprite" parent="."]
+
+transform/pos = Vector2( 953.022, 180.071 )
+texture = ExtResource( 14 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="raspberry" type="Sprite" parent="."]
+
+transform/pos = Vector2( 957.913, 390.383 )
+texture = ExtResource( 15 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="red-apple" type="Sprite" parent="."]
+
+transform/pos = Vector2( 954.245, 589.689 )
+texture = ExtResource( 16 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="red-cherry" type="Sprite" parent="."]
+
+transform/pos = Vector2( 157.018, 829.346 )
+texture = ExtResource( 17 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="red-grape" type="Sprite" parent="."]
+
+transform/pos = Vector2( 390.561, 819.565 )
+texture = ExtResource( 18 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="star-fruit" type="Sprite" parent="."]
+
+transform/pos = Vector2( 582.532, 812.228 )
+texture = ExtResource( 19 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="strawberry" type="Sprite" parent="."]
+
+transform/pos = Vector2( 775.725, 802.446 )
+texture = ExtResource( 20 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="watermellon" type="Sprite" parent="."]
+
+transform/pos = Vector2( 953.022, 795.11 )
+texture = ExtResource( 21 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "fruit"
+
+[node name="spice_poganka" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1266.63, 206.212 )
+texture = ExtResource( 22 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = -1000
+rarity = 1
+type = "spice"
+
+[node name="spice_red_flower" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1275.14, 746.863 )
+texture = ExtResource( 23 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "spice"
+
+[node name="spice_mushroom" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1269.47, 468.733 )
+texture = ExtResource( 24 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = -500
+rarity = 1
+type = "spice"
+
+[node name="spice_violet" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1512.12, 197.698 )
+texture = ExtResource( 25 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "spice"
+
+[node name="spice_geocinda" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1517.8, 444.609 )
+texture = ExtResource( 26 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "spice"
+
+[node name="spice_mint" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1520.63, 715.644 )
+texture = ExtResource( 27 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "spice"
+
+[node name="spice_autumn" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1763.29, 206.212 )
+texture = ExtResource( 28 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "spice"
+
+[node name="spice_coco" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1774.64, 478.666 )
+texture = ExtResource( 29 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 100
+rarity = 1
+type = "spice"
+
+[node name="spice_torn" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1783.16, 726.996 )
+texture = ExtResource( 30 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = -100
+rarity = 1
+type = "spice"
+
+

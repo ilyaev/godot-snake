@@ -1,6 +1,7 @@
 extends Area2D
 
 var snake = false
+var experience = 0
 
 onready var animation = get_node("animation")
 onready var timer = get_node("timer")

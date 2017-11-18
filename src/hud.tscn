@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://src/hud.gd" type="Script" id=1]
 [ext_resource path="res://art/fonts/yanone.fnt" type="BitmapFont" id=2]
-[ext_resource path="res://art/heart.png" type="Texture" id=3]
+[ext_resource path="res://art/sprites/hud_coins.png" type="Texture" id=3]
+[ext_resource path="res://art/sprites/hud_heartFull.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 
@@ -64,6 +65,29 @@ margin/top = 20.0
 margin/right = 220.0
 margin/bottom = 120.0
 
+[node name="score" type="Label" parent="ui/top_left"]
+
+rect/scale = Vector2( 1.2, 1.2 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 51.0
+margin/top = -13.0
+margin/right = 144.0
+margin/bottom = 39.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.116438, 0.0384521, 0.492188, 1 )
+text = "0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite" type="Sprite" parent="ui/top_left"]
+
+transform/pos = Vector2( 18.7675, 18.3682 )
+texture = ExtResource( 3 )
+
 [node name="top_right" type="Container" parent="ui"]
 
 visibility/opacity = 0.9
@@ -99,8 +123,8 @@ max_lines_visible = -1
 
 [node name="Sprite" type="Sprite" parent="ui/top_right"]
 
-transform/pos = Vector2( 87.0719, 49.6377 )
-texture = ExtResource( 3 )
+transform/pos = Vector2( 87.0719, 49.3568 )
+texture = ExtResource( 4 )
 flip_h = true
 
 [node name="animation" type="AnimationPlayer" parent="ui/top_right"]
