@@ -55,24 +55,17 @@ func _on_message_recieved(msg):
 
 func _input(event):
 	if event.is_action_pressed("ui_right"):
-		direction.x = map.snake_size
-		direction.y = 0
+		ui_command('right')
 	elif event.is_action_pressed("ui_left"):
-		direction.x = -map.snake_size
-		direction.y = 0
+		ui_command('left')
 	elif event.is_action_pressed("ui_up"):
-		direction.x = 0
-		direction.y = -map.snake_size
+		ui_command('up')
 	elif event.is_action_pressed("ui_down"):
-		direction.x = 0
-		direction.y = map.snake_size
+		ui_command('down')
 	elif event.is_action_pressed("ui_accept"):
 		get_tree().set_pause(true)
 	elif event.is_action_pressed("ui_focus_next"):
 		self.show_debug = !self.show_debug
-
-	snake.set_target(direction)
-
 
 
 func spawn_player_snake():
@@ -124,6 +117,7 @@ func game_tick():
 		need_spawn = false
 		spawn_enemy_snake()
 	hud.update_score(String(1 + snake.tail.get_children().size()), String(snake.score))
+	hud.update_player_position(snake.head.get_pos(), camera.get_offset(), map.world_to_map(snake.head.get_pos()), map.maxX, map.maxY)
 
 func next_id():
 	last_id += 1
@@ -167,3 +161,20 @@ func do_explode(pos):
 	var explode = explode_class.instance()
 	explode.set_pos(pos)
 	add_child(explode)
+
+
+func ui_command(cmd):
+	if cmd == "left":
+		direction.x = -map.snake_size
+		direction.y = 0
+	elif cmd == 'right':
+		direction.x = map.snake_size
+		direction.y = 0
+	elif cmd == 'up':
+		direction.x = 0
+		direction.y = -map.snake_size
+	elif cmd == 'down':
+		direction.x = 0
+		direction.y = map.snake_size
+
+	snake.set_target(direction)

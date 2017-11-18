@@ -1,10 +1,8 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://src/start.gd" type="Script" id=1]
 [ext_resource path="res://art/StartScreen_crop.png" type="Texture" id=2]
-[ext_resource path="res://art/gray.png" type="Texture" id=3]
-[ext_resource path="res://art/green.png" type="Texture" id=4]
-[ext_resource path="res://art/fonts/yanone.fnt" type="BitmapFont" id=5]
+[ext_resource path="res://art/fonts/yanone.fnt" type="BitmapFont" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -74,10 +72,10 @@ params/stretch_mode = 0
 
 [node name="tbtn_start" type="TouchScreenButton" parent="ui"]
 
-transform/pos = Vector2( 141.173, 785.807 )
+transform/pos = Vector2( 297.579, 812.34 )
 transform/scale = Vector2( 49.3673, 17.4769 )
-normal = ExtResource( 3 )
-pressed = ExtResource( 4 )
+normal = null
+pressed = null
 bitmask = null
 shape = SubResource( 1 )
 shape_centered = true
@@ -97,7 +95,7 @@ margin/left = 163.0
 margin/top = 395.0
 margin/right = 586.0
 margin/bottom = 457.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.0665283, 0.0763416, 0.15625, 1 )
 text = "Start in 3 seconds"
 percent_visible = 1.0
@@ -107,7 +105,7 @@ max_lines_visible = -1
 [node name="autostart" type="Timer" parent="."]
 
 process_mode = 1
-wait_time = 0.5
+wait_time = 5.0
 one_shot = true
 autostart = true
 

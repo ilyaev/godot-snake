@@ -4,7 +4,14 @@ onready var ui = get_node("ui")
 onready var world = get_node("/root/world")
 onready var label_score = get_node("ui/top_right/score")
 onready var label_experience = get_node("ui/top_left/score")
-onready var animation = get_node("ui/top_right/animation")
+onready var score_animation = get_node("ui/top_right/animation")
+onready var bottom_left = get_node("ui/bottom_left")
+onready var bottom_right = get_node("ui/bottom_right")
+onready var top_left = get_node("ui/top_left")
+onready var top_right = get_node("ui/top_right")
+onready var animation = get_node("ui/animation")
+
+var hidable = []
 
 var original_height = 0
 var score = "0"
@@ -13,6 +20,24 @@ var experience = "0"
 func _ready():
 	original_height = ui.get_size().y
 	label_score.set_text("2")
+	hidable = [
+		{
+			'component': bottom_left,
+			'animation': "bottom_left_visibility"
+		},
+		{
+			'component': top_left,
+			'animation': "top_left_visibility"
+		},
+		{
+			'component': top_right,
+			'animation': "top_right_visibility"
+		},
+		{
+			'component': bottom_right,
+			'animation': "bottom_right_visibility"
+		}
+	]
 	pass
 
 func rescale(zoom, offset):
@@ -28,10 +53,39 @@ func rescale(zoom, offset):
 func update_score(new_score, new_experience):
 	if new_score == score and new_experience == experience:
 		return
-	animation.play("label")
+	score_animation.play("label")
 	score = new_score
 	experience = new_experience
 	label_score.set_text(score)
 	label_experience.set_text(experience)
 
 
+func update_player_position(pos, offset,map_pos, maxX, maxY):
+	var screen = pos - offset
+
+	for one in hidable:
+		var rect = Rect2(one.component.get_pos(), one.component.get_size())
+		if rect.has_point(screen):
+			if one.component.get_opacity() == 1:
+				animation.play(one.animation)
+		else:
+			if one.component.get_opacity() < 1 and !animation.is_playing():
+				animation.play_backwards(one.animation)
+
+
+
+
+func _on_btn_left_pressed():
+	world.ui_command('left')
+
+
+func _on_btn_right_pressed():
+	world.ui_command('right')
+
+
+func _on_btn_up_pressed():
+	world.ui_command('up')
+
+
+func _on_btn_down_pressed():
+	world.ui_command('down')
