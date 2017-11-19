@@ -1,4 +1,4 @@
-extends Node2D
+extends "res://src/base-scene.gd"
 
 var snake
 var direction = Vector2(0,0)
@@ -18,6 +18,10 @@ var websocket
 var fruits_config_class = preload("res://src/config_fruits.tscn")
 var fruits_config
 
+const STATE_WAITING_TO_START = 0
+const STATE_IN_PLAY = 1
+const STATE_DEATH_ANIMATION = 2
+
 export var show_debug = true
 
 onready var map = get_node("walls")
@@ -25,9 +29,20 @@ onready var snakes = get_node("snakes")
 onready var foods = get_node("foods")
 onready var camera = get_node("camera")
 onready var hud = get_node("hud")
+onready var tween = get_node("tween")
 
 func _ready():
+
+	states_classes = [
+		preload("res://src/state/waiting_to_start.gd").new(),
+		preload("res://src/state/in_play.gd").new(),
+		preload("res://src/state/death_animation.gd").new()
+	]
+
+	set_state(STATE_WAITING_TO_START, self)
+
 	fruits_config = fruits_config_class.instance()
+
 	spawn_player_snake()
 	spawn_enemy_snake()
 	set_process(true)
@@ -39,6 +54,9 @@ func _ready():
 
 func _on_world_resize(zoom, offset):
 	hud.rescale(zoom, offset)
+
+func on_scene_enter():
+	print("Enter GAME!")
 
 func test_server():
 	print('TEST SERVER')
@@ -53,6 +71,10 @@ func _on_message_recieved(msg):
 	print("REC: ", msg)
 	websocket.disconnect()
 
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		print("ANDR _ BACK")
+
 func _input(event):
 	if event.is_action_pressed("ui_right"):
 		ui_command('right')
@@ -63,7 +85,8 @@ func _input(event):
 	elif event.is_action_pressed("ui_down"):
 		ui_command('down')
 	elif event.is_action_pressed("ui_accept"):
-		get_tree().set_pause(true)
+		#get_tree().set_pause(true)
+		get_node("/root/global").back_to_start()
 	elif event.is_action_pressed("ui_focus_next"):
 		self.show_debug = !self.show_debug
 
@@ -135,14 +158,10 @@ func check_heads(snake):
 func snake_collide(snake):
 	if !snake.is_moving():
 		return
-	snake.queue_free()
-	snake = false
-	spawn_player_snake()
-	direction.x = 0
-	direction.y = 0
+	set_state(STATE_DEATH_ANIMATION, self)
 
 func _process(delta):
-	get_node("camera").align_to(snake.head.get_pos())
+	state.process(delta)
 
 func _on_snake_spawn_timer_timeout():
 	get_node("snake_spawn_timer").set_wait_time(2)
@@ -178,4 +197,24 @@ func ui_command(cmd):
 		direction.x = 0
 		direction.y = map.snake_size
 
-	snake.set_target(direction)
+	state.ui_command(cmd)
+
+func fly_camera_to(pos):
+	var from = camera.get_offset()
+	var to = camera.calculate_offset(pos)
+	if (from-to).length() != 0:
+		tween.interpolate_method(camera, "set_offset", camera.get_offset(), camera.calculate_offset(pos), 0.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT )
+		tween.start()
+	else:
+		_on_tween_tween_complete(camera, "set_offset")
+
+
+func restart_player():
+	snake.queue_free()
+	snake = false
+	spawn_player_snake()
+	direction.x = 0
+	direction.y = 0
+
+func _on_tween_tween_complete( object, key ):
+	set_state(STATE_WAITING_TO_START, self)

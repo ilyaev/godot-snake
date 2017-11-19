@@ -188,6 +188,15 @@ script/script = ExtResource( 5 )
 
 [node name="hud" parent="." instance=ExtResource( 6 )]
 
+[node name="tween" type="Tween" parent="."]
+
+playback/process_mode = 1
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
 [connection signal="timeout" from="snake_spawn_timer" to="." method="_on_snake_spawn_timer_timeout"]
+
+[connection signal="tween_complete" from="tween" to="." method="_on_tween_tween_complete"]
 
 

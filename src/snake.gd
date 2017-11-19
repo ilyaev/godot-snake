@@ -5,6 +5,7 @@ onready var tail = get_node("tail")
 onready var map = get_node("/root/world/walls")
 onready var foods = get_node("/root/world/foods")
 onready var world = get_node("/root/world")
+onready var animation = get_node("animation")
 
 
 var directions = []
@@ -32,11 +33,11 @@ func _ready():
 	head.add_to_group("head")
 	head.speed = speed
 	relocate(head.get_pos())
-	call_deferred("doGrow")
 	head.connect("move_finish", self, "next_move")
 	if is_in_group("foe"):
 		head.set_texture(world.enemy_head_texture)
-	active = true
+	animation.play("show")
+
 
 
 func relocate(position):
@@ -296,3 +297,14 @@ func deactivate():
 	for body in tail.get_children():
 		map.remove_wall(body.get_pos())
 		body.deactivate()
+
+
+func _on_animation_finished():
+	if animation.get_current_animation() == 'show':
+		ready_to_start()
+
+func ready_to_start():
+	active = true
+	call_deferred("doGrow")
+	if is_in_group("foe"):
+		next_command()

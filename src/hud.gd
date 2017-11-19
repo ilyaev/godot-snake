@@ -43,7 +43,7 @@ func _ready():
 func rescale(zoom, offset):
 	offset.x = min(0, offset.x)
 	offset.y = min(0, offset.y)
-	var size = get_tree().get_root().get_children()[0].get_viewport_rect().size
+	var size = get_tree().get_root().get_children()[1].get_viewport_rect().size
 	size.x = (size.x + (offset.x * 2 / zoom.x)) * zoom.x
 	size.y = size.y * zoom.y
 	ui.set_size(size)

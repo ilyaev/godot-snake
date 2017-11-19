@@ -1,4 +1,4 @@
-extends Node2D
+extends "res://src/base-scene.gd"
 
 
 var width = 640 * 2
@@ -18,7 +18,7 @@ func _ready():
 	set_process(true)
 
 func size_changed():
-	var size = get_tree().get_root().get_children()[0].get_viewport_rect().size
+	var size = get_tree().get_root().get_children()[1].get_viewport_rect().size
 	var scale = field_height / size.y
 	var offset = Vector2(width / 2, height / 2)
 	offset.x = max(size.x / 2, min(width / 2, size.x / 2)) * scale
@@ -34,7 +34,7 @@ func _process(delta):
 
 func _on_button_pressed():
 	print("on start")
-	get_tree().change_scene("res://src/root.tscn")
+	get_node("/root/global").start_game()
 
 
 func _on_tbtn_start_pressed():

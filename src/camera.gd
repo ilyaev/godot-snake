@@ -24,7 +24,7 @@ func _ready():
 	get_tree().get_root().connect("size_changed", self, "size_changed")
 
 func size_changed():
-	size = get_tree().get_root().get_children()[0].get_viewport_rect().size
+	size = get_tree().get_root().get_children()[1].get_viewport_rect().size
 	# scale = max(field_height / size.y, field_width / size.x)
 	scale = field_height / size.y
 	set_zoom(original_zoom * scale)
@@ -32,12 +32,15 @@ func size_changed():
 	perY = size.y / (map.snake_size / scale)
 	emit_signal("resize", get_zoom(), get_offset())
 
-
-func align_to(pos):
+func calculate_offset(pos):
 	var offset = pos - (size / 2) * scale * original_zoom
 	var cell = map.world_to_map(pos)
 	offset.y = min((map.maxY - perY) * map.snake_size, max(offset.y, max(0, (pos.y / map.snake_size) * -1)))
 	offset.x = min((map.maxX - perX) * map.snake_size, max(offset.x, max(0, (pos.x / map.snake_size) * -1)))
 	if offset.x < 0:
 		offset.x = offset.x / 2
-	set_offset(offset)
+	return offset
+
+
+func align_to(pos):
+	set_offset(calculate_offset(pos))
