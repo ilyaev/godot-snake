@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=1]
 
-[ext_resource path="res://src/hud.gd" type="Script" id=1]
+[ext_resource path="res://src/world/hud.gd" type="Script" id=1]
 [ext_resource path="res://art/fonts/yanone.fnt" type="BitmapFont" id=2]
 [ext_resource path="res://art/sprites/hud_coins.png" type="Texture" id=3]
 [ext_resource path="res://art/sprites/hud_heartFull.png" type="Texture" id=4]

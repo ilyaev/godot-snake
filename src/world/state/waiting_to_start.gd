@@ -1,14 +1,14 @@
-extends "res://src/state/base.gd"
+extends "res://src/world/state/base.gd"
+
 
 func _init():
-    name = 'IN_PLAY'
+    name = 'WAITING_TO_START'
 
 func do_on_enter():
-    scene.snake.set_target(scene.direction)
-
+    pass
 
 func ui_command(cmd):
-    scene.snake.set_target(scene.direction)
+    scene.set_state(scene.STATE_IN_PLAY, scene)
     .ui_command(cmd)
 
 func process(delta):

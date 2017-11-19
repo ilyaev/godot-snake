@@ -2,20 +2,20 @@ extends "res://src/base-scene.gd"
 
 var snake
 var direction = Vector2(0,0)
-var snake_class = preload("res://src/snake.tscn")
+var snake_class = preload("res://src/snake/snake.tscn")
 var snake_tail_texture = preload("res://art/medium/snake_tail.png")
 var enemy_food_texture = preload("res://art/medium/sprite_03_1.png")
 var enemy_snake_tail_texture = preload("res://art/medium/snake_tail_1.png")
 var snake_body_texture = preload("res://art/medium/sprite_01.png")
 var enemy_snake_body_texture = preload("res://art/medium/sprite_01_1.png")
 var enemy_head_texture = preload("res://art/medium/sprite_02_1.png")
-var explode_class = preload("res://src/explode.tscn")
-var body_class = preload("res://src/body.tscn")
-var food_class = preload("res://src/food.tscn")
+var explode_class = preload("res://src/particles/explode.tscn")
+var body_class = preload("res://src/snake/body.tscn")
+var food_class = preload("res://src/food/food.tscn")
 var last_id = 0
 var need_spawn = false
 var websocket
-var fruits_config_class = preload("res://src/config_fruits.tscn")
+var fruits_config_class = preload("res://src/food/config_fruits.tscn")
 var fruits_config
 
 const STATE_WAITING_TO_START = 0
@@ -34,9 +34,9 @@ onready var tween = get_node("tween")
 func _ready():
 
 	states_classes = [
-		preload("res://src/state/waiting_to_start.gd").new(),
-		preload("res://src/state/in_play.gd").new(),
-		preload("res://src/state/death_animation.gd").new()
+		preload("res://src/world/state/waiting_to_start.gd").new(),
+		preload("res://src/world/state/in_play.gd").new(),
+		preload("res://src/world/state/death_animation.gd").new()
 	]
 
 	set_state(STATE_WAITING_TO_START, self)
@@ -60,7 +60,7 @@ func on_scene_enter():
 
 func test_server():
 	print('TEST SERVER')
-	websocket = preload('websocket.gd').new(self)
+	websocket = preload('res://src/websocket.gd').new(self)
 	#websocket.start('godot-snake-server.herokuapp.com',80)
 	websocket.start('localhost', 3000)
 	websocket.set_reciever(self,'_on_message_recieved')

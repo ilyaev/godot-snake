@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=1]
 
-[ext_resource path="res://src/root.gd" type="Script" id=1]
+[ext_resource path="res://src/world/root.gd" type="Script" id=1]
 [ext_resource path="res://art/medium/tiles.xml" type="TileSet" id=2]
-[ext_resource path="res://src/debug.gd" type="Script" id=3]
-[ext_resource path="res://src/map.gd" type="Script" id=4]
-[ext_resource path="res://src/camera.gd" type="Script" id=5]
-[ext_resource path="res://src/hud.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/world/debug.gd" type="Script" id=3]
+[ext_resource path="res://src/world/map.gd" type="Script" id=4]
+[ext_resource path="res://src/world/camera.gd" type="Script" id=5]
+[ext_resource path="res://src/world/hud.tscn" type="PackedScene" id=6]
 
 [node name="world" type="Node2D"]
 

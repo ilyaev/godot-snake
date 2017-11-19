@@ -1,4 +1,4 @@
-extends "res://src/state/base.gd"
+extends "res://src/world/state/base.gd"
 
 
 func _init():

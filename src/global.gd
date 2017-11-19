@@ -21,11 +21,11 @@ func _notification(what):
 
 func start_game():
 	state = APP_STATE_PLAY
-	goto_scene("res://src/root.tscn")
+	goto_scene("res://src/world/root.tscn")
 
 func back_to_start():
 	state = APP_STATE_START_SCREEN
-	goto_scene("res://src/start.tscn")
+	goto_scene("res://src/start/start.tscn")
 
 func _deferred_goto_scene(path):
 	current_scene.free()
