@@ -7,6 +7,16 @@ onready var foods = get_node("/root/world/foods")
 onready var world = get_node("/root/world")
 onready var animation = get_node("animation")
 
+const SNAKE_STATE_NORMAL = 0
+const SNAKE_STATE_INVINCIBLE = 1
+
+var state
+var state_id = SNAKE_STATE_NORMAL
+var states_classes = [
+	preload("state/normal.gd").new(),
+	preload("state/invincible.gd").new()
+]
+
 
 var directions = []
 var score = 0
@@ -37,8 +47,16 @@ func _ready():
 	if is_in_group("foe"):
 		head.set_texture(world.enemy_head_texture)
 	animation.play("show")
+	if !is_in_group("foe"):
+		set_state(SNAKE_STATE_INVINCIBLE)
+	else:
+		set_state(SNAKE_STATE_NORMAL)
 
-
+func set_state(new_state):
+	state_id = new_state
+	state = states_classes[new_state]
+	state.snake = self
+	state.do_on_enter()
 
 func relocate(position):
 	head.relocate(position)
@@ -79,7 +97,6 @@ func next_move():
 		last_body.set_rot(-PI / 2)
 
 
-
 	snake_next_command()
 
 	if head.target_direction.y < 0:
@@ -87,7 +104,7 @@ func next_move():
 	elif head.target_direction.y > 0:
 		head.set_rot(-PI/2)
 
-	emit_signal("after_move")
+	state.proxy_emit_signal("after_move")
 
 
 func snake_next_command():
@@ -117,14 +134,14 @@ func snake_next_command():
 		if is_in_group("foe"):
 			destroy()
 		else:
-			emit_signal("collide")
-			food.destroy()
+			state.proxy_emit_signal("collide")
+			state.destroy_food()
 		for one in head_snakes:
 			if one.is_in_group("foe"):
 				one.destroy()
 			else:
-				one.emit_signal("collide")
-				one.food.destroy()
+				one.state.proxy_emit_signal("collide")
+				one.state.destroy_food()
 
 	elif next_cell.x < 0 or next_cell.y < 0 or next_cell.x > map.maxX - 1 or next_cell.y > map.maxY - 1 or map.wall_map[map.get_cell_id(next_cell.x, next_cell.y)]:
 		snake_collide()
@@ -162,19 +179,7 @@ func spawn_food_by_snake(snake):
 		snake.need_shrink = true
 
 func snake_collide():
-	if !is_moving():
-		return
-
-	if is_in_group("foe"):
-		find_route()
-		if path.size() == 0:
-			destroy()
-			emit_signal("collide")
-		else:
-		 	next_command()
-	else:
-		destroy()
-		emit_signal("collide")
+	state.snake_collide()
 
 func spawn_food():
 	if food:
@@ -205,18 +210,7 @@ func get_size():
 	return tail.get_child_count()
 
 func doShrink():
-	if tail.get_children().size() > 1:
-		if is_in_group("foe"):
-			tail.get_children()[tail.get_children().size() - 2].set_texture(world.enemy_snake_tail_texture)
-		else:
-			tail.get_children()[tail.get_children().size() - 2].set_texture(world.snake_tail_texture)
-
-		var back = tail.get_children().back()
-		var pos = back.get_pos()
-		map.remove_wall(pos + back.target_direction)
-		back.destroy()
-		world.add_explode(back.get_pos(), 1)
-		emit_signal("tail_shrink", pos)
+	state.doShrink()
 
 
 func doGrow():
@@ -277,31 +271,15 @@ func build_path():
 	next_command()
 
 func destroy():
-	food.destroy()
-	deactivate()
-
-	world.add_explode(head.get_pos(), 1)
-	head.destroy()
-	for body in tail.get_children():
-		world.add_explode(body.get_pos(), rand_range(0, 100))
-		body.destroy()
-
-	if is_in_group("foe"):
-		queue_free()
+	state.destroy()
 
 
 func deactivate():
-	active = false
-	head.deactivate()
-	map.remove_wall(head.get_pos())
-	for body in tail.get_children():
-		map.remove_wall(body.get_pos())
-		body.deactivate()
+	state.deactivate()
 
 
 func _on_animation_finished():
-	if animation.get_current_animation() == 'show':
-		ready_to_start()
+	state.on_animation_finished()
 
 func ready_to_start():
 	active = true

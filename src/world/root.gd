@@ -34,9 +34,9 @@ onready var tween = get_node("tween")
 func _ready():
 
 	states_classes = [
-		preload("res://src/world/state/waiting_to_start.gd").new(),
-		preload("res://src/world/state/in_play.gd").new(),
-		preload("res://src/world/state/death_animation.gd").new()
+		preload("state/waiting_to_start.gd").new(),
+		preload("state/in_play.gd").new(),
+		preload("state/death_animation.gd").new()
 	]
 
 	set_state(STATE_WAITING_TO_START, self)
@@ -86,7 +86,11 @@ func _input(event):
 		ui_command('down')
 	elif event.is_action_pressed("ui_accept"):
 		#get_tree().set_pause(true)
-		get_node("/root/global").back_to_start()
+		#get_node("/root/global").back_to_start()
+		if snake.state_id == snake.SNAKE_STATE_NORMAL:
+			snake.set_state(snake.SNAKE_STATE_INVINCIBLE)
+		else:
+			snake.set_state(snake.SNAKE_STATE_NORMAL)
 	elif event.is_action_pressed("ui_focus_next"):
 		self.show_debug = !self.show_debug
 
