@@ -2,14 +2,37 @@ extends Node
 
 var snake
 var name
+var timeout = 0
+var next_state = false
+var timer
 
 
 func _init():
     pass
 
-func do_on_enter():
-    print("SNAKE ENTER STATE: ", name)
+func do_on_enter(_timeout = 0, _next_state = null):
+    if _timeout > 0:
+        timeout = _timeout
+        next_state = _next_state
+        run_timer()
     pass
+
+func run_timer():
+    if !timer:
+        timer = Timer.new()
+        timer.set_one_shot(true)
+        timer.connect("timeout", self, "on_timer")
+        timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
+        snake.add_child(timer)
+    timer.stop()
+    timer.set_wait_time(timeout)
+    timer.start()
+
+func on_timer():
+    if next_state:
+        snake.set_state(next_state)
+    else:
+        snake.set_state(snake.SNAKE_STATE_NORMAL)
 
 func process(delta):
     pass

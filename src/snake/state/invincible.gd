@@ -5,8 +5,8 @@ func _init():
     name = 'SNAKE_STATE_INVINCIBLE'
 
 
-func do_on_enter():
-    .do_on_enter()
+func do_on_enter(_timeout = 0, _next_state = null):
+    .do_on_enter(_timeout, _next_state)
     if !snake.animation.is_playing():
         snake.animation.play("blink")
 

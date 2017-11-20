@@ -175,13 +175,14 @@ func add_explode(pos, delay):
 	var ms_delay = 0.3 * delay / 100
 	var timer = Timer.new()
 	timer.set_one_shot(true)
-	timer.connect("timeout", self, "do_explode", [pos])
+	timer.connect("timeout", self, "do_explode", [pos, timer])
 	timer.set_wait_time(ms_delay)
 	timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
 	timer.start()
 	add_child(timer)
 
-func do_explode(pos):
+func do_explode(pos, timer):
+	timer.queue_free()
 	var explode = explode_class.instance()
 	explode.set_pos(pos)
 	add_child(explode)

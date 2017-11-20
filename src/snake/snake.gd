@@ -48,15 +48,15 @@ func _ready():
 		head.set_texture(world.enemy_head_texture)
 	animation.play("show")
 	if !is_in_group("foe"):
-		set_state(SNAKE_STATE_INVINCIBLE)
+		set_state(SNAKE_STATE_INVINCIBLE, 3)
 	else:
 		set_state(SNAKE_STATE_NORMAL)
 
-func set_state(new_state):
+func set_state(new_state, timeout = 0):
 	state_id = new_state
 	state = states_classes[new_state]
 	state.snake = self
-	state.do_on_enter()
+	state.do_on_enter(timeout)
 
 func relocate(position):
 	head.relocate(position)
