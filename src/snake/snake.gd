@@ -9,6 +9,7 @@ onready var animation = get_node("animation")
 
 const SNAKE_STATE_NORMAL = 0
 const SNAKE_STATE_INVINCIBLE = 1
+const SNAKE_STATE_FLASH = 2
 
 const SNAKE_CONTROLLER_INPUT = 0
 const SNAKE_CONTROLLER_AI_ASTAR = 1
@@ -17,7 +18,8 @@ var state
 var state_id = SNAKE_STATE_NORMAL
 var states_classes = [
 	preload("state/normal.gd").new(),
-	preload("state/invincible.gd").new()
+	preload("state/invincible.gd").new(),
+	preload("state/flash.gd").new()
 ]
 
 var controller
@@ -28,9 +30,9 @@ var controller_classes = [
 ]
 
 
-var directions = []
 var score = 0
 var speed = 0.2
+var old_speed = 0
 
 var current_direction = Vector2(0,0)
 var food = false
@@ -41,7 +43,6 @@ var turn = 1
 var search_food = false
 var need_shrink = false
 
-var food_scenario = []#[Vector2(1,0), Vector2(2, 5), Vector2(1,7)]
 var active = false
 
 signal collide
@@ -49,7 +50,6 @@ signal tail_shrink
 signal after_move
 
 func _ready():
-	directions = [Vector2(-1, 0), Vector2(1,0), Vector2(0, -1), Vector2(0,1)]
 	head.add_to_group("head")
 	head.speed = speed
 	relocate(head.get_pos())
@@ -70,6 +70,10 @@ func set_controller(new_controller):
 
 func set_state(new_state, timeout = 0):
 	state_id = new_state
+
+	if state and state.has_method("on_exit_state"):
+		state.on_exit_state()
+
 	state = states_classes[new_state]
 	state.snake = self
 	state.do_on_enter(timeout)
@@ -137,6 +141,7 @@ func snake_next_command():
 		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()):
 			score += one_food.experience
 			doGrow()
+			state.eat_food()
 			if one_food and one_food.snake:
 				spawn_food_by_snake(one_food.snake)
 
@@ -266,3 +271,10 @@ func ready_to_start():
 	call_deferred("doGrow")
 	if is_in_group("foe"):
 		next_command()
+
+
+func set_speed(new_speed):
+	speed = new_speed
+	head.speed = speed
+	for one in tail.get_children():
+		one.speed = speed

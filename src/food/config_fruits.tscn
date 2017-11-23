@@ -33,6 +33,10 @@
 
 [node name="config_fruits" type="Node2D"]
 
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="banana" type="Sprite" parent="."]
 
 transform/pos = Vector2( 157.018, 161.73 )
@@ -41,7 +45,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 1
+state_duration = 5
 
 [node name="black-berry" type="Sprite" parent="."]
 
@@ -51,7 +57,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 1
+state_duration = 5
 
 [node name="black-berry-light" type="Sprite" parent="."]
 
@@ -61,7 +69,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 1
+state_duration = 5
 
 [node name="black-cherry" type="Sprite" parent="."]
 
@@ -71,7 +81,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 1
+state_duration = 5
 
 [node name="coconut" type="Sprite" parent="."]
 
@@ -81,7 +93,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 0
+state_duration = -1
 
 [node name="green_apple" type="Sprite" parent="."]
 
@@ -91,7 +105,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 0
+state_duration = -1
 
 [node name="green_grape" type="Sprite" parent="."]
 
@@ -101,7 +117,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 1
+state_duration = 5
 
 [node name="lemon" type="Sprite" parent="."]
 
@@ -111,7 +129,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 1
+state_duration = 5
 
 [node name="lime" type="Sprite" parent="."]
 
@@ -121,7 +141,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 0
+state_duration = -1
 
 [node name="orange" type="Sprite" parent="."]
 
@@ -131,7 +153,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 2
+state_duration = 5
 
 [node name="peach" type="Sprite" parent="."]
 
@@ -141,7 +165,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 2
+state_duration = 5
 
 [node name="pear" type="Sprite" parent="."]
 
@@ -151,7 +177,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 2
+state_duration = 5
 
 [node name="plum" type="Sprite" parent="."]
 
@@ -161,7 +189,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 2
+state_duration = 5
 
 [node name="raspberry" type="Sprite" parent="."]
 
@@ -171,7 +201,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 2
+state_duration = 5
 
 [node name="red-apple" type="Sprite" parent="."]
 
@@ -181,7 +213,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 2
+state_duration = 5
 
 [node name="red-cherry" type="Sprite" parent="."]
 
@@ -191,17 +225,21 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 1
+state_duration = 5
 
 [node name="red-grape" type="Sprite" parent="."]
 
-transform/pos = Vector2( 390.561, 819.565 )
+transform/pos = Vector2( 391.921, 819.565 )
 texture = ExtResource( 18 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 1
+state_duration = 5
 
 [node name="star-fruit" type="Sprite" parent="."]
 
@@ -211,7 +249,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 0
+state_duration = -1
 
 [node name="strawberry" type="Sprite" parent="."]
 
@@ -221,7 +261,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 2
+state_duration = 5
 
 [node name="watermellon" type="Sprite" parent="."]
 
@@ -231,17 +273,21 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "fruit"
+type = "Fruit"
+state = 2
+state_duration = 5
 
 [node name="spice_poganka" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1266.63, 206.212 )
+transform/pos = Vector2( 1295.2, 192.609 )
 texture = ExtResource( 22 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = -1000
 rarity = 1
-type = "spice"
+type = "Spice"
+state = 0
+state_duration = -1
 
 [node name="spice_red_flower" type="Sprite" parent="."]
 
@@ -251,7 +297,9 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "spice"
+type = "Spice"
+state = 0
+state_duration = -1
 
 [node name="spice_mushroom" type="Sprite" parent="."]
 
@@ -261,57 +309,69 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = -500
 rarity = 1
-type = "spice"
+type = "Spice"
+state = 0
+state_duration = -1
 
 [node name="spice_violet" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1512.12, 197.698 )
+transform/pos = Vector2( 1508.04, 196.338 )
 texture = ExtResource( 25 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "spice"
+type = "Spice"
+state = 0
+state_duration = -1
 
 [node name="spice_geocinda" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1517.8, 444.609 )
+transform/pos = Vector2( 1517.8, 443.249 )
 texture = ExtResource( 26 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "spice"
+type = "Spice"
+state = 0
+state_duration = -1
 
 [node name="spice_mint" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1520.63, 715.644 )
+transform/pos = Vector2( 1517.91, 715.644 )
 texture = ExtResource( 27 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "spice"
+type = "Spice"
+state = 0
+state_duration = -1
 
 [node name="spice_autumn" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1763.29, 206.212 )
+transform/pos = Vector2( 1763.29, 204.852 )
 texture = ExtResource( 28 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "spice"
+type = "Spice"
+state = 0
+state_duration = -1
 
 [node name="spice_coco" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1774.64, 478.666 )
+transform/pos = Vector2( 1774.64, 480.026 )
 texture = ExtResource( 29 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = 100
 rarity = 1
-type = "spice"
+type = "Spice"
+state = 0
+state_duration = -1
 
 [node name="spice_torn" type="Sprite" parent="."]
 
@@ -321,6 +381,8 @@ offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 2 )
 experience = -100
 rarity = 1
-type = "spice"
+type = "Spice"
+state = 0
+state_duration = -1
 
 

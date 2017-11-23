@@ -87,8 +87,9 @@ func _input(event):
 	elif event.is_action_pressed("ui_select"):
 		#get_tree().set_pause(true)
 		#get_node("/root/global").back_to_start()
-		if snake.state_id == snake.SNAKE_STATE_NORMAL:
-			snake.set_state(snake.SNAKE_STATE_INVINCIBLE)
+		if snake.state_id != snake.SNAKE_STATE_FLASH:
+			#snake.set_state(snake.SNAKE_STATE_INVINCIBLE)
+			snake.set_state(snake.SNAKE_STATE_FLASH)
 		else:
 			snake.set_state(snake.SNAKE_STATE_NORMAL)
 	elif event.is_action_pressed("ui_focus_next"):
@@ -125,12 +126,16 @@ func spawn_enemy_snake():
 func spawn_food(snake):
 	var fruit_index = rand_range(0, fruits_config.get_children().size())
 	var fruit = fruits_config.get_children()[fruit_index]
+	print("FRUIT - ", fruit, ' / ', fruit.state, ' / ', fruit.state_duration, ' / ', fruit.type)
 	var food = food_class.instance()
 	food.add_to_group("food")
 	foods.add_child(food)
 	food.set_texture(fruit.get_texture())
 	food.experience = fruit.experience
 	food.snake = snake
+	food.effect_type = fruit.type
+	food.effect_state = fruit.state
+	food.effect_duration = fruit.state_duration
 	snake.food = food
 
 	randomize()

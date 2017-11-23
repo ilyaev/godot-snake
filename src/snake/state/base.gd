@@ -28,6 +28,10 @@ func run_timer():
     timer.set_wait_time(timeout)
     timer.start()
 
+func on_exit_state():
+    if timer:
+        timer.stop()
+
 func on_timer():
     if next_state:
         snake.set_state(next_state)
@@ -101,3 +105,8 @@ func doShrink():
         back.destroy()
         snake.world.add_explode(back.get_pos(), 1)
         snake.state.proxy_emit_signal("tail_shrink", pos)
+
+
+func eat_food():
+    if snake.food.effect_state > 0 and snake.state_id != snake.food.effect_state:
+        snake.set_state(snake.food.effect_state, snake.food.effect_duration)
