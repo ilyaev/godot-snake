@@ -127,10 +127,10 @@ func add_wall(pos):
 func remove_wall(pos):
 	var cell = world_to_map(pos)
 	var cell_id = get_cell_id(cell.x, cell.y)
-	if !cell_id_to_index.has(cell_id):
+	if !cell_id_to_index.has(cell_id) or get_cell(cell.x, cell.y) == TILE_WALL:
 		return
 	var cell_index = cell_id_to_index[cell_id]
-	#print("REMOVE WALL: ", cell, ' / ', cell_id, ' / ', cell_index)
+	#print("REMOVE WALL: ", cell, ' / ', cell_id, ' / ', cell_index, ' / ', get_cell(cell.x, cell.y), ' / ', TILE_WALL)
 	for dx in [-1, 0, 1]:
 		for dy in [-1, 0, 1]:
 			if (dx == 0 or dy == 0) and (dx + dy) != 0:

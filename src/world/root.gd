@@ -84,7 +84,7 @@ func _input(event):
 		ui_command('up')
 	elif event.is_action_pressed("ui_down"):
 		ui_command('down')
-	elif event.is_action_pressed("ui_accept"):
+	elif event.is_action_pressed("ui_select"):
 		#get_tree().set_pause(true)
 		#get_node("/root/global").back_to_start()
 		if snake.state_id == snake.SNAKE_STATE_NORMAL:
@@ -93,6 +93,8 @@ func _input(event):
 			snake.set_state(snake.SNAKE_STATE_NORMAL)
 	elif event.is_action_pressed("ui_focus_next"):
 		self.show_debug = !self.show_debug
+	elif event.is_action_pressed("ui_accept"):
+		spawn_enemy_snake()
 
 
 func spawn_player_snake():

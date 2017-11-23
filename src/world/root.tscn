@@ -51,7 +51,7 @@ __meta__ = {
 process_mode = 1
 wait_time = 1.0
 one_shot = false
-autostart = true
+autostart = false
 
 [node name="debug" type="Node2D" parent="."]
 

@@ -34,3 +34,7 @@ func proxy_emit_signal(_signal, var1 = NULL, var2 = NULL):
 
 func destroy_food():
     print("INVNCIBLE!!!!!")
+
+func doShrink():
+    print("INVINCIBLE!!!")
+    pass
