@@ -100,6 +100,7 @@ func _input(event):
 func spawn_player_snake():
 	snake = snake_class.instance()
 	snake.id = next_id()
+	snake.set_controller(snake.SNAKE_CONTROLLER_INPUT)
 	snake.connect("collide", self, "snake_collide", [snake])
 	snake.connect("after_move", self, "game_tick")
 	snakes.add_child(snake)
@@ -109,6 +110,7 @@ func spawn_player_snake():
 
 func spawn_enemy_snake():
 	var foe = snake_class.instance()
+	foe.set_controller(snake.SNAKE_CONTROLLER_AI_ASTAR)
 	foe.speed = rand_range(5, 50) / 100
 	foe.add_to_group("foe")
 	foe.id = next_id()
@@ -117,7 +119,7 @@ func spawn_enemy_snake():
 	foe.set_target(direction)
 	foe.spawn_food()
 	map.add_wall(foe.head.get_pos())
-	foe.find_route()
+	foe.controller.find_route()
 
 
 func spawn_food(snake):

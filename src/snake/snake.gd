@@ -10,11 +10,21 @@ onready var animation = get_node("animation")
 const SNAKE_STATE_NORMAL = 0
 const SNAKE_STATE_INVINCIBLE = 1
 
+const SNAKE_CONTROLLER_INPUT = 0
+const SNAKE_CONTROLLER_AI_ASTAR = 1
+
 var state
 var state_id = SNAKE_STATE_NORMAL
 var states_classes = [
 	preload("state/normal.gd").new(),
 	preload("state/invincible.gd").new()
+]
+
+var controller
+var controller_id
+var controller_classes = [
+	preload("controller/input.gd").new(),
+	preload("controller/ai_astar.gd").new()
 ]
 
 
@@ -51,6 +61,12 @@ func _ready():
 		set_state(SNAKE_STATE_INVINCIBLE, 3)
 	else:
 		set_state(SNAKE_STATE_NORMAL)
+
+func set_controller(new_controller):
+	controller_id = new_controller
+	controller = controller_classes[new_controller]
+	controller.snake = self
+	controller.do_on_enter()
 
 func set_state(new_state, timeout = 0):
 	state_id = new_state
@@ -113,12 +129,9 @@ func snake_next_command():
 
 	if search_food:
 		search_food = false
-		find_route()
+		controller.find_route()
 
-	if is_in_group("foe"):
-		next_command()
-	else:
-		set_target(world.direction)
+	controller.next_command()
 
 	for one_food in foods.get_children():
 		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()):
@@ -162,21 +175,18 @@ func snake_next_command():
 
 
 
-
-
 func spawn_food_by_snake(snake):
 	if !snake or snake == null or !weakref(snake).get_ref() or !world.snakes.get_children().has(snake) or !snake.active or !snake.has_method("spawn_food"):
 		return
-	snake.spawn_food()
-	if snake.is_in_group("foe"):
-		if snake == self:
-			snake.find_route()
-			snake.next_command()
-		else:
-			snake.search_food = true
 
-	if snake != self:
+	snake.spawn_food()
+
+	if snake == self:
+		snake.controller.new_food_arrived()
+	else:
+		snake.controller.new_food_arrived_deferred()
 		snake.need_shrink = true
+
 
 func snake_collide():
 	state.snake_collide()
@@ -234,41 +244,11 @@ func doGrow():
 
 	one.relocate(last.get_pos())
 
-func _set_path(new_path):
-	commands.clear()
-	var cur_pos = map.world_to_map(head.get_pos())
-	for node in new_path:
-		commands.append(Vector2(node.x, node.y) - cur_pos)
-		cur_pos = Vector2(node.x, node.y)
-	path = new_path
-
-func find_route():
+func clear_path():
 	path.resize(0)
-	var default_path = []
-	for direction in directions:
-		if path.size() == 0 and !map.is_wall_world(head.get_pos() + direction * map.snake_size):
-			if default_path.size() == 0:
-				default_path.append(map.world_to_map(head.get_pos() + direction * map.snake_size))
-			_set_path(map.get_path(map.world_to_map(head.get_pos() + direction * map.snake_size), map.world_to_map(food.get_pos())))
-	if path.size() == 0:
-		if default_path.size() > 0:
-			_set_path([Vector3(default_path[0].x, default_path[0].y, 0)])
 
 func next_command():
-	if commands.size() > 0:
-		var command = commands[0]
-		commands.pop_front()
-		if path.size() > 0:
-			path.remove(0)
-		if !map.is_wall_world(head.get_pos() + command * map.snake_size):
-			set_target(command * map.snake_size)
-		else:
-			find_route()
-			next_command()
-
-func build_path():
-	find_route()
-	next_command()
+	controller.next_command()
 
 func destroy():
 	state.destroy()

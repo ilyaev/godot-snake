@@ -46,7 +46,7 @@ func snake_collide():
         return
 
     if snake.is_in_group("foe"):
-        snake.find_route()
+        snake.controller.find_route()
         if snake.path.size() == 0:
             snake.destroy()
             snake.emit_signal("collide")
