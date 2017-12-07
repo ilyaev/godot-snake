@@ -31,6 +31,8 @@ onready var camera = get_node("camera")
 onready var hud = get_node("hud")
 onready var tween = get_node("tween")
 
+var DQN
+
 func _ready():
 
 	states_classes = [
@@ -38,6 +40,9 @@ func _ready():
 		preload("state/in_play.gd").new(),
 		preload("state/death_animation.gd").new()
 	]
+
+	DQN = preload("../dqn/agent.gd").new()
+	DQN.fromJSON("res://src/aimodels/first.json")
 
 	set_state(STATE_WAITING_TO_START, self)
 
@@ -111,7 +116,9 @@ func spawn_player_snake():
 
 func spawn_enemy_snake():
 	var foe = snake_class.instance()
-	foe.set_controller(snake.SNAKE_CONTROLLER_AI_ASTAR)
+	# foe.set_controller(snake.SNAKE_CONTROLLER_AI_ASTAR)
+	foe.set_controller(snake.SNAKE_CONTROLLER_AI_DQN)
+	foe.controller.initialize([DQN])
 	foe.speed = rand_range(5, 50) / 100
 	foe.add_to_group("foe")
 	foe.id = next_id()
@@ -126,7 +133,7 @@ func spawn_enemy_snake():
 func spawn_food(snake):
 	var fruit_index = rand_range(0, fruits_config.get_children().size())
 	var fruit = fruits_config.get_children()[fruit_index]
-	print("FRUIT - ", fruit, ' / ', fruit.state, ' / ', fruit.state_duration, ' / ', fruit.type)
+	# print("FRUIT - ", fruit, ' / ', fruit.state, ' / ', fruit.state_duration, ' / ', fruit.type)
 	var food = food_class.instance()
 	food.add_to_group("food")
 	foods.add_child(food)

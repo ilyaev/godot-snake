@@ -24,3 +24,6 @@ func new_food_arrived():
 
 func new_food_arrived_deferred():
     pass
+
+func initialize(params):
+    pass

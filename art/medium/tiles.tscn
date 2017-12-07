@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=1]
+[gd_scene load_steps=33 format=1]
 
 [ext_resource path="res://art/medium/sprite_04.png" type="Texture" id=1]
 [ext_resource path="res://art/medium/sprite_11.png" type="Texture" id=2]
@@ -14,6 +14,24 @@
 [ext_resource path="res://art/medium/sprite_pit_64.png" type="Texture" id=12]
 [ext_resource path="res://art/medium/sprite_pit_lava_64.png" type="Texture" id=13]
 [ext_resource path="res://art/medium/sprite_pit_coal_64.png" type="Texture" id=14]
+[ext_resource path="res://art/medium/pit_fire/firepit_0.png" type="Texture" id=15]
+[ext_resource path="res://art/medium/pit_fire/firepit_1.png" type="Texture" id=16]
+[ext_resource path="res://art/medium/pit_fire/firepit_2.png" type="Texture" id=17]
+[ext_resource path="res://art/medium/pit_fire/firepit_3.png" type="Texture" id=18]
+[ext_resource path="res://art/medium/pit_fire/firepit_4.png" type="Texture" id=19]
+[ext_resource path="res://art/medium/pit_fire/firepit_5.png" type="Texture" id=20]
+[ext_resource path="res://art/medium/pit_fire/firepit_6.png" type="Texture" id=21]
+[ext_resource path="res://art/medium/pit_fire/firepit_7.png" type="Texture" id=22]
+[ext_resource path="res://art/medium/pit_fire/firepit_8.png" type="Texture" id=23]
+[ext_resource path="res://art/medium/pit_earth/pit_earth_0.png" type="Texture" id=24]
+[ext_resource path="res://art/medium/pit_earth/pit_earth_1.png" type="Texture" id=25]
+[ext_resource path="res://art/medium/pit_earth/pit_earth_2.png" type="Texture" id=26]
+[ext_resource path="res://art/medium/pit_earth/pit_earth_3.png" type="Texture" id=27]
+[ext_resource path="res://art/medium/pit_earth/pit_earth_4.png" type="Texture" id=28]
+[ext_resource path="res://art/medium/pit_earth/pit_earth_5.png" type="Texture" id=29]
+[ext_resource path="res://art/medium/pit_earth/pit_earth_6.png" type="Texture" id=30]
+[ext_resource path="res://art/medium/pit_earth/pit_earth_7.png" type="Texture" id=31]
+[ext_resource path="res://art/medium/pit_earth/pit_earth_8.png" type="Texture" id=32]
 
 [node name="tiles" type="Node2D"]
 
@@ -86,5 +104,95 @@ texture = ExtResource( 13 )
 
 transform/pos = Vector2( 546.705, 336.098 )
 texture = ExtResource( 14 )
+
+[node name="pit_lava1" type="Sprite" parent="."]
+
+transform/pos = Vector2( 470.639, 438.868 )
+texture = ExtResource( 15 )
+
+[node name="pit_lava2" type="Sprite" parent="."]
+
+transform/pos = Vector2( 546.705, 442.914 )
+texture = ExtResource( 16 )
+
+[node name="pit_lava3" type="Sprite" parent="."]
+
+transform/pos = Vector2( 622.771, 445.342 )
+texture = ExtResource( 17 )
+
+[node name="pit_lava4" type="Sprite" parent="."]
+
+transform/pos = Vector2( 469.83, 512.506 )
+texture = ExtResource( 18 )
+
+[node name="pit_lava5" type="Sprite" parent="."]
+
+transform/pos = Vector2( 543.468, 514.125 )
+texture = ExtResource( 19 )
+
+[node name="pit_lava6" type="Sprite" parent="."]
+
+transform/pos = Vector2( 619.534, 515.743 )
+texture = ExtResource( 20 )
+
+[node name="pit_lava7" type="Sprite" parent="."]
+
+transform/pos = Vector2( 466.593, 588.572 )
+texture = ExtResource( 21 )
+
+[node name="pit_lava8" type="Sprite" parent="."]
+
+transform/pos = Vector2( 542.659, 587.763 )
+texture = ExtResource( 22 )
+
+[node name="pit_lava9" type="Sprite" parent="."]
+
+transform/pos = Vector2( 617.107, 591 )
+texture = ExtResource( 23 )
+
+[node name="pit_earth1" type="Sprite" parent="."]
+
+transform/pos = Vector2( 59.5593, 522.217 )
+texture = ExtResource( 24 )
+
+[node name="pit_earth2" type="Sprite" parent="."]
+
+transform/pos = Vector2( 134.816, 523.026 )
+texture = ExtResource( 25 )
+
+[node name="pit_earth3" type="Sprite" parent="."]
+
+transform/pos = Vector2( 209.264, 522.217 )
+texture = ExtResource( 26 )
+
+[node name="pit_earth4" type="Sprite" parent="."]
+
+transform/pos = Vector2( 60.3686, 603.947 )
+texture = ExtResource( 27 )
+
+[node name="pit_earth5" type="Sprite" parent="."]
+
+transform/pos = Vector2( 138.862, 601.52 )
+texture = ExtResource( 28 )
+
+[node name="pit_earth6" type="Sprite" parent="."]
+
+transform/pos = Vector2( 210.073, 595.855 )
+texture = ExtResource( 29 )
+
+[node name="pit_earth7" type="Sprite" parent="."]
+
+transform/pos = Vector2( 70.8883, 684.059 )
+texture = ExtResource( 30 )
+
+[node name="pit_earth8" type="Sprite" parent="."]
+
+transform/pos = Vector2( 149.382, 683.25 )
+texture = ExtResource( 31 )
+
+[node name="pit_earth9" type="Sprite" parent="."]
+
+transform/pos = Vector2( 227.066, 676.776 )
+texture = ExtResource( 32 )
 
 

@@ -22,7 +22,8 @@ const TILE_WALL_RIGHT = 4
 const TILE_WALL_UP = 7
 const TILE_WALL_DOWN = 6
 const GRASS_TILES = [0, 9, 10, 11]
-const PIT_TILES = [13, 14, 15]
+const PIT_TILES = [13, 14, 15, 16,17,18,19,20,21,22,23,24]
+const PLAYER_PIT_TILES = [25,26,27,28,29,30,31,32,33]
 
 
 func _ready():
@@ -41,6 +42,13 @@ func map_to_screen(pos):
 
 func get_cell_id(x, y):
 	return str(x, 'x', y)
+
+func is_wall(cell):
+	var cell_id = get_cell_id(cell.x, cell.y)
+	if wall_map.has(cell_id) and !wall_map[cell_id]:
+		return false
+	else:
+		return true
 
 func is_wall_world(pos):
 	var cell = world_to_map(pos)
@@ -172,7 +180,7 @@ func adjust_map():
 	maxY = map.get_used_rect().end.y
 	for x in range(map.get_used_rect().end.x):
 		for y in range(map.get_used_rect().end.y):
-			if !PIT_TILES.has(map.get_cell(x,y)):
+			if !PIT_TILES.has(map.get_cell(x,y)) and !PLAYER_PIT_TILES.has(map.get_cell(x,y)):
 				map.set_cellv(Vector2(x, y), get_grass_tile())
 
 			var d_map = {

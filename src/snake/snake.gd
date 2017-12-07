@@ -13,6 +13,7 @@ const SNAKE_STATE_FLASH = 2
 
 const SNAKE_CONTROLLER_INPUT = 0
 const SNAKE_CONTROLLER_AI_ASTAR = 1
+const SNAKE_CONTROLLER_AI_DQN = 2
 
 var state
 var state_id = SNAKE_STATE_NORMAL
@@ -26,7 +27,8 @@ var controller
 var controller_id
 var controller_classes = [
 	preload("controller/input.gd").new(),
-	preload("controller/ai_astar.gd").new()
+	preload("controller/ai_astar.gd").new(),
+	preload("controller/ai_dqn.gd").new()
 ]
 
 

@@ -18,9 +18,8 @@ func fromJSON(json):
     d = json.d
     w = zeros(n * d)
     dw = zeros(n * d)
-    var wa = json.w.values()
     for i in range(0, n * d):
-        w[i] = wa[i]
+        w[i] = json.w[String(i)]
 
 func maxIndex():
     var result = 0
