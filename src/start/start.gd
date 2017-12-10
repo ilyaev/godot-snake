@@ -35,6 +35,7 @@ func _process(delta):
 func _on_button_pressed():
 	print("on start")
 	get_node("/root/global").start_game()
+	# get_node("/root/global").tools()
 
 
 func _on_tbtn_start_pressed():

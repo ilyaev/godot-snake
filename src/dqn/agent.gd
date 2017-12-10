@@ -19,9 +19,6 @@ func act(slist):
     var s = Matrix(ns, 1)
     s.setFrom(slist)
     var amat = forwardQ(net, s)
-    # print('---')
-    # print("var state = ", slist)
-    # print("var actions = ", amat.w, ' - ', amat.maxIndex())
     return amat.maxIndex()
 
 func forwardQ(fnet, s):

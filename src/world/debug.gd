@@ -35,6 +35,11 @@ func _draw():
 			var pos = cellid.split('x')
 			draw_circle(map.map_to_screen(Vector2(pos[0], pos[1])), 25, Color(0,0.4,0,1))
 
+	for cellid in map.food_map:
+		if map.food_map[cellid]:
+			var pos = cellid.split(':')
+			draw_circle(map.map_to_screen(Vector2(pos[0], pos[1])), 25, Color(0,0,0.4,1))
+
 
 func _process(delta):
 	update()

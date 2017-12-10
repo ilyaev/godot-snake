@@ -1,0 +1,27 @@
+{
+ "models": [
+  {
+   "file": "Marvin",
+   "features": [
+    "1",
+    "2",
+    "9",
+    "7",
+    "3"
+   ],
+   "name": "Marvin",
+   "description": "-",
+   "brainSize": 23
+  },
+  {
+   "file": "SixTwo",
+   "features": [
+    "2",
+    "10"
+   ],
+   "name": "SixTwo",
+   "description": "-",
+   "brainSize": 38
+  }
+ ]
+}

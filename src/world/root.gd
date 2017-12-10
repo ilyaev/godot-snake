@@ -42,7 +42,7 @@ func _ready():
 	]
 
 	DQN = preload("../dqn/agent.gd").new()
-	DQN.fromJSON("res://src/aimodels/first.json")
+	DQN.fromJSON("res://src/aimodels/SixTwo")
 
 	set_state(STATE_WAITING_TO_START, self)
 
@@ -155,6 +155,10 @@ func spawn_food(snake):
 		food_y = round(rand_range(0, map.maxY - 1))
 
 	food.set_pos(map.map_to_screen(Vector2(food_x, food_y)))
+	map.clear_food_map()
+	for one in foods.get_children():
+		if one.is_in_group("food") and one.active:
+			map.add_food_to_map(one.get_pos())
 
 func game_tick():
 	if need_spawn:

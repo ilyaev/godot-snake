@@ -13,6 +13,7 @@ var wall_map = {}
 var cell_id_to_index = {}
 var astar
 var spawn_spots = []
+var food_map = {}
 
 const TILE_WALL = 1
 const TILE_GRASS = 8
@@ -36,6 +37,41 @@ func _ready():
 
 	adjust_map()
 	build_wall_map()
+
+func clear_food_map():
+	food_map.clear()
+	pass
+
+func add_food_to_map(pos):
+	var cell = world_to_map(pos)
+	var cid = String(cell.x) + ':' + String(cell.y)
+	food_map[cid] = true
+
+func remove_food_from_map(pos):
+	var cell = world_to_map(pos)
+	print('remove food - ', cell)
+	var cid = String(cell.x) + ':' + String(cell.y)
+	food_map[cid] = false
+
+func is_food_map(cell):
+	var cid = String(cell.x) + ':' + String(cell.y)
+	if food_map.has(cid):
+		return food_map[cid]
+	else:
+		return false
+
+func buildSubMap(cx, cy, drange, result):
+	var c = 0
+	for dx in range(-drange / 2, drange / 2):
+		for dy in range(-drange/2, drange / 2):
+			var v = 0
+			var cell = Vector2(cx + dx, cy + dy)
+			if is_wall(cell):
+				v = -1
+			if is_food_map(cell):
+				v = 1
+			result.append(v)
+
 
 func map_to_screen(pos):
 	return map.map_to_world(Vector2(pos.x, pos.y)) + Vector2(half_size, half_size)
@@ -120,7 +156,6 @@ func add_wall(pos):
 	if !cell_id_to_index.has(cell_id):
 		return
 	var cell_index = cell_id_to_index[cell_id]
-	#print("ADD WALL: ", cell, ' / ', cell_id, ' / ', cell_index)
 	for dx in [-1, 0, 1]:
 		for dy in [-1, 0, 1]:
 			if (dx == 0 or dy == 0) and (dx + dy) != 0:
@@ -138,7 +173,6 @@ func remove_wall(pos):
 	if !cell_id_to_index.has(cell_id) or get_cell(cell.x, cell.y) == TILE_WALL:
 		return
 	var cell_index = cell_id_to_index[cell_id]
-	#print("REMOVE WALL: ", cell, ' / ', cell_id, ' / ', cell_index, ' / ', get_cell(cell.x, cell.y), ' / ', TILE_WALL)
 	for dx in [-1, 0, 1]:
 		for dy in [-1, 0, 1]:
 			if (dx == 0 or dy == 0) and (dx + dy) != 0:

@@ -4,6 +4,7 @@ var current_scene = null
 
 const APP_STATE_START_SCREEN = 0
 const APP_STATE_PLAY = 1
+const APP_STATE_TOOLS = 2
 
 var state = APP_STATE_START_SCREEN
 
@@ -26,6 +27,10 @@ func start_game():
 func back_to_start():
 	state = APP_STATE_START_SCREEN
 	goto_scene("res://src/start/start.tscn")
+
+func tools():
+	state = APP_STATE_TOOLS
+	goto_scene("res://src/academy.tscn")
 
 func _deferred_goto_scene(path):
 	current_scene.free()
