@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://src/levels/level_base.tscn" type="PackedScene" id=1]
+
+[node name="level" instance=ExtResource( 1 )]
+
+name = "Level Two"
+
+[node name="walls" parent="."]
+
+tile_data = IntArray( 1638433, 0 )
+
+

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://src/training/base.tscn" type="PackedScene" id=1]
+
+[node name="level" instance=ExtResource( 1 )]
+
+max_food = 2
+
+[node name="walls" parent="."]
+
+tile_data = IntArray( 393222, 1, 393223, 1, 393224, 1, 393225, 1, 393226, 1, 458762, 1, 524291, 1, 524298, 1, 589827, 1, 589834, 1, 655363, 1, 655370, 1, 720899, 1, 786435, 1, 851971, 1, 851972, 1, 851973, 1, 851974, 1, 851975, 1 )
+
+[node name="map" parent="."]
+
+tile_data = IntArray( 917518, 0 )
+
+

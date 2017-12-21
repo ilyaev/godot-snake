@@ -17,6 +17,7 @@ var need_spawn = false
 var websocket
 var fruits_config_class = preload("res://src/food/config_fruits.tscn")
 var fruits_config
+var level1_class = preload("res://src/levels/level1.tscn")
 
 const STATE_WAITING_TO_START = 0
 const STATE_IN_PLAY = 1
@@ -41,13 +42,13 @@ func _ready():
 		preload("state/death_animation.gd").new()
 	]
 
+
 	DQN = preload("../dqn/agent.gd").new()
-	DQN.fromJSON("res://src/aimodels/SixTwo")
+	DQN.fromJSON("res://src/aimodels/SandD")
 
 	set_state(STATE_WAITING_TO_START, self)
-
+	load_level()
 	fruits_config = fruits_config_class.instance()
-
 	spawn_player_snake()
 	spawn_enemy_snake()
 	set_process(true)
@@ -56,6 +57,11 @@ func _ready():
 	camera.size_changed()
 	self.show_debug = false
 	#test_server()
+
+func load_level():
+	var level = level1_class.instance()
+	print(level.get_node('map').get_used_rect().end)
+	map.apply_level(level)
 
 func _on_world_resize(zoom, offset):
 	hud.rescale(zoom, offset)

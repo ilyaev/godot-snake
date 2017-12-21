@@ -64,6 +64,7 @@ func build_state():
                 if snake.map.is_wall(Vector2(pos.x + action.dx, pos.y + action.dy)):
                     flag = 1
                 result.append(flag)
+
     return result
 
 

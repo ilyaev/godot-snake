@@ -33,16 +33,19 @@ func on_scene_enter():
 			print("Error opening file")
 			return
 
-		file.store_line('const levels = ' + index.to_json())
+		file.store_line('module.exports = ' + index.to_json())
 		file.close()
 
-func export_level(map):
+func export_level(level):
+	var map = level.get_node('map')
+	var walls = level.get_node('walls')
 	maxX = map.get_used_rect().end.x
 	maxY = map.get_used_rect().end.y
 	var fileName = 'res://export/' + map.get_name() + '.json'
 	var data = {
 		maxX = maxX,
-		name = map.get_name(),
+		name = level.get_name(),
+		maxFood = level.max_food,
 		maxY = maxY,
 		walls = [],
 		pits = []
@@ -50,7 +53,7 @@ func export_level(map):
 
 	for x in range(maxX):
 		for y in range(maxY):
-			var cell_id = map.get_cell(x,y)
+			var cell_id = walls.get_cell(x,y)
 			if cell_id == TILE_WALL:
 				data.walls.append({
 					x = x,

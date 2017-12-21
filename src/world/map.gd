@@ -35,6 +35,25 @@ func _ready():
 	for layer in foreground.get_children():
 		layers.append(layer)
 
+	# adjust_map()
+	# build_wall_map()
+
+func apply_level(level):
+	var lmap = level.get_node('map')
+	var wmap = level.get_node('walls')
+	maxX = lmap.get_used_rect().end.x
+	maxY = lmap.get_used_rect().end.y
+	map.set_cell(maxX, maxY, get_grass_tile())
+	print(maxX, ',',maxY)
+	for x in range(maxX):
+		for y in range(maxY):
+			var v2 = Vector2(x, y)
+			if lmap.get_cell(x,y) != -1:
+				map.set_cellv(v2, lmap.get_cell(x,y))
+			if wmap.get_cell(x,y) != -1:
+				set_cellv(v2, wmap.get_cell(x,y))
+
+	# set_cell(5,5, TILE_WALL)
 	adjust_map()
 	build_wall_map()
 
@@ -118,6 +137,7 @@ func build_astar():
 		astar.clear()
 	else:
 		astar = AStar.new()
+	return
 
 	var existing_connections = []
 
