@@ -41,10 +41,14 @@ func _ready():
 func apply_level(level):
 	var lmap = level.get_node('map')
 	var wmap = level.get_node('walls')
+	if level.get_node('academy') and level.get_node('academy').get_children().size() > 0:
+		var alevel = level.get_node('academy').get_children()[0]
+		lmap = alevel.get_node('map')
+		wmap = alevel.get_node('walls')
 	maxX = lmap.get_used_rect().end.x
 	maxY = lmap.get_used_rect().end.y
-	map.set_cell(maxX, maxY, get_grass_tile())
-	print(maxX, ',',maxY)
+	map.set_cell(maxX - 1, maxY - 1, get_grass_tile())
+	print('Size: ', maxX, ',',maxY)
 	for x in range(maxX):
 		for y in range(maxY):
 			var v2 = Vector2(x, y)
@@ -232,6 +236,7 @@ func build_wall_map():
 func adjust_map():
 	maxX = map.get_used_rect().end.x
 	maxY = map.get_used_rect().end.y
+	print("REAL SIZE: ", maxX, ', ', maxY)
 	for x in range(map.get_used_rect().end.x):
 		for y in range(map.get_used_rect().end.y):
 			if !PIT_TILES.has(map.get_cell(x,y)) and !PLAYER_PIT_TILES.has(map.get_cell(x,y)):

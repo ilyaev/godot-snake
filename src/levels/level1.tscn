@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://src/levels/level_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/training/one.tscn" type="PackedScene" id=2]
 
 [node name="level" instance=ExtResource( 1 )]
 
@@ -13,5 +14,7 @@ tile_data = IntArray( 65544, 1, 131079, 1, 131080, 1, 131095, 1, 131096, 1, 1966
 [node name="map" parent="."]
 
 tile_data = IntArray( 0, 0, 131085, 14, 327731, 14, 524305, 13, 720898, 14, 1245227, 14, 1310773, 14, 1507345, 14, 1835028, 14, 2097154, 14, 2097180, 14, 2097187, 14, 2490416, 14, 2818077, 14, 2949179, 8 )
+
+[node name="level" parent="academy" instance=ExtResource( 2 )]
 
 

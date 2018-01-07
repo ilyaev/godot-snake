@@ -12,6 +12,6 @@ tile_data = IntArray( 131077, 1, 131078, 1, 131079, 1, 196610, 1, 196611, 1, 196
 
 [node name="map" parent="."]
 
-tile_data = IntArray( 2031647, 1 )
+tile_data = IntArray( 262157, 13, 458773, 14, 589826, 14, 2031647, 1 )
 
 

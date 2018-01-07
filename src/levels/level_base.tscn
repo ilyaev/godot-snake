@@ -52,4 +52,6 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="academy" type="Node2D" parent="."]
+
 
