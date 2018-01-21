@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=1]
+[gd_scene load_steps=35 format=1]
 
 [ext_resource path="res://art/medium/sprite_04.png" type="Texture" id=1]
 [ext_resource path="res://art/medium/sprite_11.png" type="Texture" id=2]
@@ -32,6 +32,8 @@
 [ext_resource path="res://art/medium/pit_earth/pit_earth_6.png" type="Texture" id=30]
 [ext_resource path="res://art/medium/pit_earth/pit_earth_7.png" type="Texture" id=31]
 [ext_resource path="res://art/medium/pit_earth/pit_earth_8.png" type="Texture" id=32]
+[ext_resource path="res://art/medium/lock.png" type="Texture" id=33]
+[ext_resource path="res://art/medium/unlock.png" type="Texture" id=34]
 
 [node name="tiles" type="Node2D"]
 
@@ -194,5 +196,20 @@ texture = ExtResource( 31 )
 
 transform/pos = Vector2( 227.066, 676.776 )
 texture = ExtResource( 32 )
+
+[node name="lock" type="Sprite" parent="."]
+
+transform/pos = Vector2( 333.882, 506.841 )
+texture = ExtResource( 33 )
+
+[node name="unlock" type="Sprite" parent="."]
+
+transform/pos = Vector2( 329.027, 593.427 )
+texture = ExtResource( 34 )
+
+[node name="portal" type="Sprite" parent="."]
+
+transform/pos = Vector2( 300.704, 247.894 )
+texture = ExtResource( 14 )
 
 

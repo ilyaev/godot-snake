@@ -4,8 +4,6 @@
 
 [node name="level" instance=ExtResource( 1 )]
 
-max_food = 2
-
 [node name="map" parent="."]
 
 tile_data = IntArray( 917518, 0 )

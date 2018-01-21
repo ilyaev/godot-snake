@@ -50,6 +50,7 @@ var active = false
 signal collide
 signal tail_shrink
 signal after_move
+signal next_level
 
 func _ready():
 	head.add_to_group("head")
@@ -165,6 +166,8 @@ func snake_next_command():
 
 	elif next_cell.x < 0 or next_cell.y < 0 or next_cell.x > map.maxX - 1 or next_cell.y > map.maxY - 1 or map.wall_map[map.get_cell_id(next_cell.x, next_cell.y)]:
 		snake_collide()
+	elif map.is_portal(next_cell) and !is_in_group("foe"):
+		state.next_level()
 
 	move_to_target()
 

@@ -8,7 +8,8 @@
 script/script = ExtResource( 1 )
 name = "base"
 max_food = 1
-max_enemy = 0
+max_enemy = 3
+model = "DEFAULT"
 
 [node name="walls" type="TileMap" parent="."]
 

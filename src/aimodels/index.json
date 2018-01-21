@@ -1,37 +1,24 @@
 {
  "models": [
   {
-   "file": "Marvin",
-   "features": [
-    "1",
-    "2",
-    "9",
-    "7",
-    "3"
-   ],
-   "name": "Marvin",
-   "description": "-",
-   "brainSize": 23
-  },
-  {
-   "file": "SandD",
-   "features": [
-    "10",
-    "2"
-   ],
-   "name": "SandD",
-   "description": "-",
-   "brainSize": 38
-  },
-  {
-   "file": "SixTwo",
+   "file": "DEFAULT",
    "features": [
     "2",
     "10"
    ],
-   "name": "SixTwo",
+   "name": "DEFAULT",
    "description": "-",
-   "brainSize": 38
+   "brainSize": 40
+  },
+  {
+   "file": "One32",
+   "features": [
+    "2",
+    "10"
+   ],
+   "name": "One32",
+   "description": "-",
+   "brainSize": 40
   }
  ]
 }

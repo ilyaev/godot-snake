@@ -15,6 +15,8 @@ const FEATURE_TAIL_SIZE = 7
 const FEATURE_HUNGER = 8
 const FEATURE_FULL_SCAN_6 = 10
 
+const MAX_DIST_TO_FOOD = 8
+
 const actions = [{
     dx = 0,
     dy = 1
@@ -53,11 +55,12 @@ func build_state():
             result.append(pos.x / maxX)
             result.append(pos.y / maxY)
        elif feature == FEATURE_CLOSEST_FOOD_DICRECTION:
-            result.append((food_pos.x - pos.x) / maxX)
-            result.append((food_pos.y - pos.y) / maxY)
+            result.append(1 - min(MAX_DIST_TO_FOOD,max(food_pos.x - pos.x, -1 * MAX_DIST_TO_FOOD)) / MAX_DIST_TO_FOOD)
+            result.append(1 - min(MAX_DIST_TO_FOOD,max(food_pos.y - pos.y, -1 * MAX_DIST_TO_FOOD)) / MAX_DIST_TO_FOOD)
+            result.append(1 - (food_pos.x - pos.x) / maxX)
+            result.append(1 - (food_pos.y - pos.y) / maxY)
        elif feature == FEATURE_FULL_SCAN_6:
             snake.map.buildSubMap(pos.x, pos.y, 6, result)
-            pass
        elif feature == FEATURE_VISION_CLOSE_RANGE:
             for action in actions:
                 var flag = 0
@@ -68,9 +71,34 @@ func build_state():
     return result
 
 
+func random_action():
+    var avail = []
+    var pos = snake.map.world_to_map(snake.head.get_pos())
+    for direction in actions:
+        if !snake.map.is_wall(Vector2(pos.x + direction.dx, pos.y + direction.dy)):
+            avail.append(direction)
+
+    if avail.size() > 0:
+        return avail[rand_range(0, avail.size())]
+    else:
+        return actions[0]
+
+
 func next_command():
-    var state = build_state()
-    var action = actions[DQN.act(state)]
+
+    var size = snake.tail.get_children().size()
+    var random_chance = max(2, 20 - size * size)
+    var action = actions[0]
+    var pos = snake.map.world_to_map(snake.head.get_pos())
+
+    if rand_range(0, 100) < random_chance:
+        action = random_action()
+    else:
+        var state = build_state()
+        action = actions[DQN.act(state)]
+        if snake.map.is_wall(Vector2(pos.x + action.dx, pos.y + action.dy)):
+            action = random_action()
+
     var command = Vector2(action.dx, action.dy)
     snake.set_target(command * snake.map.snake_size)
 

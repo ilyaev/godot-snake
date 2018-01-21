@@ -10,6 +10,9 @@ var timer
 func _init():
     pass
 
+func next_level():
+    snake.emit_signal('next_level')
+
 func do_on_enter(_timeout = 0, _next_state = null):
     if _timeout > 0:
         timeout = _timeout

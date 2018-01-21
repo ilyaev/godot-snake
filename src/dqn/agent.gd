@@ -37,6 +37,7 @@ func netFromJSON(j):
     return net
 
 func fromJSON(fileName):
+    print("Load DQN Model: ", fileName)
     var file = File.new()
     file.open(fileName, file.READ)
     var text = file.get_as_text()

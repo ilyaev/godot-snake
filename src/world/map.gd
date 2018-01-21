@@ -4,6 +4,7 @@ onready var foreground = get_node("/root/world/foreground")
 onready var snakes = get_node("/root/world/snakes")
 onready var layers = []
 onready var map = get_node("/root/world/map")
+onready var walls = get_node("/root/world/walls")
 
 var maxX = 0
 var maxY = 0
@@ -13,7 +14,11 @@ var wall_map = {}
 var cell_id_to_index = {}
 var astar
 var spawn_spots = []
+var spawn_spots_player = []
 var food_map = {}
+var lock_spots = []
+var unlocked = 0
+var portal_open = false
 
 const TILE_WALL = 1
 const TILE_GRASS = 8
@@ -23,8 +28,11 @@ const TILE_WALL_RIGHT = 4
 const TILE_WALL_UP = 7
 const TILE_WALL_DOWN = 6
 const GRASS_TILES = [0, 9, 10, 11]
-const PIT_TILES = [13, 14, 15, 16,17,18,19,20,21,22,23,24]
-const PLAYER_PIT_TILES = [25,26,27,28,29,30,31,32,33]
+const PIT_TILES = [14, 15, 16,17,18,19,20,21,22,23,24]
+const PLAYER_PIT_TILES = [13, 25,26,27,28,29,30,31,32,33]
+const TILE_LOCK = 34
+const TILE_UNLOCK = 35
+const TILE_PORTAL = 36
 
 
 func _ready():
@@ -35,8 +43,23 @@ func _ready():
 	for layer in foreground.get_children():
 		layers.append(layer)
 
-	# adjust_map()
-	# build_wall_map()
+func unlock_next():
+	if unlocked < lock_spots.size():
+		var lock = lock_spots[unlocked]
+		walls.set_cell(lock.x, lock.y, TILE_UNLOCK)
+		unlocked += 1
+	elif !portal_open:
+		open_portal()
+
+
+func open_portal():
+	portal_open = true
+	for spot in lock_spots:
+		walls.set_cell(spot.x, spot.y, TILE_PORTAL)
+
+
+func is_portal(cell):
+	return portal_open and walls.get_cell(cell.x, cell.y) == TILE_PORTAL
 
 func apply_level(level):
 	var lmap = level.get_node('map')
@@ -47,8 +70,11 @@ func apply_level(level):
 		wmap = alevel.get_node('walls')
 	maxX = lmap.get_used_rect().end.x
 	maxY = lmap.get_used_rect().end.y
+	map.clear()
+	walls.clear()
+	for layer in layers:
+		layer.clear()
 	map.set_cell(maxX - 1, maxY - 1, get_grass_tile())
-	print('Size: ', maxX, ',',maxY)
 	for x in range(maxX):
 		for y in range(maxY):
 			var v2 = Vector2(x, y)
@@ -60,6 +86,18 @@ func apply_level(level):
 	# set_cell(5,5, TILE_WALL)
 	adjust_map()
 	build_wall_map()
+	load_locks()
+	spawn_spots_player.clear()
+	spawn_spots.clear()
+
+func load_locks():
+	lock_spots.clear()
+	unlocked = 0
+	portal_open = false
+	for x in range(maxX):
+		for y in range(maxY):
+			if walls.get_cell(x,y) == TILE_LOCK:
+				lock_spots.append(Vector2(x,y))
 
 func clear_food_map():
 	food_map.clear()
@@ -72,7 +110,6 @@ func add_food_to_map(pos):
 
 func remove_food_from_map(pos):
 	var cell = world_to_map(pos)
-	print('remove food - ', cell)
 	var cid = String(cell.x) + ':' + String(cell.y)
 	food_map[cid] = false
 
@@ -116,6 +153,15 @@ func is_wall_world(pos):
 		return false
 	else:
 		return true
+
+func get_next_player_spawn_pos():
+	if spawn_spots_player.size() == 0:
+		for x in range(maxX):
+			for y in range(maxY):
+				if PLAYER_PIT_TILES.has(map.get_cell(x,y)):
+					spawn_spots_player.append(Vector2(x,y))
+
+	return spawn_spots_player[rand_range(0, spawn_spots_player.size())]
 
 func get_next_spawn_pos():
 	if spawn_spots.size() == 0:
@@ -230,13 +276,11 @@ func build_wall_map():
 	if !astar:
 		build_astar()
 	var run_time = OS.get_ticks_msec() -  start_time
-	print("MB: ",run_time)
 
 
 func adjust_map():
 	maxX = map.get_used_rect().end.x
 	maxY = map.get_used_rect().end.y
-	print("REAL SIZE: ", maxX, ', ', maxY)
 	for x in range(map.get_used_rect().end.x):
 		for y in range(map.get_used_rect().end.y):
 			if !PIT_TILES.has(map.get_cell(x,y)) and !PLAYER_PIT_TILES.has(map.get_cell(x,y)):

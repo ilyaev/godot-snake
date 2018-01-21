@@ -18,10 +18,20 @@ var websocket
 var fruits_config_class = preload("res://src/food/config_fruits.tscn")
 var fruits_config
 var level1_class = preload("res://src/levels/level1.tscn")
+var level2_class = preload("res://src/levels/level2.tscn")
+var current_level = false
+
+var levels = [
+	level1_class,
+	level2_class
+]
+
+var current_level_number = 0
 
 const STATE_WAITING_TO_START = 0
 const STATE_IN_PLAY = 1
 const STATE_DEATH_ANIMATION = 2
+const STATE_NEXT_LEVEL_ANIMATION = 3
 
 export var show_debug = true
 
@@ -44,10 +54,10 @@ func _ready():
 
 
 	DQN = preload("../dqn/agent.gd").new()
-	DQN.fromJSON("res://src/aimodels/SandD")
+	DQN.fromJSON("res://src/aimodels/DEFAULT")
 
 	set_state(STATE_WAITING_TO_START, self)
-	load_level()
+	load_level(levels[0].instance())
 	fruits_config = fruits_config_class.instance()
 	spawn_player_snake()
 	spawn_enemy_snake()
@@ -58,10 +68,13 @@ func _ready():
 	self.show_debug = false
 	#test_server()
 
-func load_level():
-	var level = level1_class.instance()
-	print(level.get_node('map').get_used_rect().end)
+func load_level(level = false):
+	if !level:
+		level = level1_class.instance()
+	current_level = level
 	map.apply_level(level)
+	if level.get_model():
+		DQN.fromJSON("res://src/aimodels/" + level.get_model())
 
 func _on_world_resize(zoom, offset):
 	hud.rescale(zoom, offset)
@@ -106,8 +119,14 @@ func _input(event):
 	elif event.is_action_pressed("ui_focus_next"):
 		self.show_debug = !self.show_debug
 	elif event.is_action_pressed("ui_accept"):
-		spawn_enemy_snake()
+		spawn_enemy_snake(true)
 
+func snake_next_level():
+	print("ROOT: NExt LEvel")
+	current_level_number += 1
+	if current_level_number >= levels.size():
+		current_level_number = 0
+	load_level(levels[current_level_number].instance())
 
 func spawn_player_snake():
 	snake = snake_class.instance()
@@ -115,17 +134,20 @@ func spawn_player_snake():
 	snake.set_controller(snake.SNAKE_CONTROLLER_INPUT)
 	snake.connect("collide", self, "snake_collide", [snake])
 	snake.connect("after_move", self, "game_tick")
+	snake.connect("next_level", self, "snake_next_level")
 	snakes.add_child(snake)
-	snake.relocate(map.map_to_screen(Vector2(2, 2)))
+	snake.relocate(map.map_to_screen(map.get_next_player_spawn_pos()))
 	snake.spawn_food()
 	map.add_wall(snake.head.get_pos())
 
-func spawn_enemy_snake():
+func spawn_enemy_snake(ignore_max = false):
+	if !ignore_max and snakes.get_children().size() >= current_level.get_max_enemy() + 1:
+		return
 	var foe = snake_class.instance()
 	# foe.set_controller(snake.SNAKE_CONTROLLER_AI_ASTAR)
 	foe.set_controller(snake.SNAKE_CONTROLLER_AI_DQN)
 	foe.controller.initialize([DQN])
-	foe.speed = rand_range(5, 50) / 100
+	foe.speed = rand_range(10, 10) / 100
 	foe.add_to_group("foe")
 	foe.id = next_id()
 	snakes.add_child(foe)
@@ -195,6 +217,7 @@ func _process(delta):
 
 func _on_snake_spawn_timer_timeout():
 	get_node("snake_spawn_timer").set_wait_time(2)
+	map.unlock_next()
 	need_spawn = true
 
 func add_explode(pos, delay):
