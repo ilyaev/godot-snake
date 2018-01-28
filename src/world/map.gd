@@ -44,12 +44,24 @@ func _ready():
 		layers.append(layer)
 
 func unlock_next():
+	var result = Vector2(-1,-1)
 	if unlocked < lock_spots.size():
 		var lock = lock_spots[unlocked]
-		walls.set_cell(lock.x, lock.y, TILE_UNLOCK)
-		unlocked += 1
-	elif !portal_open:
+		# walls.set_cell(lock.x, lock.y, TILE_UNLOCK)
+		# unlocked += 1
+		result = map_to_screen(Vector2(lock.x, lock.y))
+	# if unlocked >= lock_spots.size() and !portal_open:
+	# 	open_portal()
+	return result
+
+func do_unlock_next(pos):
+	var cell = world_to_map(pos)
+	var lock = lock_spots[unlocked]
+	walls.set_cell(lock.x, lock.y, TILE_UNLOCK)
+	unlocked += 1
+	if unlocked >= lock_spots.size() and !portal_open:
 		open_portal()
+
 
 
 func open_portal():

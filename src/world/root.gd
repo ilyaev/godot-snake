@@ -109,13 +109,7 @@ func _input(event):
 	elif event.is_action_pressed("ui_down"):
 		ui_command('down')
 	elif event.is_action_pressed("ui_select"):
-		#get_tree().set_pause(true)
-		#get_node("/root/global").back_to_start()
-		if snake.state_id != snake.SNAKE_STATE_FLASH:
-			#snake.set_state(snake.SNAKE_STATE_INVINCIBLE)
-			snake.set_state(snake.SNAKE_STATE_FLASH)
-		else:
-			snake.set_state(snake.SNAKE_STATE_NORMAL)
+		do_debug_action()
 	elif event.is_action_pressed("ui_focus_next"):
 		self.show_debug = !self.show_debug
 	elif event.is_action_pressed("ui_accept"):
@@ -147,7 +141,7 @@ func spawn_enemy_snake(ignore_max = false):
 	# foe.set_controller(snake.SNAKE_CONTROLLER_AI_ASTAR)
 	foe.set_controller(snake.SNAKE_CONTROLLER_AI_DQN)
 	foe.controller.initialize([DQN])
-	foe.speed = rand_range(10, 10) / 100
+	# foe.speed = rand_range(10, 10) / 100
 	foe.add_to_group("foe")
 	foe.id = next_id()
 	snakes.add_child(foe)
@@ -161,17 +155,19 @@ func spawn_enemy_snake(ignore_max = false):
 func spawn_food(snake):
 	var fruit_index = rand_range(0, fruits_config.get_children().size())
 	var fruit = fruits_config.get_children()[fruit_index]
-	# print("FRUIT - ", fruit, ' / ', fruit.state, ' / ', fruit.state_duration, ' / ', fruit.type)
+	if !snake:
+		fruit = fruits_config.get_node('key')
 	var food = food_class.instance()
 	food.add_to_group("food")
 	foods.add_child(food)
 	food.set_texture(fruit.get_texture())
 	food.experience = fruit.experience
-	food.snake = snake
 	food.effect_type = fruit.type
 	food.effect_state = fruit.state
 	food.effect_duration = fruit.state_duration
-	snake.food = food
+	if snake:
+		food.snake = snake
+		snake.food = food
 
 	randomize()
 
@@ -183,6 +179,10 @@ func spawn_food(snake):
 		food_y = round(rand_range(0, map.maxY - 1))
 
 	food.set_pos(map.map_to_screen(Vector2(food_x, food_y)))
+
+	if fruit.type == 'Key':
+		state.spawn_key_animation(food.get_pos())
+
 	map.clear_food_map()
 	for one in foods.get_children():
 		if one.is_in_group("food") and one.active:
@@ -217,7 +217,6 @@ func _process(delta):
 
 func _on_snake_spawn_timer_timeout():
 	get_node("snake_spawn_timer").set_wait_time(2)
-	map.unlock_next()
 	need_spawn = true
 
 func add_explode(pos, delay):
@@ -272,3 +271,11 @@ func restart_player():
 
 func _on_tween_tween_complete( object, key ):
 	set_state(STATE_WAITING_TO_START, self)
+
+
+
+func do_debug_action():
+	if snake.state_id != snake.SNAKE_STATE_INVINCIBLE:
+		snake.set_state(snake.SNAKE_STATE_INVINCIBLE)
+	else:
+		snake.set_state(snake.SNAKE_STATE_NORMAL)

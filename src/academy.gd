@@ -15,8 +15,8 @@ const TILE_WALL_RIGHT = 4
 const TILE_WALL_UP = 7
 const TILE_WALL_DOWN = 6
 const GRASS_TILES = [0, 9, 10, 11]
-const PIT_TILES = [13, 14, 15, 16,17,18,19,20,21,22,23,24]
-const PLAYER_PIT_TILES = [25,26,27,28,29,30,31,32,33]
+const PIT_TILES = [13, 14, 15, 16,17,18,19,20,21,22,23,24,14]
+const PLAYER_PIT_TILES = [25,26,27,28,29,30,31,32,33,13]
 
 var index = {
 	levels = []
@@ -46,6 +46,7 @@ func export_level(level):
 		maxX = maxX,
 		name = level.get_name(),
 		maxFood = level.max_food,
+		maxRival = level.max_enemy,
 		maxY = maxY,
 		walls = [],
 		pits = []
@@ -54,12 +55,13 @@ func export_level(level):
 	for x in range(maxX):
 		for y in range(maxY):
 			var cell_id = walls.get_cell(x,y)
+			var map_id = map.get_cell(x,y)
 			if cell_id == TILE_WALL:
 				data.walls.append({
 					x = x,
 					y = y
 				})
-			if PLAYER_PIT_TILES.has(cell_id) or PIT_TILES.has(cell_id):
+			if PLAYER_PIT_TILES.has(map_id) or PIT_TILES.has(map_id):
 				data.pits.append({
 					x = x,
 					y = y

@@ -34,6 +34,8 @@ var controller_classes = [
 
 var score = 0
 var speed = 0.2
+var start_speed = 0.2
+var speed_rate = 0.007
 var old_speed = 0
 
 var current_direction = Vector2(0,0)
@@ -60,6 +62,7 @@ func _ready():
 	if is_in_group("foe"):
 		head.set_texture(world.enemy_head_texture)
 	animation.play("show")
+	set_speed(start_speed)
 	if !is_in_group("foe"):
 		set_state(SNAKE_STATE_INVINCIBLE, 3)
 	else:
@@ -97,6 +100,7 @@ func is_moving():
 func next_move():
 	if !active:
 		return
+
 	head.get_node("sprite").set_flip_h(head.target_direction.x < 0)
 	head.set_rot(0)
 
@@ -142,11 +146,8 @@ func snake_next_command():
 
 	for one_food in foods.get_children():
 		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()):
-			score += one_food.experience
-			doGrow()
-			state.eat_food()
-			if one_food and one_food.snake:
-				spawn_food_by_snake(one_food.snake)
+			state.eat_food(one_food)
+
 
 	var next_cell = map.world_to_map(head.get_pos() + head.target_direction)
 	var head_snakes = world.check_heads(self)
@@ -185,17 +186,17 @@ func snake_next_command():
 
 
 
-func spawn_food_by_snake(snake):
-	if !snake or snake == null or !weakref(snake).get_ref() or !world.snakes.get_children().has(snake) or !snake.active or !snake.has_method("spawn_food"):
+func spawn_food_by_snake(food_snake):
+	if !food_snake or food_snake == null or !weakref(food_snake).get_ref() or !world.snakes.get_children().has(food_snake) or !food_snake.active or !food_snake.has_method("spawn_food"):
 		return
 
-	snake.spawn_food()
+	food_snake.spawn_food()
 
-	if snake == self:
-		snake.controller.new_food_arrived()
+	if food_snake == self:
+		self.controller.new_food_arrived()
 	else:
-		snake.controller.new_food_arrived_deferred()
-		snake.need_shrink = true
+		food_snake.controller.new_food_arrived_deferred()
+		food_snake.need_shrink = true
 
 
 func snake_collide():
@@ -235,7 +236,6 @@ func doShrink():
 
 func doGrow():
 	var one = world.body_class.instance()
-	one.speed = speed
 	var last = head
 
 	if tail.get_child_count() > 0:
@@ -262,6 +262,8 @@ func next_command():
 
 func destroy():
 	state.destroy()
+	if is_in_group("foe"):
+		world.spawn_food(false)
 
 
 func deactivate():
@@ -279,7 +281,7 @@ func ready_to_start():
 
 
 func set_speed(new_speed):
-	speed = new_speed
+	speed = max(new_speed, 0.01)
 	head.speed = speed
 	for one in tail.get_children():
 		one.speed = speed

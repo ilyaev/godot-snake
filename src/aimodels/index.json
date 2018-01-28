@@ -1,6 +1,16 @@
 {
  "models": [
   {
+   "file": "12",
+   "features": [
+    "2",
+    "12"
+   ],
+   "name": "12",
+   "description": "-",
+   "brainSize": 148
+  },
+  {
    "file": "DEFAULT",
    "features": [
     "2",
@@ -11,12 +21,42 @@
    "brainSize": 40
   },
   {
+   "file": "Odin",
+   "features": [
+    "2",
+    "10"
+   ],
+   "name": "Odin",
+   "description": "-",
+   "brainSize": 40
+  },
+  {
    "file": "One32",
    "features": [
     "2",
     "10"
    ],
    "name": "One32",
+   "description": "-",
+   "brainSize": 40
+  },
+  {
+   "file": "OneA",
+   "features": [
+    "2",
+    "12"
+   ],
+   "name": "OneA",
+   "description": "-",
+   "brainSize": 148
+  },
+  {
+   "file": "OneM",
+   "features": [
+    "2",
+    "10"
+   ],
+   "name": "OneM",
    "description": "-",
    "brainSize": 40
   }

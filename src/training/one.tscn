@@ -4,7 +4,7 @@
 
 [node name="level" instance=ExtResource( 1 )]
 
-model = "One32"
+model = "Odin"
 
 [node name="walls" parent="."]
 

@@ -110,6 +110,23 @@ func doShrink():
         snake.state.proxy_emit_signal("tail_shrink", pos)
 
 
-func eat_food():
-    if snake.food.effect_state > 0 and snake.state_id != snake.food.effect_state:
-        snake.set_state(snake.food.effect_state, snake.food.effect_duration)
+func eat_food(one_food):
+    snake.score += one_food.experience
+    snake.doGrow()
+
+    if one_food and one_food.snake:
+        snake.spawn_food_by_snake(one_food.snake)
+    else:
+        one_food.destroy()
+
+    if one_food.effect_state > 0 and snake.state_id != one_food.effect_state:
+        snake.set_state(one_food.effect_state, one_food.effect_duration)
+
+    snake.set_speed(snake.start_speed - snake.speed_rate * snake.get_size())
+
+    if !snake.is_in_group('foe') and one_food.effect_type == 'Key':
+        var lock_pos = snake.map.unlock_next()
+        if lock_pos.x != -1:
+            snake.world.state.play_unlock_one_animation(lock_pos)
+
+

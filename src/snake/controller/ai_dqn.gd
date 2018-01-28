@@ -14,6 +14,7 @@ const FEATURE_VISION_MID_RANGE = 6
 const FEATURE_TAIL_SIZE = 7
 const FEATURE_HUNGER = 8
 const FEATURE_FULL_SCAN_6 = 10
+const FEATURE_FULL_SCAN_12 = 12
 
 const MAX_DIST_TO_FOOD = 8
 
@@ -61,6 +62,8 @@ func build_state():
             result.append(1 - (food_pos.y - pos.y) / maxY)
        elif feature == FEATURE_FULL_SCAN_6:
             snake.map.buildSubMap(pos.x, pos.y, 6, result)
+       elif feature == FEATURE_FULL_SCAN_12:
+            snake.map.buildSubMap(pos.x, pos.y, 12, result)
        elif feature == FEATURE_VISION_CLOSE_RANGE:
             for action in actions:
                 var flag = 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=1]
+[gd_scene load_steps=32 format=1]
 
 [ext_resource path="res://art/big/fruits/banana_small.png" type="Texture" id=1]
 [ext_resource path="res://src/food/config-fruit-item.gd" type="Script" id=2]
@@ -30,6 +30,7 @@
 [ext_resource path="res://art/spice/alchemy (8).png" type="Texture" id=28]
 [ext_resource path="res://art/spice/alchemy (9).png" type="Texture" id=29]
 [ext_resource path="res://art/spice/alchemy (10).png" type="Texture" id=30]
+[ext_resource path="res://art/medium/key_medium.png" type="Texture" id=31]
 
 [node name="config_fruits" type="Node2D"]
 
@@ -382,6 +383,18 @@ script/script = ExtResource( 2 )
 experience = -100
 rarity = 1
 type = "Spice"
+state = 0
+state_duration = -1
+
+[node name="key" type="Sprite" parent="."]
+
+transform/pos = Vector2( 208.05, 1058.35 )
+texture = ExtResource( 31 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 2 )
+experience = 1000
+rarity = 1
+type = "Key"
 state = 0
 state_duration = -1
 
