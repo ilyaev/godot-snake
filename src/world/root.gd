@@ -49,7 +49,8 @@ func _ready():
 	states_classes = [
 		preload("state/waiting_to_start.gd").new(),
 		preload("state/in_play.gd").new(),
-		preload("state/death_animation.gd").new()
+		preload("state/death_animation.gd").new(),
+		preload("state/next_level_animation.gd").new()
 	]
 
 
@@ -71,10 +72,15 @@ func _ready():
 func load_level(level = false):
 	if !level:
 		level = level1_class.instance()
-	current_level = level
-	map.apply_level(level)
-	if level.get_model():
-		DQN.fromJSON("res://src/aimodels/" + level.get_model())
+
+	if current_level:
+		current_level = level
+		set_state(STATE_NEXT_LEVEL_ANIMATION, self)
+	else:
+		current_level = level
+		map.apply_level(level)
+		if level.get_model():
+			DQN.fromJSON("res://src/aimodels/" + level.get_model())
 
 func _on_world_resize(zoom, offset):
 	hud.rescale(zoom, offset)
@@ -268,6 +274,20 @@ func restart_player():
 	spawn_player_snake()
 	direction.x = 0
 	direction.y = 0
+
+func destroy_all():
+	for one in snakes.get_children():
+		one.queue_free()
+	snake = false
+	direction.x = 0
+	direction.y = 0
+	map.clear_food_map()
+	for one in foods.get_children():
+		one.queue_free()
+
+func restart_all():
+	spawn_player_snake()
+	spawn_enemy_snake()
 
 func _on_tween_tween_complete( object, key ):
 	set_state(STATE_WAITING_TO_START, self)

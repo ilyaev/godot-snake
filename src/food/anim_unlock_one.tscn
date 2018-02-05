@@ -3,7 +3,7 @@
 [ext_resource path="res://src/food/anim_unlock_one.gd" type="Script" id=1]
 [ext_resource path="res://art/medium/key_medium.png" type="Texture" id=2]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 
 resource/name = "appear"
 length = 0.5
@@ -14,37 +14,56 @@ tracks/0/path = NodePath("Sprite:transform/scale")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.25, 0.5 ),
-"transitions": FloatArray( 1, 1, 1 ),
+"times": FloatArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.4, 0.5 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.5, 0.5 ), Vector2( 2, 2 ), Vector2( 0.5, 0.5 ) ]
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 0.8, 0.8 ), Vector2( 1.1, 1.1 ), Vector2( 1.4, 1.4 ), Vector2( 1.7, 1.7 ), Vector2( 2, 2 ), Vector2( 1.1, 1.1 ), Vector2( 0.5, 0.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:transform/rot")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0.05, 0.1, 0.15, 0.2, 0.25, 0.4, 0.5 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 360.0, 360.0, 360.0, 360.0, 360.0, 360.0, 360.0 ]
 }
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=2]
 
-resource/name = "fly"
 length = 0.5
 loop = false
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:transform/rot")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.5 ),
-"transitions": FloatArray( 1, 1 ),
+"times": FloatArray( 0, 0.1, 0.3, 0.4, 0.5 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 360.0 ]
+"values": [ 0.0, 54.72, 210.78, 295.144, 360.0 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:transform/scale")
-tracks/1/interp = 1
+tracks/1/interp = 2
 tracks/1/imported = false
 tracks/1/keys = {
-"times": FloatArray( 0, 0.3, 0.5 ),
-"transitions": FloatArray( 1, 1, 1 ),
+"times": FloatArray( 0, 0.1, 0.3, 0.4, 0.5 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ), Vector2( 0.5, 0.5 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1.35185, 1.35185 ), Vector2( 2, 2 ), Vector2( 1.29051, 1.29051 ), Vector2( 0.5, 0.5 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:modulate")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0, 0.5 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.882812, 0.124146, 0.124146, 1 ) ]
 }
 
 [node name="seq" type="Area2D"]
@@ -58,17 +77,19 @@ script/script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 
+transform/pos = Vector2( 1.98849, -7.29095 )
 transform/rot = 360.0
 transform/scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
+modulate = Color( 0.882812, 0.124146, 0.124146, 1 )
 
 [node name="animation" type="AnimationPlayer" parent="."]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/appear = SubResource( 2 )
-anims/fly = SubResource( 1 )
+anims/appear = SubResource( 1 )
+anims/fly = SubResource( 2 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]

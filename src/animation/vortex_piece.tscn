@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=1]
+
+[sub_resource type="Curve2D" id=1]
+
+bake_interval = 5.0
+_data = {
+"points": Vector2Array( 0, 0, 0, 0, -80.4913, -368.347, -118.689, -49.4098, 30.9263, 15.2908, 209.894, -340.548, 8.75183, -50.7606, 35.0073, -7.00146, 343.817, -131.175, 103.839, -112.351, -81.4323, 65.6908, 296.661, 275.311, 98.1859, -4.80095, -94.5197, 3.50073, 24.0991, 378.111, 0, 0, -42.0088, 5.2511, -204.136, 263.993, 0, 0, -10.5022, -31.5066, -325.799, 57.4496, -49.0102, 42.0088, 31.5066, -40.2584, -257.163, -188.182, -78.7664, 0, 29.7562, 0, -29.6158, -238.943, -21.0044, -50.7606, 26.2555, 71.765, 147.171, -104.165, 47.2599, -8.75183, -59.5124, 57.7621, 143.876, 189.487, 0, 0, -54.2613, -19.254, -90.3564, 197.032, 0, 0, 12.2526, -70.0146, -147.549, 51.7909, 0, 0, 0, 0, -53.7527, -88.7306, -7.24932, -41.4247, 14.4986, 31.0685, 76.7351, -23.4867, 44.5316, -33.1398, -43.4959, 37.2822, 73.6283, 125.642, 0, 0, -49.7097, -41.4247, -49.6102, 109.072, -1.03562, 15.5343, 0, 0, -4.04309, -2.77429 )
+}
+
+[sub_resource type="Animation" id=2]
+
+resource/name = "move"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:unit_offset")
+tracks/0/interp = 2
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 1 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/opacity")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0.8, 1 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:transform/scale")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0.6, 1 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.2, 0.2 ) ]
+}
+
+[node name="vortex_piece" type="Node2D"]
+
+[node name="path" type="Path2D" parent="."]
+
+curve = SubResource( 1 )
+
+[node name="follow" type="PathFollow2D" parent="path"]
+
+visibility/opacity = 0.0
+transform/pos = Vector2( -80.4913, -368.347 )
+transform/rot = 6.48688
+transform/scale = Vector2( 0.2, 0.2 )
+offset = 3969.12
+h_offset = 0.0
+v_offset = 0.0
+rotate = true
+cubic_interp = true
+loop = true
+lookahead = 4.0
+
+[node name="animation" type="AnimationPlayer" parent="path/follow"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/move = SubResource( 2 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+

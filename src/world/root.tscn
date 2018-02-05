@@ -55,6 +55,7 @@ autostart = true
 
 [node name="debug" type="Node2D" parent="."]
 
+z/z = 100
 script/script = ExtResource( 3 )
 
 [node name="foreground" type="TileMap" parent="."]

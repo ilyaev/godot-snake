@@ -15,7 +15,7 @@ func do_on_enter(_timeout = 0, _next_state = null):
 
     old_speed = snake.speed
 
-    set_speed(snake.speed / 3)
+    set_speed(snake.speed / 2)
 
 func on_exit_state():
     set_speed(old_speed)

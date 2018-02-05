@@ -11,8 +11,9 @@ var state = APP_STATE_START_SCREEN
 func _ready():
 	var root = get_tree().get_root()
 	current_scene = root.get_child( root.get_child_count() -1 )
-	current_scene.on_scene_enter()
-	print("Current sc", current_scene)
+	if current_scene.has_method("on_scene_enter"):
+		current_scene.on_scene_enter()
+		print("Current sc", current_scene)
 
 func goto_scene(path):
 	call_deferred("_deferred_goto_scene",path)

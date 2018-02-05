@@ -68,6 +68,9 @@ func is_moving():
 func set_texture(texture):
 	get_node("sprite").set_texture(texture)
 
+func get_texture():
+	return get_node("sprite").get_texture()
+
 func deactivate():
 	active = false
 

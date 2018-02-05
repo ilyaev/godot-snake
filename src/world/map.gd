@@ -71,7 +71,8 @@ func open_portal():
 
 
 func is_portal(cell):
-	return portal_open and walls.get_cell(cell.x, cell.y) == TILE_PORTAL
+	return walls.get_cell(cell.x, cell.y) == TILE_LOCK
+	# return portal_open and walls.get_cell(cell.x, cell.y) == TILE_PORTAL
 
 func apply_level(level):
 	var lmap = level.get_node('map')
@@ -84,6 +85,7 @@ func apply_level(level):
 	maxY = lmap.get_used_rect().end.y
 	map.clear()
 	walls.clear()
+	wall_map.clear()
 	for layer in layers:
 		layer.clear()
 	map.set_cell(maxX - 1, maxY - 1, get_grass_tile())

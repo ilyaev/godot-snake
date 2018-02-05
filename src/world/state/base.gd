@@ -18,14 +18,14 @@ func ui_command(cmd):
 func play_unlock_one_animation(fly_to_pos):
     var anim = anim_unlock_one.instance()
     anim.set_pos(scene.snake.head.get_pos())
-    scene.add_child(anim)
+    scene.get_node('debug').add_child(anim)
     anim.fly_to(fly_to_pos)
 
 func spawn_key_animation(pos):
     var anim = anim_unlock_one.instance()
     anim.do_unlock = false
     anim.set_pos(pos)
-    scene.add_child(anim)
+    scene.get_node('debug').add_child(anim)
     anim.fly_to(pos)
 
 func process(delta):
