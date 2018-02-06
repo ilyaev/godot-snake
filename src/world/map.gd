@@ -27,6 +27,7 @@ const TILE_WALL_LEFT = 5
 const TILE_WALL_RIGHT = 4
 const TILE_WALL_UP = 7
 const TILE_WALL_DOWN = 6
+const TILE_WALLS = [TILE_WALL, TILE_WALL_LEFT, TILE_WALL_RIGHT,TILE_WALL_UP,TILE_WALL_DOWN]
 const GRASS_TILES = [0, 9, 10, 11]
 const PIT_TILES = [14, 15, 16,17,18,19,20,21,22,23,24]
 const PLAYER_PIT_TILES = [13, 25,26,27,28,29,30,31,32,33]
@@ -112,6 +113,22 @@ func load_locks():
 		for y in range(maxY):
 			if walls.get_cell(x,y) == TILE_LOCK:
 				lock_spots.append(Vector2(x,y))
+
+func get_walls():
+	var result = []
+	for x in range(maxX):
+		for y in range(maxY):
+			if walls.get_cell(x,y) == TILE_WALL:
+				result.append(map_to_screen(Vector2(x,y )))
+				walls.set_cell(x,y, TILE_GRASS)
+			for layer in layers:
+				if TILE_WALLS.has(layer.get_cell(x,y)):
+					layer.set_cell(x,y, TILE_GRASS)
+	return result
+
+
+func get_screen_height():
+	return maxY * snake_size
 
 func clear_food_map():
 	food_map.clear()

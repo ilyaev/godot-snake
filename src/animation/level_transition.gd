@@ -3,7 +3,9 @@ extends Node2D
 
 onready var vortex = get_node('vortex')
 onready var bits = get_node('bits')
+onready var walls = get_node('walls')
 onready var piece_class = preload('res://src/animation/vortex_piece.tscn')
+var wall_texture = preload("res://art/medium/sprite_11.png")
 
 var target_positions = []
 var tweens = []
@@ -32,7 +34,16 @@ func build():
 		timer.start()
 		add_child(timer)
 		index = index + 1
+	for wall in walls.get_children():
+		var tween = Tween.new()
+		tween.interpolate_property(wall, "transform/pos", wall.get_pos(), Vector2(wall.get_pos().x,  scene.map.get_screen_height()), randf() * 3 + 2, Tween.TRANS_BOUNCE, Tween.EASE_OUT_IN)
+		tween.connect('tween_complete', self, "on_wall_tween_complete", [index, wall, tween])
+		add_child(tween)
+		tween.start()
 	pass
+
+func on_wall_tween_complete(obj, key, index,one,tween):
+	remove_child(tween)
 
 func do_proceed(index, timer):
 	remove_child(timer)
@@ -42,6 +53,11 @@ func do_proceed(index, timer):
 	tween.connect('tween_complete', self, "on_tween_complete_pre", [index, one, tween])
 	add_child(tween)
 	tween.start()
+
+	# var stween = Tween.new()
+	# stween.interpolate_property(one, "transform/scale", Vector2(0.2, 0.2), Vector2(1,1), 2 + randf(), Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+	# add_child(stween)
+	# stween.start()
 
 func do_proceed_next(index, timer):
 	remove_child(timer)
@@ -57,7 +73,7 @@ func on_tween_complete_pre(obj, key, index, one, pretween):
 	var timer = Timer.new()
 	timer.set_one_shot(true)
 	timer.connect("timeout", self, "do_proceed_next", [index, timer])
-	timer.set_wait_time(randf() * 0.5)
+	timer.set_wait_time(randf() * 1)
 	timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
 	timer.start()
 	add_child(timer)
@@ -73,7 +89,6 @@ func on_tween_complete(obj, key, index, one, tween):
 	var anim = follow.get_node('path/follow/animation')
 	anim.connect("finished", self, "on_animation_end", [index, follow])
 	anim.connect("animation_started", self, "on_animation_start", [one])
-
 	anim.play('move')
 	vortex.add_child(follow)
 
@@ -91,12 +106,25 @@ func apply_scene():
 		bits.remove_child(bit)
 
 	for snake in scene.snakes.get_children():
+		snake.active = false
 		var sprite = snake.head.get_node("sprite")
 		sprite.get_owner().remove_child(sprite)
-		sprite.set_pos(snake.head.get_pos())
+		sprite.set_pos(snake.head.get_pos() - get_pos())
 		bits.add_child(sprite)
 		for body in snake.tail.get_children():
 			var sprite = body.get_node("sprite")
 			sprite.get_owner().remove_child(sprite)
-			sprite.set_pos(body.get_pos())
+			sprite.set_pos(body.get_pos() - get_pos())
 			bits.add_child(sprite)
+
+	for food in scene.foods.get_children():
+		var sprite = food.get_node("sprite")
+		sprite.get_owner().remove_child(sprite)
+		sprite.set_pos(food.get_pos() - get_pos())
+		bits.add_child(sprite)
+
+	for wall in scene.map.get_walls():
+		var sprite = Sprite.new()
+		sprite.set_texture(wall_texture)
+		sprite.set_pos(wall - get_pos())
+		walls.add_child(sprite)

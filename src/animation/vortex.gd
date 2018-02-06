@@ -18,10 +18,11 @@ func init_target_positions(bcount):
 	var index = 0
 	var points = curve.tesselate(1)
 	var keys = float(points.size())
-	target_positions = []
-	var step = keys / bcount
-	for index in range(0, bcount):
-		var point = points[int(round(index * step))]
-		index = index + 1
-		target_positions.append(point)
+	target_positions = [points[0]]
 	return target_positions
+	# var step = keys / bcount
+	# for index in range(0, bcount):
+	# 	var point = points[int(round(index * step))]
+	# 	index = index + 1
+	# 	target_positions.append(point)
+	# return target_positions
