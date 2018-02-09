@@ -34,6 +34,7 @@ const PLAYER_PIT_TILES = [13, 25,26,27,28,29,30,31,32,33]
 const TILE_LOCK = 34
 const TILE_UNLOCK = 35
 const TILE_PORTAL = 36
+const TILE_LOCKS = [TILE_LOCK, TILE_UNLOCK, TILE_PORTAL]
 
 
 func _ready():
@@ -124,6 +125,14 @@ func get_walls():
 			for layer in layers:
 				if TILE_WALLS.has(layer.get_cell(x,y)):
 					layer.set_cell(x,y, TILE_GRASS)
+	return result
+
+func get_bits():
+	var result = []
+	for x in range(maxX):
+		for y in range(maxY):
+			if PIT_TILES.has(map.get_cell(x,y)) or PLAYER_PIT_TILES.has(map.get_cell(x,y)) or TILE_LOCKS.has(walls.get_cell(x,y)):
+				result.append(map_to_screen(Vector2(x,y )))
 	return result
 
 

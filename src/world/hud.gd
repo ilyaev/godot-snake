@@ -3,6 +3,7 @@ extends CanvasLayer
 onready var ui = get_node("ui")
 onready var world = get_node("/root/world")
 onready var label_score = get_node("ui/top_right/score")
+onready var label_lifes = get_node("ui/top_right/lifes")
 onready var label_experience = get_node("ui/top_left/score")
 onready var score_animation = get_node("ui/top_right/animation")
 onready var bottom_left = get_node("ui/bottom_left")
@@ -20,6 +21,7 @@ var experience = "0"
 func _ready():
 	original_height = ui.get_size().y
 	label_score.set_text("2")
+	label_lifes.set_text("3")
 	hidable = [
 		{
 			'component': bottom_left,
@@ -50,6 +52,10 @@ func rescale(zoom, offset):
 	ui.set_scale(Vector2(1,1) / zoom)
 	ui.set_pos((offset / zoom) * -1)
 
+func set_lifes(lifes):
+	print("NEWF" , lifes)
+	label_lifes.set_text(lifes)
+
 func update_score(new_score, new_experience):
 	if new_score == score and new_experience == experience:
 		return
@@ -58,6 +64,8 @@ func update_score(new_score, new_experience):
 	experience = new_experience
 	label_score.set_text(score)
 	label_experience.set_text(experience)
+
+
 
 
 func update_player_position(pos, offset,map_pos, maxX, maxY):

@@ -27,6 +27,7 @@ var levels = [
 ]
 
 var current_level_number = 0
+var session_lifes = 3
 
 const STATE_WAITING_TO_START = 0
 const STATE_IN_PLAY = 1
@@ -199,6 +200,7 @@ func game_tick():
 		need_spawn = false
 		spawn_enemy_snake()
 	hud.update_score(String(1 + snake.tail.get_children().size()), String(snake.score))
+	hud.set_lifes(String(session_lifes))
 	hud.update_player_position(snake.head.get_pos(), camera.get_offset(), map.world_to_map(snake.head.get_pos()), map.maxX, map.maxY)
 
 func next_id():

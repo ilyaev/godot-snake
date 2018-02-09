@@ -12,6 +12,7 @@ var tweens = []
 var allbits = []
 var finished = 0
 var scene
+var old_pos
 
 signal finished
 
@@ -19,8 +20,14 @@ func _ready():
 	apply_scene()
 	vortex.init_target_positions(bits.get_children().size() * 4)
 	build()
+	old_pos = bits.get_pos()
+	set_process(true)
 	pass
 
+
+func _process(delta):
+	bits.set_pos(old_pos + Vector2(rand_range(0,16) - 8, 0))
+	pass
 
 func build():
 	var index = 0
@@ -49,15 +56,10 @@ func do_proceed(index, timer):
 	remove_child(timer)
 	var tween = Tween.new()
 	var one = allbits[index]
-	tween.interpolate_property(one, "transform/pos", one.get_pos(), one.get_pos() - Vector2(0,  rand_range(100, 300)), 1, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	tween.interpolate_property(one, "transform/pos", one.get_pos(), one.get_pos() - Vector2(0,  rand_range(100, 300)), 2, Tween.TRANS_SINE, Tween.EASE_OUT)
 	tween.connect('tween_complete', self, "on_tween_complete_pre", [index, one, tween])
 	add_child(tween)
 	tween.start()
-
-	# var stween = Tween.new()
-	# stween.interpolate_property(one, "transform/scale", Vector2(0.2, 0.2), Vector2(1,1), 2 + randf(), Tween.TRANS_ELASTIC, Tween.EASE_OUT)
-	# add_child(stween)
-	# stween.start()
 
 func do_proceed_next(index, timer):
 	remove_child(timer)
@@ -73,7 +75,7 @@ func on_tween_complete_pre(obj, key, index, one, pretween):
 	var timer = Timer.new()
 	timer.set_one_shot(true)
 	timer.connect("timeout", self, "do_proceed_next", [index, timer])
-	timer.set_wait_time(randf() * 1)
+	timer.set_wait_time(randf() * 2)
 	timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
 	timer.start()
 	add_child(timer)
@@ -128,3 +130,20 @@ func apply_scene():
 		sprite.set_texture(wall_texture)
 		sprite.set_pos(wall - get_pos())
 		walls.add_child(sprite)
+
+	for pit in scene.map.get_bits():
+		var timer = Timer.new()
+		var ms_delay = 0.3 * rand_range(100, 500) / 100
+		timer.set_one_shot(true)
+		timer.connect("timeout", self, "do_explode", [pit, timer])
+		timer.set_wait_time(ms_delay)
+		timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
+		scene.add_child(timer)
+		timer.start()
+
+
+func do_explode(pit, timer):
+	scene.remove_child(timer)
+	scene.add_explode(pit, 1 )
+	scene.map.map.set_cellv(scene.map.world_to_map(pit), scene.map.get_grass_tile())
+	scene.map.walls.set_cellv(scene.map.world_to_map(pit), scene.map.get_grass_tile())

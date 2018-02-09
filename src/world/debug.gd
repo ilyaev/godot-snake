@@ -10,6 +10,7 @@ func _ready():
 		set_process(true)
 
 func _draw():
+	# draw_rect(Rect2(0,0,1000,1000), Color(0, 0, 0, 0.7))
 	if !world.show_debug:
 		return
 	var snake = world.snake

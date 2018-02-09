@@ -13,6 +13,9 @@ func do_on_enter():
     vortex.set_z(100)
     vortex.scene = scene
     scene.snake.world.add_child(vortex)
+    scene.snake.set_state(scene.snake.SNAKE_STATE_INACTIVE)
+    for foe in scene.snake.world.snakes.get_children():
+        foe.set_state(scene.snake.SNAKE_STATE_INACTIVE)
 
 func _load_level():
     scene.map.apply_level(scene.current_level)

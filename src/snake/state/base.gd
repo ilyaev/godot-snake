@@ -130,3 +130,40 @@ func eat_food(one_food):
             snake.world.state.play_unlock_one_animation(lock_pos)
 
 
+func next_move():
+    if !snake.active:
+        return
+
+    snake.head.get_node("sprite").set_flip_h(snake.head.target_direction.x < 0)
+    snake.head.set_rot(0)
+
+    var last_body = snake.head
+    var prelast_body = snake.head
+
+    if snake.tail.get_children().size() > 0:
+        last_body = snake.tail.get_children().back()
+
+    if snake.tail.get_children().size() > 1:
+        prelast_body = snake.tail.get_children()[snake.tail.get_children().size() - 2]
+
+    var tdiff = prelast_body.get_pos() - last_body.get_pos()
+
+    last_body.get_node("sprite").set_flip_h(tdiff.x < 0)
+    last_body.set_rot(0)
+
+    if tdiff.y < 0:
+        last_body.set_rot(PI / 2)
+    elif tdiff.y > 0:
+        last_body.set_rot(-PI / 2)
+
+
+    snake.snake_next_command()
+
+    if snake.head.target_direction.y < 0:
+        snake.head.set_rot(PI/2)
+    elif snake.head.target_direction.y > 0:
+        snake.head.set_rot(-PI/2)
+
+    snake.state.proxy_emit_signal("after_move")
+
+

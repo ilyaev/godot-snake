@@ -10,6 +10,7 @@ onready var animation = get_node("animation")
 const SNAKE_STATE_NORMAL = 0
 const SNAKE_STATE_INVINCIBLE = 1
 const SNAKE_STATE_FLASH = 2
+const SNAKE_STATE_INACTIVE = 3
 
 const SNAKE_CONTROLLER_INPUT = 0
 const SNAKE_CONTROLLER_AI_ASTAR = 1
@@ -20,7 +21,8 @@ var state_id = SNAKE_STATE_NORMAL
 var states_classes = [
 	preload("state/normal.gd").new(),
 	preload("state/invincible.gd").new(),
-	preload("state/flash.gd").new()
+	preload("state/flash.gd").new(),
+	preload("state/inactive.gd").new()
 ]
 
 var controller
@@ -37,6 +39,7 @@ var speed = 0.2
 var start_speed = 0.2
 var speed_rate = 0.007
 var old_speed = 0
+var lifes = 4
 
 var current_direction = Vector2(0,0)
 var food = false
@@ -98,41 +101,7 @@ func is_moving():
 		return true
 
 func next_move():
-	if !active:
-		return
-
-	head.get_node("sprite").set_flip_h(head.target_direction.x < 0)
-	head.set_rot(0)
-
-	var last_body = head
-	var prelast_body = head
-
-	if tail.get_children().size() > 0:
-		last_body = tail.get_children().back()
-
-	if tail.get_children().size() > 1:
-		prelast_body = tail.get_children()[tail.get_children().size() - 2]
-
-	var tdiff = prelast_body.get_pos() - last_body.get_pos()
-
-	last_body.get_node("sprite").set_flip_h(tdiff.x < 0)
-	last_body.set_rot(0)
-
-	if tdiff.y < 0:
-		last_body.set_rot(PI / 2)
-	elif tdiff.y > 0:
-		last_body.set_rot(-PI / 2)
-
-
-	snake_next_command()
-
-	if head.target_direction.y < 0:
-		head.set_rot(PI/2)
-	elif head.target_direction.y > 0:
-		head.set_rot(-PI/2)
-
-	state.proxy_emit_signal("after_move")
-
+	state.next_move()
 
 func snake_next_command():
 
