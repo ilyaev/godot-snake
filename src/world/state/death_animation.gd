@@ -8,6 +8,9 @@ func _init():
 
 func do_on_enter():
     scene.session_lifes -= 1
+    if scene.session_lifes <= 0:
+        scene.set_state(scene.STATE_GAME_OVER, scene)
+        return
     scene.restart_player()
     scene.fly_camera_to(scene.snake.head.get_pos())
     var flash = flash_class.instance()

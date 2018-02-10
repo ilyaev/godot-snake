@@ -30,3 +30,6 @@ func spawn_key_animation(pos):
 
 func process(delta):
     pass
+
+func game_tick():
+    pass

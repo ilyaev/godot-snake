@@ -2,11 +2,17 @@ extends "res://src/world/state/base.gd"
 
 
 var vortex_class = preload('res://src/animation/level_transition.tscn')
+var debug = false
 
 func _init():
     name = 'NEXT_LEVEL_ANIMATION'
 
 func do_on_enter():
+    if debug:
+        scene.destroy_all()
+        call_deferred('_load_level')
+        return
+
     var vortex = vortex_class.instance()
     vortex.set_pos(scene.snake.head.get_pos())
     vortex.connect("finished", self, "anim_finished", [vortex])

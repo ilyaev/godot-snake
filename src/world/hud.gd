@@ -53,7 +53,6 @@ func rescale(zoom, offset):
 	ui.set_pos((offset / zoom) * -1)
 
 func set_lifes(lifes):
-	print("NEWF" , lifes)
 	label_lifes.set_text(lifes)
 
 func update_score(new_score, new_experience):

@@ -19,20 +19,29 @@ var fruits_config_class = preload("res://src/food/config_fruits.tscn")
 var fruits_config
 var level1_class = preload("res://src/levels/level1.tscn")
 var level2_class = preload("res://src/levels/level2.tscn")
+var level3_class = preload("res://src/levels/level3.tscn")
+var level4_class = preload("res://src/levels/level4.tscn")
+var level5_class = preload("res://src/levels/level5.tscn")
 var current_level = false
 
 var levels = [
 	level1_class,
-	level2_class
+	level2_class,
+	level3_class,
+	level4_class,
+	level5_class
 ]
 
 var current_level_number = 0
-var session_lifes = 3
+var initial_lifes = 3
+var session_lifes = initial_lifes
+
 
 const STATE_WAITING_TO_START = 0
 const STATE_IN_PLAY = 1
 const STATE_DEATH_ANIMATION = 2
 const STATE_NEXT_LEVEL_ANIMATION = 3
+const STATE_GAME_OVER = 4
 
 export var show_debug = true
 
@@ -51,7 +60,8 @@ func _ready():
 		preload("state/waiting_to_start.gd").new(),
 		preload("state/in_play.gd").new(),
 		preload("state/death_animation.gd").new(),
-		preload("state/next_level_animation.gd").new()
+		preload("state/next_level_animation.gd").new(),
+		preload("state/game_over.gd").new(),
 	]
 
 
@@ -123,7 +133,6 @@ func _input(event):
 		spawn_enemy_snake(true)
 
 func snake_next_level():
-	print("ROOT: NExt LEvel")
 	current_level_number += 1
 	if current_level_number >= levels.size():
 		current_level_number = 0
@@ -196,12 +205,7 @@ func spawn_food(snake):
 			map.add_food_to_map(one.get_pos())
 
 func game_tick():
-	if need_spawn:
-		need_spawn = false
-		spawn_enemy_snake()
-	hud.update_score(String(1 + snake.tail.get_children().size()), String(snake.score))
-	hud.set_lifes(String(session_lifes))
-	hud.update_player_position(snake.head.get_pos(), camera.get_offset(), map.world_to_map(snake.head.get_pos()), map.maxX, map.maxY)
+	state.game_tick()
 
 func next_id():
 	last_id += 1
@@ -274,6 +278,16 @@ func restart_player():
 	snake.queue_free()
 	snake = false
 	spawn_player_snake()
+	direction.x = 0
+	direction.y = 0
+
+func restart_game():
+	session_lifes = initial_lifes
+	current_level = false
+	load_level()
+	spawn_player_snake()
+	spawn_enemy_snake()
+	fly_camera_to(snake.head.get_pos())
 	direction.x = 0
 	direction.y = 0
 
