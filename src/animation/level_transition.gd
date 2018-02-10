@@ -5,6 +5,8 @@ onready var vortex = get_node('vortex')
 onready var bits = get_node('bits')
 onready var walls = get_node('walls')
 onready var piece_class = preload('res://src/animation/vortex_piece.tscn')
+onready var fader_class = preload('res://src/world/fader.tscn')
+onready var flash_class = preload('res://src/world/flash.tscn')
 var wall_texture = preload("res://art/medium/sprite_11.png")
 
 var target_positions = []
@@ -13,6 +15,10 @@ var allbits = []
 var finished = 0
 var scene
 var old_pos
+var time = 0
+var half_size = 0
+var fader_spawned = false
+var fader = false
 
 signal finished
 
@@ -22,11 +28,30 @@ func _ready():
 	build()
 	old_pos = bits.get_pos()
 	set_process(true)
+	var flash = flash_class.instance()
+	flash.set_z(101)
+	flash.set_scale(Vector2(scene.map.maxX * scene.map.snake_size, scene.map.maxY * scene.map.snake_size))
+	scene.hud.add_child(flash)
 	pass
 
 
+func spawn_fader(ttl = 2):
+	if fader_spawned:
+		return
+	fader_spawned = true
+	fader = fader_class.instance()
+	fader.set_z(101)
+	fader.set_scale(Vector2(scene.map.maxX * scene.map.snake_size, scene.map.maxY * scene.map.snake_size))
+	fader.ttl = ttl
+	scene.hud.add_child(fader)
+	pass
+
 func _process(delta):
-	bits.set_pos(old_pos + Vector2(rand_range(0,16) - 8, 0))
+	time = time + delta
+	var r = 0
+	# var r = half_size * float(1) / float(time)
+	r = half_size / 3
+	bits.set_pos(old_pos + Vector2(rand_range(-r,r), 0))
 	pass
 
 func build():
@@ -93,6 +118,7 @@ func on_tween_complete(obj, key, index, one, tween):
 	anim.connect("animation_started", self, "on_animation_start", [one])
 	anim.play('move')
 	vortex.add_child(follow)
+	spawn_fader(4)
 
 func on_animation_start(name, obj):
 	obj.show()
@@ -101,11 +127,15 @@ func on_animation_end(index, follow):
 	vortex.remove_child(follow)
 	finished = finished + 1
 	if finished == allbits.size():
+		print('REMOVE FADER', fader)
+		fader.reverse(0.5)
 		emit_signal("finished")
 
 func apply_scene():
 	for bit in bits.get_children():
 		bits.remove_child(bit)
+
+	half_size = scene.map.half_size
 
 	for snake in scene.snakes.get_children():
 		snake.active = false

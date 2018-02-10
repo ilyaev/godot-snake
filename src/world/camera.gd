@@ -20,6 +20,7 @@ func _ready():
 	original_zoom = get_zoom()
 	width = map.maxX * map.snake_size
 	height = map.maxY * map.snake_size
+	print(width, ' - ', height)
 	size_changed()
 	get_tree().get_root().connect("size_changed", self, "size_changed")
 
