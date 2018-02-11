@@ -15,6 +15,9 @@ func ui_command(cmd):
     print("UI CMD - ", cmd, ' state: ', name)
     pass
 
+func do_on_exit():
+    pass
+
 func play_unlock_one_animation(fly_to_pos):
     var anim = anim_unlock_one.instance()
     anim.set_pos(scene.snake.head.get_pos())
@@ -33,3 +36,17 @@ func process(delta):
 
 func game_tick():
     pass
+
+func _snake_command(cmd):
+    if cmd == "left":
+        scene.direction.x = -scene.map.snake_size
+        scene.direction.y = 0
+    elif cmd == 'right':
+        scene.direction.x = scene.map.snake_size
+        scene.direction.y = 0
+    elif cmd == 'up':
+        scene.direction.x = 0
+        scene.direction.y = -scene.map.snake_size
+    elif cmd == 'down':
+        scene.direction.x = 0
+        scene.direction.y = scene.map.snake_size

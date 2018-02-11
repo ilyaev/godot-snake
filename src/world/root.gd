@@ -42,6 +42,7 @@ const STATE_IN_PLAY = 1
 const STATE_DEATH_ANIMATION = 2
 const STATE_NEXT_LEVEL_ANIMATION = 3
 const STATE_GAME_OVER = 4
+const STATE_DEBUG_MENU = 5
 
 export var show_debug = true
 
@@ -62,6 +63,7 @@ func _ready():
 		preload("state/death_animation.gd").new(),
 		preload("state/next_level_animation.gd").new(),
 		preload("state/game_over.gd").new(),
+		preload("state/menu_debug.gd").new()
 	]
 
 
@@ -168,7 +170,7 @@ func spawn_enemy_snake(ignore_max = false):
 	foe.controller.find_route()
 
 
-func spawn_food(snake):
+func spawn_food(snake = false):
 	var fruit_index = rand_range(0, fruits_config.get_children().size())
 	var fruit = fruits_config.get_children()[fruit_index]
 	if !snake:
@@ -249,19 +251,6 @@ func do_explode(pos, timer):
 
 
 func ui_command(cmd):
-	if cmd == "left":
-		direction.x = -map.snake_size
-		direction.y = 0
-	elif cmd == 'right':
-		direction.x = map.snake_size
-		direction.y = 0
-	elif cmd == 'up':
-		direction.x = 0
-		direction.y = -map.snake_size
-	elif cmd == 'down':
-		direction.x = 0
-		direction.y = map.snake_size
-
 	state.ui_command(cmd)
 
 func fly_camera_to(pos):
@@ -311,7 +300,13 @@ func _on_tween_tween_complete( object, key ):
 
 
 func do_debug_action():
-	if snake.state_id != snake.SNAKE_STATE_INVINCIBLE:
-		snake.set_state(snake.SNAKE_STATE_INVINCIBLE)
+	print("CUR SATE", state_id)
+	if state_id == STATE_DEBUG_MENU:
+		pop_state()
 	else:
-		snake.set_state(snake.SNAKE_STATE_NORMAL)
+		push_state()
+		set_state(STATE_DEBUG_MENU, self)
+	# if snake.state_id != snake.SNAKE_STATE_INVINCIBLE:
+	# 	snake.set_state(snake.SNAKE_STATE_INVINCIBLE)
+	# else:
+	# 	snake.set_state(snake.SNAKE_STATE_NORMAL)

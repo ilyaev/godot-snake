@@ -9,6 +9,10 @@ func do_on_enter(_timeout = 0, _next_state = null):
     snake.active = false
 
 
+func on_exit_state():
+    print("RACTIVE")
+    snake.active = true
+
 func snake_collide():
     print("INVINCIBLE!")
     pass
