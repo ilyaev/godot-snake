@@ -132,7 +132,8 @@ func _input(event):
 	elif event.is_action_pressed("ui_focus_next"):
 		self.show_debug = !self.show_debug
 	elif event.is_action_pressed("ui_accept"):
-		spawn_enemy_snake(true)
+		if state_id != STATE_DEBUG_MENU:
+			spawn_enemy_snake(true)
 
 func snake_next_level():
 	current_level_number += 1

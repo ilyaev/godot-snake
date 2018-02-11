@@ -41,7 +41,7 @@ func spawn_fader(ttl = 2):
 	fader_spawned = true
 	fader = fader_class.instance()
 	fader.set_z(101)
-	fader.set_scale(Vector2(scene.map.maxX * scene.map.snake_size, scene.map.maxY * scene.map.snake_size))
+	fader.set_scale(scene.camera.size)
 	fader.ttl = ttl
 	scene.hud.add_child(fader)
 	pass

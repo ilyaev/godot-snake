@@ -73,8 +73,7 @@ func open_portal():
 
 
 func is_portal(cell):
-	return walls.get_cell(cell.x, cell.y) == TILE_LOCK
-	# return portal_open and walls.get_cell(cell.x, cell.y) == TILE_PORTAL
+	return portal_open and walls.get_cell(cell.x, cell.y) == TILE_PORTAL
 
 func apply_level(level):
 	var lmap = level.get_node('map')
