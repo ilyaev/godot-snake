@@ -172,8 +172,9 @@ func spawn_enemy_snake(ignore_max = false):
 
 
 func spawn_food(snake = false):
-	var fruit_index = rand_range(0, fruits_config.get_children().size())
-	var fruit = fruits_config.get_children()[fruit_index]
+	# var fruit_index = rand_range(0, fruits_config.get_children().size())
+	# var fruit = fruits_config.get_children()[fruit_index]
+	var fruit = fruits_config.get_next_fruit()
 	if !snake:
 		fruit = fruits_config.get_node('key')
 	var food = food_class.instance()

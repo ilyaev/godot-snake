@@ -165,7 +165,7 @@ func spawn_food_by_snake(food_snake):
 		self.controller.new_food_arrived()
 	else:
 		food_snake.controller.new_food_arrived_deferred()
-		food_snake.need_shrink = true
+		# food_snake.need_shrink = true
 
 
 func snake_collide():

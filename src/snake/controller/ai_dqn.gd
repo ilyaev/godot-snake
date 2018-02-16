@@ -47,7 +47,9 @@ func initialize(params):
 func build_state():
     var result = []
     var pos = snake.map.world_to_map(snake.head.get_pos())
-    var food_pos = snake.map.world_to_map(snake.food.get_pos())
+    var food_pos = Vector2(0,0)
+    if snake.food:
+        food_pos = snake.map.world_to_map(snake.food.get_pos())
     var maxX = snake.map.maxX - 1
     var maxY = snake.map.maxY - 1
     for featureStr in features:

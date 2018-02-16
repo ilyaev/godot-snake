@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://src/food/anim_unlock_one.gd" type="Script" id=1]
-[ext_resource path="res://art/medium/key_medium.png" type="Texture" id=2]
+[ext_resource path="res://art/medium/key_medium_3.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=1]
 
