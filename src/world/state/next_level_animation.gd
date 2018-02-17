@@ -7,6 +7,9 @@ var debug = false
 func _init():
     name = 'NEXT_LEVEL_ANIMATION'
 
+func process_input(event):
+    pass
+
 func do_on_enter():
     if debug:
         scene.destroy_all()

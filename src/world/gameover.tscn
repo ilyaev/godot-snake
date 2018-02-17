@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://src/world/gameover.gd" type="Script" id=1]
-[ext_resource path="res://art/big/food.png" type="Texture" id=2]
+[ext_resource path="res://art/fonts/exo2.fnt" type="BitmapFont" id=2]
 
 [sub_resource type="Animation" id=1]
 
@@ -10,34 +10,39 @@ length = 1.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:transform/pos")
+tracks/0/path = NodePath("Label:rect/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.2, 0.5, 0.8, 1 ),
-"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"times": FloatArray( 0, 0.5, 1 ),
+"transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 327.974, 319.713 ), Vector2( 1101.75, 338.988 ), Vector2( 1721.33, 1032.91 ), Vector2( 1057.7, 1211.9 ), Vector2( 482.179, 603.34 ) ]
+"values": [ Vector2( -139, -28 ), Vector2( -557, -106 ), Vector2( -420, -87 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:transform/rot")
+tracks/1/path = NodePath("Label:rect/size")
 tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = {
-"times": FloatArray( 0, 0.2, 0.5, 0.8, 1 ),
-"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"times": FloatArray( 0, 0.5, 1 ),
+"transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 0.0, 0.0, 0.0, 0.0 ]
+"values": [ Vector2( 267, 63 ), Vector2( 267, 63 ), Vector2( 267, 63 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Label:rect/scale")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0, 0.5, 1 ),
+"transitions": FloatArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 4, 4 ), Vector2( 3, 3 ) ]
 }
 
 [node name="gameover" type="Node2D"]
 
 script/script = ExtResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="."]
-
-transform/pos = Vector2( 482.179, 603.34 )
-texture = ExtResource( 2 )
 
 [node name="animator" type="AnimationPlayer" parent="."]
 
@@ -49,6 +54,25 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+
+[node name="Label" type="Label" parent="."]
+
+rect/scale = Vector2( 3, 3 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -420.0
+margin/top = -87.0
+margin/right = -153.0
+margin/bottom = -24.0
+custom_fonts/font = ExtResource( 2 )
+text = "GAME OVER"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [connection signal="finished" from="animator" to="." method="_on_animator_finished"]
 

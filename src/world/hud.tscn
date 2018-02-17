@@ -144,6 +144,7 @@ autoplay = ""
 
 [node name="top_left" type="Container" parent="ui"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -178,6 +179,7 @@ texture = ExtResource( 3 )
 
 [node name="top_right" type="Container" parent="ui"]
 
+editor/display_folded = true
 visibility/opacity = 0.9
 anchor/left = 1
 anchor/right = 1
@@ -256,6 +258,7 @@ texture = ExtResource( 5 )
 
 [node name="bottom_right" type="Container" parent="ui"]
 
+editor/display_folded = true
 anchor/left = 1
 anchor/top = 1
 anchor/right = 1
@@ -334,6 +337,7 @@ visibility_mode = 0
 
 [node name="bottom_left" type="Container" parent="ui"]
 
+editor/display_folded = true
 anchor/top = 1
 anchor/bottom = 1
 focus/ignore_mouse = false
@@ -407,6 +411,21 @@ shape_visible = true
 passby_press = false
 action = "down"
 visibility_mode = 0
+
+[node name="center" type="Container" parent="ui"]
+
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 133.0
+margin/top = 175.0
+margin/right = -186.0
+margin/bottom = -183.0
 
 [connection signal="pressed" from="ui/bottom_right/gamepad/btn_left" to="." method="_on_btn_left_pressed"]
 

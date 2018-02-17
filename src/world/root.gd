@@ -23,6 +23,7 @@ var level3_class = preload("res://src/levels/level3.tscn")
 var level4_class = preload("res://src/levels/level4.tscn")
 var level5_class = preload("res://src/levels/level5.tscn")
 var current_level = false
+onready var global = get_node("/root/global")
 
 var levels = [
 	level1_class,
@@ -56,7 +57,6 @@ onready var tween = get_node("tween")
 var DQN
 
 func _ready():
-
 	states_classes = [
 		preload("state/waiting_to_start.gd").new(),
 		preload("state/in_play.gd").new(),
@@ -119,21 +119,7 @@ func _notification(what):
 		print("ANDR _ BACK")
 
 func _input(event):
-	if event.is_action_pressed("ui_right"):
-		ui_command('right')
-	elif event.is_action_pressed("ui_left"):
-		ui_command('left')
-	elif event.is_action_pressed("ui_up"):
-		ui_command('up')
-	elif event.is_action_pressed("ui_down"):
-		ui_command('down')
-	elif event.is_action_pressed("ui_select"):
-		do_debug_action()
-	elif event.is_action_pressed("ui_focus_next"):
-		self.show_debug = !self.show_debug
-	elif event.is_action_pressed("ui_accept"):
-		if state_id != STATE_DEBUG_MENU:
-			spawn_enemy_snake(true)
+	state.process_input(event)
 
 func snake_next_level():
 	current_level_number += 1
@@ -273,6 +259,7 @@ func restart_player():
 	direction.y = 0
 
 func restart_game():
+	print("ESTST GAME - ")
 	session_lifes = initial_lifes
 	current_level = false
 	load_level()

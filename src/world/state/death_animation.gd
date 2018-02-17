@@ -6,6 +6,9 @@ var flash_class = preload('res://src/world/flash.tscn')
 func _init():
     name = 'DEATH_ANIMATION'
 
+func process_input(event):
+    pass
+
 func do_on_enter():
     scene.session_lifes -= 1
     if scene.session_lifes <= 0:

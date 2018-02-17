@@ -17,6 +17,23 @@ func ui_command(cmd):
 func do_on_exit():
     pass
 
+func process_input(event):
+	if event.is_action_pressed("ui_right"):
+		scene.ui_command('right')
+	elif event.is_action_pressed("ui_left"):
+		scene.ui_command('left')
+	elif event.is_action_pressed("ui_up"):
+		scene.ui_command('up')
+	elif event.is_action_pressed("ui_down"):
+		scene.ui_command('down')
+	elif event.is_action_pressed("ui_select"):
+		scene.do_debug_action()
+	elif event.is_action_pressed("ui_focus_next"):
+		scene.show_debug = !scene.show_debug
+	elif event.is_action_pressed("ui_accept"):
+		if scene.state_id != scene.STATE_DEBUG_MENU:
+			scene.spawn_enemy_snake(true)
+
 func play_unlock_one_animation(fly_to_pos):
     var anim = anim_unlock_one.instance()
     anim.set_pos(scene.snake.head.get_pos())
