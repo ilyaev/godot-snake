@@ -57,14 +57,14 @@ func unlock_next():
 	return result
 
 func do_unlock_next(pos):
-	print("SDF ", unlocked, " - ", lock_spots.size())
+	print("UNLOCK: ", unlocked, " - ", lock_spots.size())
 	if unlocked >= lock_spots.size():
 		open_portal()
 		return
 	var cell = world_to_map(pos)
 	var lock = lock_spots[unlocked]
 	walls.set_cell(lock.x, lock.y, TILE_UNLOCK)
-	if unlocked >= lock_spots.size() and !portal_open:
+	if unlocked >= lock_spots.size() - 1 and !portal_open:
 		unlocked = lock_spots.size()
 		open_portal()
 	else:

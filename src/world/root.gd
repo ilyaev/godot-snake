@@ -99,7 +99,7 @@ func _on_world_resize(zoom, offset):
 	hud.rescale(zoom, offset)
 
 func on_scene_enter():
-	print("Enter GAME!")
+	pass
 
 func test_server():
 	print('TEST SERVER')
@@ -302,13 +302,8 @@ func _on_tween_tween_complete( object, key ):
 
 
 func do_debug_action():
-	print("CUR SATE", state_id)
 	if state_id == STATE_DEBUG_MENU:
 		pop_state()
 	else:
 		push_state()
 		set_state(STATE_DEBUG_MENU, self)
-	# if snake.state_id != snake.SNAKE_STATE_INVINCIBLE:
-	# 	snake.set_state(snake.SNAKE_STATE_INVINCIBLE)
-	# else:
-	# 	snake.set_state(snake.SNAKE_STATE_NORMAL)

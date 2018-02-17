@@ -55,7 +55,6 @@ func destroy():
 	queue_free()
 
 func explode(pos):
-	print("EXP", pos)
 	var explode = world.explode_class.instance()
 	explode.set_pos(pos)
 	world.add_child(explode)

@@ -127,7 +127,6 @@ func on_animation_end(index, follow):
 	vortex.remove_child(follow)
 	finished = finished + 1
 	if finished == allbits.size():
-		print('REMOVE FADER', fader)
 		fader.reverse(0.5)
 		emit_signal("finished")
 

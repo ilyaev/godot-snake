@@ -17,15 +17,13 @@ func on_animation_finished():
         snake.animation.play("blink")
 
 func snake_collide():
-    print("INVINCIBLE!")
     pass
 
 func destroy():
-    print("INVINCIBLE!!!")
     pass
 
 func deactivate():
-    print("INVINCIBLE!!")
+    pass
 
 func proxy_emit_signal(_signal, var1 = NULL, var2 = NULL):
     if _signal == 'collide':
@@ -33,8 +31,7 @@ func proxy_emit_signal(_signal, var1 = NULL, var2 = NULL):
     .proxy_emit_signal(_signal, var1, var2)
 
 func destroy_food():
-    print("INVNCIBLE!!!!!")
+    pass
 
 func doShrink():
-    print("INVINCIBLE!!!")
     pass

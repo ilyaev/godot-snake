@@ -6,7 +6,6 @@ export var max_enemy = 3
 export var model = 'DEFAULT'
 
 func _ready():
-	print("Level Loaded!")
 	pass
 
 

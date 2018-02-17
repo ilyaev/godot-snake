@@ -12,7 +12,6 @@ func do_on_enter():
     pass
 
 func ui_command(cmd):
-    print("UI CMD - ", cmd, ' state: ', name)
     pass
 
 func do_on_exit():

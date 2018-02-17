@@ -30,7 +30,6 @@ func on_scene_enter():
 		export_level(level)
 		var file = File.new()
 		if file.open('res://export/levels.js', File.WRITE) != 0:
-			print("Error opening file")
 			return
 
 		file.store_line('module.exports = ' + index.to_json())
@@ -69,7 +68,6 @@ func export_level(level):
 
 	var file = File.new()
 	if file.open(fileName, File.WRITE) != 0:
-		print("Error opening file")
 		return
 
 	file.store_line(data.to_json())

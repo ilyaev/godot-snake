@@ -24,6 +24,5 @@ func build_pool():
 func get_next_fruit():
 	if pool.size() == 0:
 		build_pool()
-	var rindex = rand_range(0, pool.size())
-	print("RIND ", rindex)
+	var rindex = round(rand_range(0, pool.size()))
 	return get_children()[pool[rindex]]

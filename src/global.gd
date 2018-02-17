@@ -13,7 +13,6 @@ func _ready():
 	current_scene = root.get_child( root.get_child_count() -1 )
 	if current_scene.has_method("on_scene_enter"):
 		current_scene.on_scene_enter()
-		print("Current sc", current_scene)
 
 func goto_scene(path):
 	call_deferred("_deferred_goto_scene",path)

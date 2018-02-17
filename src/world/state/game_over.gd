@@ -22,6 +22,5 @@ func do_on_enter():
     pass
 
 func onFinished(go, scene):
-    print("FINISHED!!", go, scene)
     go.queue_free()
     scene.restart_game()
