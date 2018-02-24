@@ -149,10 +149,13 @@ func apply_scene():
 			bits.add_child(sprite)
 
 	for food in scene.foods.get_children():
-		var sprite = food.get_node("sprite")
-		sprite.get_owner().remove_child(sprite)
-		sprite.set_pos(food.get_pos() - get_pos())
-		bits.add_child(sprite)
+		if food.effect_type != 'Static':
+			var sprite = food.get_node("sprite")
+			sprite.get_owner().remove_child(sprite)
+			sprite.set_pos(food.get_pos() - get_pos())
+			bits.add_child(sprite)
+		else:
+			food.destroy()
 
 	for wall in scene.map.get_walls():
 		var sprite = Sprite.new()

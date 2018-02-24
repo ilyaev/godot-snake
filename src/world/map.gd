@@ -5,6 +5,7 @@ onready var snakes = get_node("/root/world/snakes")
 onready var layers = []
 onready var map = get_node("/root/world/map")
 onready var walls = get_node("/root/world/walls")
+onready var world = get_node("/root/world")
 
 var maxX = 0
 var maxY = 0
@@ -64,6 +65,7 @@ func do_unlock_next(pos):
 	var cell = world_to_map(pos)
 	var lock = lock_spots[unlocked]
 	walls.set_cell(lock.x, lock.y, TILE_UNLOCK)
+
 	if unlocked >= lock_spots.size() - 1 and !portal_open:
 		unlocked = lock_spots.size()
 		open_portal()
@@ -75,7 +77,9 @@ func do_unlock_next(pos):
 func open_portal():
 	portal_open = true
 	for spot in lock_spots:
-		walls.set_cell(spot.x, spot.y, TILE_PORTAL)
+		walls.set_cell(spot.x, spot.y, -1)
+		world.spawn_static('whirl', spot, 'portal')
+		# world.spawn_static('spiral', spot, 'spiral')
 
 
 func is_portal(cell):

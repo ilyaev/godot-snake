@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://src/food/anim_unlock_one.gd" type="Script" id=1]
-[ext_resource path="res://art/medium/key_medium_3.png" type="Texture" id=2]
+[ext_resource path="res://art/sprites/key_3.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=1]
 
@@ -55,16 +55,6 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1.35185, 1.35185 ), Vector2( 2, 2 ), Vector2( 1.29051, 1.29051 ), Vector2( 0.5, 0.5 ) ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Sprite:modulate")
-tracks/2/interp = 1
-tracks/2/imported = false
-tracks/2/keys = {
-"times": FloatArray( 0, 0.5 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.882812, 0.124146, 0.124146, 1 ) ]
-}
 
 [node name="seq" type="Area2D"]
 
@@ -81,7 +71,6 @@ transform/pos = Vector2( 1.98849, -7.29095 )
 transform/rot = 360.0
 transform/scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
-modulate = Color( 0.882812, 0.124146, 0.124146, 1 )
 
 [node name="animation" type="AnimationPlayer" parent="."]
 

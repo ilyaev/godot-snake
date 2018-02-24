@@ -6,6 +6,8 @@ var effect_type = 'Fruit'
 var effect_state = 0
 var effect_duration = -1
 var active = true
+var auto_anim = "show"
+var loop = false
 
 onready var animation = get_node("animation")
 onready var timer = get_node("timer")
@@ -14,8 +16,15 @@ onready var world = get_node("/root/world")
 
 func _ready():
 	active = true
-	sprite.set_scale(Vector2(0,0))
-	animation.play("show")
+	if auto_anim == "show":
+		sprite.set_scale(Vector2(0,0))
+	animation.play(auto_anim)
+	if loop:
+		animation.connect("finished", self, "on_animation_finished")
+
+func on_animation_finished():
+	animation.play(auto_anim)
+	print("FINISHED")
 
 func destroy():
 	active = false

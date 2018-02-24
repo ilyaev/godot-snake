@@ -1,10 +1,10 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=14 format=1]
 
 [ext_resource path="res://src/world/hud.gd" type="Script" id=1]
 [ext_resource path="res://art/fonts/yanone.fnt" type="BitmapFont" id=2]
-[ext_resource path="res://art/sprites/hud_coins.png" type="Texture" id=3]
-[ext_resource path="res://art/sprites/hud_heartFull.png" type="Texture" id=4]
-[ext_resource path="res://art/medium/S_Holy07.png" type="Texture" id=5]
+[ext_resource path="res://art/sprites/score_sprite_star.png" type="Texture" id=3]
+[ext_resource path="res://art/sprites/tail_icon.png" type="Texture" id=4]
+[ext_resource path="res://art/sprites/life_icon.png" type="Texture" id=5]
 [ext_resource path="res://art/sprites/hud_gamepad.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
@@ -85,10 +85,10 @@ tracks/0/path = NodePath("score:rect/scale")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.05, 0.1, 0.2 ),
-"transitions": FloatArray( 1, 1, 1, 1 ),
+"times": FloatArray( 0, 0.1, 0.2 ),
+"transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1.5, 1.5 ), Vector2( 1, 1 ), Vector2( 2.5, 2.5 ), Vector2( 1.5, 1.5 ) ]
+"values": [ Vector2( 1.5, 1.5 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("score:rect/pos")
@@ -98,10 +98,47 @@ tracks/1/keys = {
 "times": FloatArray( 0, 0.05, 0.1, 0.2 ),
 "transitions": FloatArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 117, 0 ), Vector2( 113, 16 ), Vector2( 97, -33 ), Vector2( 117, 0 ) ]
+"values": [ Vector2( 168, 5 ), Vector2( 192, 17 ), Vector2( 189, 17 ), Vector2( 181, 4 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="Animation" id=6]
+
+resource/name = "life"
+length = 0.3
+loop = false
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("ankh:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 333.222, 50.0163 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ankh:transform/rot")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0, 0.18, 0.3 ),
+"transitions": FloatArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 180.0, 360.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ankh:transform/scale")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0, 0.12, 0.18, 0.3 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.2, 0.2 ), Vector2( 0.15, 0.15 ), Vector2( 0.3, 0.3 ), Vector2( 0.2, 0.2 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=7]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
@@ -144,7 +181,6 @@ autoplay = ""
 
 [node name="top_left" type="Container" parent="ui"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -175,11 +211,11 @@ max_lines_visible = -1
 [node name="Sprite" type="Sprite" parent="ui/top_left"]
 
 transform/pos = Vector2( 18.7675, 18.3682 )
+transform/scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 3 )
 
 [node name="top_right" type="Container" parent="ui"]
 
-editor/display_folded = true
 visibility/opacity = 0.9
 anchor/left = 1
 anchor/right = 1
@@ -188,9 +224,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 451.0
-margin/top = 0.0
+margin/top = 1.0
 margin/right = -80.0
-margin/bottom = 147.0
+margin/bottom = 148.0
 
 [node name="score" type="Label" parent="ui/top_right"]
 
@@ -199,10 +235,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 117.0
-margin/top = 0.0
-margin/right = 175.0
-margin/bottom = 59.0
+margin/left = 181.0
+margin/top = 4.0
+margin/right = 239.0
+margin/bottom = 63.0
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.0163574, 0.0259418, 0.261719, 1 )
 text = "3"
@@ -219,13 +255,13 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 283.0
-margin/top = 2.0
-margin/right = 341.0
-margin/bottom = 61.0
+margin/left = 349.0
+margin/top = -11.0
+margin/right = 407.0
+margin/bottom = 68.0
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.0163574, 0.0259418, 0.261719, 1 )
-text = "3"
+text = "0"
 align = 1
 valign = 1
 percent_visible = 1.0
@@ -234,9 +270,9 @@ max_lines_visible = -1
 
 [node name="Sprite" type="Sprite" parent="ui/top_right"]
 
-transform/pos = Vector2( 87.0719, 49.3568 )
+transform/pos = Vector2( 150.674, 47.3343 )
+transform/scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 4 )
-flip_h = true
 
 [node name="animation" type="AnimationPlayer" parent="ui/top_right"]
 
@@ -244,16 +280,17 @@ playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/label = SubResource( 5 )
+anims/life = SubResource( 6 )
 anims/score = SubResource( 5 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
-[node name="Sprite 2" type="Sprite" parent="ui/top_right"]
+[node name="ankh" type="Sprite" parent="ui/top_right"]
 
-transform/pos = Vector2( 252.791, 52.5216 )
-transform/scale = Vector2( 2, 2 )
+transform/pos = Vector2( 333.222, 50.0163 )
+transform/scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 5 )
 
 [node name="bottom_right" type="Container" parent="ui"]
@@ -286,7 +323,7 @@ transform/scale = Vector2( 3.49376, 2.4 )
 normal = null
 pressed = null
 bitmask = null
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 shape_centered = true
 shape_visible = true
 passby_press = false
@@ -300,7 +337,7 @@ transform/scale = Vector2( 3.49376, 2.4 )
 normal = null
 pressed = null
 bitmask = null
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 shape_centered = true
 shape_visible = true
 passby_press = false
@@ -314,7 +351,7 @@ transform/scale = Vector2( 3.49376, 2.94471 )
 normal = null
 pressed = null
 bitmask = null
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 shape_centered = true
 shape_visible = true
 passby_press = false
@@ -328,7 +365,7 @@ transform/scale = Vector2( 3.49376, 2.94471 )
 normal = null
 pressed = null
 bitmask = null
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 shape_centered = true
 shape_visible = true
 passby_press = false
@@ -338,6 +375,7 @@ visibility_mode = 0
 [node name="bottom_left" type="Container" parent="ui"]
 
 editor/display_folded = true
+visibility/opacity = 0.2
 anchor/top = 1
 anchor/bottom = 1
 focus/ignore_mouse = false
@@ -363,7 +401,7 @@ transform/scale = Vector2( 3.49376, 2.4 )
 normal = null
 pressed = null
 bitmask = null
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 shape_centered = true
 shape_visible = true
 passby_press = false
@@ -377,7 +415,7 @@ transform/scale = Vector2( 3.49376, 2.4 )
 normal = null
 pressed = null
 bitmask = null
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 shape_centered = true
 shape_visible = true
 passby_press = false
@@ -391,7 +429,7 @@ transform/scale = Vector2( 3.49376, 2.94471 )
 normal = null
 pressed = null
 bitmask = null
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 shape_centered = true
 shape_visible = true
 passby_press = false
@@ -405,7 +443,7 @@ transform/scale = Vector2( 3.49376, 2.94471 )
 normal = null
 pressed = null
 bitmask = null
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 shape_centered = true
 shape_visible = true
 passby_press = false

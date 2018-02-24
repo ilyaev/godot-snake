@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=1]
+[gd_scene load_steps=35 format=1]
 
 [ext_resource path="res://src/food/config_fruits.gd" type="Script" id=1]
 [ext_resource path="res://art/big/fruits/banana_small.png" type="Texture" id=2]
@@ -31,7 +31,9 @@
 [ext_resource path="res://art/spice/alchemy (8).png" type="Texture" id=29]
 [ext_resource path="res://art/spice/alchemy (9).png" type="Texture" id=30]
 [ext_resource path="res://art/spice/alchemy (10).png" type="Texture" id=31]
-[ext_resource path="res://art/medium/key_medium_3.png" type="Texture" id=32]
+[ext_resource path="res://art/sprites/key_3.png" type="Texture" id=32]
+[ext_resource path="res://art/sprites/whirl_black.png" type="Texture" id=33]
+[ext_resource path="res://art/sprites/whirl_blue.png" type="Texture" id=34]
 
 [node name="config_fruits" type="Node2D"]
 
@@ -419,13 +421,39 @@ available = true
 
 [node name="key" type="Sprite" parent="."]
 
-transform/pos = Vector2( 208.05, 1056.1 )
+transform/pos = Vector2( 208.05, 1054.11 )
 texture = ExtResource( 32 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = 1000
 rarity = 10
 type = "Key"
+state = 0
+state_duration = -1
+available = true
+
+[node name="whirl" type="Sprite" parent="."]
+
+transform/pos = Vector2( 569.213, 1076.13 )
+texture = ExtResource( 33 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 3 )
+experience = 1000
+rarity = 10
+type = "Static"
+state = 0
+state_duration = -1
+available = true
+
+[node name="spiral" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1000.85, 1076.13 )
+texture = ExtResource( 34 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 3 )
+experience = 1000
+rarity = 10
+type = "Static"
 state = 0
 state_duration = -1
 available = true

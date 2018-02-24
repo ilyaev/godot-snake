@@ -1,5 +1,7 @@
 extends "res://src/base-scene.gd"
 
+const NEW_LIFE_PER_POINTS = 2000
+
 var snake
 var direction = Vector2(0,0)
 var snake_class = preload("res://src/snake/snake.tscn")
@@ -36,6 +38,7 @@ var levels = [
 var current_level_number = 0
 var initial_lifes = 3
 var session_lifes = initial_lifes
+var session_score = 0
 
 
 const STATE_WAITING_TO_START = 0
@@ -157,9 +160,20 @@ func spawn_enemy_snake(ignore_max = false):
 	foe.controller.find_route()
 
 
+func spawn_static(key, pos, anim = ''):
+	var food = food_class.instance()
+	var fruit = fruits_config.get_node(key)
+	if anim != '':
+		food.auto_anim = anim
+		food.loop = true
+	food.add_to_group("static")
+	foods.add_child(food)
+	food.set_texture(fruit.get_texture())
+	food.effect_type = fruit.type
+	food.set_pos(map.map_to_screen(pos))
+
+
 func spawn_food(snake = false):
-	# var fruit_index = rand_range(0, fruits_config.get_children().size())
-	# var fruit = fruits_config.get_children()[fruit_index]
 	var fruit = fruits_config.get_next_fruit()
 	if !snake:
 		fruit = fruits_config.get_node('key')

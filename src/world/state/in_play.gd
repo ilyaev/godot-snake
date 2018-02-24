@@ -9,9 +9,19 @@ func do_on_enter():
 
 
 func ui_command(cmd):
+
+    if cmd == 'left' and scene.direction.x > 0:
+        return
+    if cmd == 'right' and scene.direction.x < 0:
+        return
+    if cmd == 'up' and scene.direction.y > 0:
+        return
+    if cmd == 'down' and scene.direction.y < 0:
+        return
+
     ._snake_command(cmd)
     if scene.snake:
-         scene.snake.set_target(scene.direction)
+        scene.snake.set_target(scene.direction)
     .ui_command(cmd)
 
 
@@ -23,6 +33,4 @@ func game_tick():
     if scene.need_spawn:
         scene.need_spawn = false
         scene.spawn_enemy_snake()
-    scene.hud.update_score(String(1 + scene.snake.tail.get_children().size()), String(scene.snake.score))
-    scene.hud.set_lifes(String(scene.session_lifes))
-    scene.hud.update_player_position(scene.snake.head.get_pos(), scene.camera.get_offset(), scene.map.world_to_map(scene.snake.head.get_pos()), scene.map.maxX, scene.map.maxY)
+    ._update_stats()

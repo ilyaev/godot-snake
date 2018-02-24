@@ -66,3 +66,13 @@ func _snake_command(cmd):
     elif cmd == 'down':
         scene.direction.x = 0
         scene.direction.y = scene.map.snake_size
+
+func _update_stats():
+    var last_score = scene.snake.last_score
+    if scene.snake:
+        if scene.snake.score - last_score >= scene.NEW_LIFE_PER_POINTS:
+            scene.session_lifes = scene.session_lifes + 1
+            scene.snake.last_score = scene.snake.score
+        scene.hud.update_score(String(1 + scene.snake.tail.get_children().size()), String(scene.snake.score))
+        scene.hud.set_lifes(String(scene.session_lifes))
+        scene.hud.update_player_position(scene.snake.head.get_pos(), scene.camera.get_offset(), scene.map.world_to_map(scene.snake.head.get_pos()), scene.map.maxX, scene.map.maxY)

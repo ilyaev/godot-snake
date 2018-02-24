@@ -112,6 +112,7 @@ func doShrink():
 
 func eat_food(one_food):
     snake.score += one_food.experience
+    snake.world.session_score += one_food.experience
     snake.doGrow()
 
     if one_food and one_food.snake:

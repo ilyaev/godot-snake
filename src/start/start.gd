@@ -16,6 +16,11 @@ func _ready():
 	get_tree().get_root().connect("size_changed", self, "size_changed")
 	ui.get_node("btn_start").set_default_cursor_shape(Control.CURSOR_POINTING_HAND)
 	set_process(true)
+	set_process_input(true)
+
+func _input(event):
+	if event.is_pressed():
+		_on_tbtn_start_pressed()
 
 func size_changed():
 	var size = get_tree().get_root().get_children()[1].get_viewport_rect().size

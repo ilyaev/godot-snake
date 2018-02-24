@@ -21,3 +21,4 @@ func do_on_enter():
     flash.get_node("sprite").set_modulate(Color(1,0,0,1))
     flash.set_scale(Vector2(scene.map.maxX * scene.map.snake_size, scene.map.maxY * scene.map.snake_size))
     scene.hud.add_child(flash)
+    ._update_stats()

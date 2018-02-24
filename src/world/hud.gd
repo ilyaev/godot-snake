@@ -74,6 +74,8 @@ func add_to_center(scene):
 	ui.add_child(scene)
 
 func set_lifes(lifes):
+	if label_lifes.get_text() != lifes:
+		score_animation.play("life")
 	label_lifes.set_text(lifes)
 
 func update_score(new_score, new_experience):

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resource_file type="TileSet" subresource_count="35" version="2.1" version_name="Godot Engine v2.1.4.stable.official">
+	<ext_resource path="res://art/medium/sprite_13.png" type="Texture" index="31"></ext_resource>
+	<ext_resource path="res://art/medium/pit_fire/firepit_0.png" type="Texture" index="8"></ext_resource>
+	<ext_resource path="res://art/medium/sprite_06.png" type="Texture" index="12"></ext_resource>
 	<ext_resource path="res://art/medium/pit_fire/firepit_8.png" type="Texture" index="17"></ext_resource>
 	<ext_resource path="res://art/medium/sprite_12.png" type="Texture" index="30"></ext_resource>
 	<ext_resource path="res://art/medium/grass_pit.png" type="Texture" index="4"></ext_resource>
@@ -7,7 +10,6 @@
 	<ext_resource path="res://art/medium/grass_3.png" type="Texture" index="3"></ext_resource>
 	<ext_resource path="res://art/medium/pit_fire/firepit_1.png" type="Texture" index="9"></ext_resource>
 	<ext_resource path="res://art/medium/pit_fire/firepit_4.png" type="Texture" index="13"></ext_resource>
-	<ext_resource path="res://art/medium/pit_fire/firepit_0.png" type="Texture" index="8"></ext_resource>
 	<ext_resource path="res://art/medium/pit_earth/pit_earth_4.png" type="Texture" index="22"></ext_resource>
 	<ext_resource path="res://art/medium/pit_earth/pit_earth_3.png" type="Texture" index="21"></ext_resource>
 	<ext_resource path="res://art/medium/pit_fire/firepit_7.png" type="Texture" index="16"></ext_resource>
@@ -23,8 +25,6 @@
 	<ext_resource path="res://art/medium/pit_earth/pit_earth_8.png" type="Texture" index="27"></ext_resource>
 	<ext_resource path="res://art/medium/pit_earth/pit_earth_5.png" type="Texture" index="24"></ext_resource>
 	<ext_resource path="res://art/medium/pit_earth/pit_earth_7.png" type="Texture" index="26"></ext_resource>
-	<ext_resource path="res://art/medium/sprite_13.png" type="Texture" index="31"></ext_resource>
-	<ext_resource path="res://art/medium/sprite_06.png" type="Texture" index="12"></ext_resource>
 	<ext_resource path="res://art/medium/sprite_04.png" type="Texture" index="0"></ext_resource>
 	<ext_resource path="res://art/medium/pit_earth/pit_earth_6.png" type="Texture" index="25"></ext_resource>
 	<ext_resource path="res://art/medium/pit_earth/pit_earth_2.png" type="Texture" index="20"></ext_resource>
@@ -32,8 +32,8 @@
 	<ext_resource path="res://art/medium/sprite_pit_lava_64.png" type="Texture" index="6"></ext_resource>
 	<ext_resource path="res://art/medium/grass_0.png" type="Texture" index="32"></ext_resource>
 	<ext_resource path="res://art/medium/pit_earth/pit_earth_0.png" type="Texture" index="18"></ext_resource>
-	<ext_resource path="res://art/medium/lock.png" type="Texture" index="28"></ext_resource>
-	<ext_resource path="res://art/medium/unlock.png" type="Texture" index="29"></ext_resource>
+	<ext_resource path="res://art/medium/lock_locked_med.png" type="Texture" index="28"></ext_resource>
+	<ext_resource path="res://art/medium/lock_unlocked_med_rot.png" type="Texture" index="29"></ext_resource>
 	<main_resource>
 		<string name="0/name"> "grass" </string>
 		<resource name="0/texture" external="0">  </resource>
@@ -458,7 +458,7 @@
 		<string name="35/name"> "unlock" </string>
 		<resource name="35/texture" external="29">  </resource>
 		<vector2 name="35/tex_offset"> 0, 0 </vector2>
-		<resource name="35/material"></resource>		<color name="35/modulate"> 1, 1, 1, 1 </color>
+		<resource name="35/material"></resource>		<color name="35/modulate"> 0.03125, 1, 0, 1 </color>
 		<rect2 name="35/region"> 0, 0, 64, 64 </rect2>
 		<vector2 name="35/occluder_offset"> 32, 32 </vector2>
 		<resource name="35/occluder"></resource>		<vector2 name="35/navigation_offset"> 32, 32 </vector2>

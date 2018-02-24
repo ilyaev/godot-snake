@@ -32,8 +32,8 @@
 [ext_resource path="res://art/medium/pit_earth/pit_earth_6.png" type="Texture" id=30]
 [ext_resource path="res://art/medium/pit_earth/pit_earth_7.png" type="Texture" id=31]
 [ext_resource path="res://art/medium/pit_earth/pit_earth_8.png" type="Texture" id=32]
-[ext_resource path="res://art/medium/lock.png" type="Texture" id=33]
-[ext_resource path="res://art/medium/unlock.png" type="Texture" id=34]
+[ext_resource path="res://art/medium/lock_locked_med.png" type="Texture" id=33]
+[ext_resource path="res://art/medium/lock_unlocked_med_rot.png" type="Texture" id=34]
 
 [node name="tiles" type="Node2D"]
 
@@ -199,13 +199,14 @@ texture = ExtResource( 32 )
 
 [node name="lock" type="Sprite" parent="."]
 
-transform/pos = Vector2( 333.882, 506.841 )
+transform/pos = Vector2( 333.233, 506.192 )
 texture = ExtResource( 33 )
 
 [node name="unlock" type="Sprite" parent="."]
 
-transform/pos = Vector2( 329.027, 593.427 )
+transform/pos = Vector2( 328.228, 592.628 )
 texture = ExtResource( 34 )
+modulate = Color( 0.03125, 1, 0, 1 )
 
 [node name="portal" type="Sprite" parent="."]
 

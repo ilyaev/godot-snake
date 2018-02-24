@@ -50,6 +50,8 @@ var turn = 1
 var search_food = false
 var need_shrink = false
 
+var last_score = 0
+
 var active = false
 
 signal collide
@@ -114,7 +116,7 @@ func snake_next_command():
 	controller.next_command()
 
 	for one_food in foods.get_children():
-		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()):
+		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()) && one_food.effect_type != 'Static':
 			state.eat_food(one_food)
 
 

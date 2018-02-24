@@ -18,11 +18,12 @@ func build_pool():
 		if one.available:
 			var count = round(10 / float(one.rarity))
 			for ind in range(0, count):
-				pool.append(index)
+				if one.type == 'Fruit':
+					pool.append(index)
 		index = index + 1
 
 func get_next_fruit():
 	if pool.size() == 0:
 		build_pool()
-	var rindex = round(rand_range(0, pool.size()))
+	var rindex = round(rand_range(0, pool.size() - 1))
 	return get_children()[pool[rindex]]
