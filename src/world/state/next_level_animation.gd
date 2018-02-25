@@ -31,6 +31,8 @@ func _load_level():
     if scene.current_level.get_model():
         scene.DQN.fromJSON("res://src/aimodels/" + scene.current_level.get_model())
     scene.restart_all()
+    scene.session_locks = scene.map.get_lock_count()
+    scene.state._update_stats()
     scene.fly_camera_to(scene.snake.head.get_pos())
 
 func anim_finished(vortex):

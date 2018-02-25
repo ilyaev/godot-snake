@@ -1,6 +1,6 @@
 extends "res://src/base-scene.gd"
 
-const NEW_LIFE_PER_POINTS = 2000
+const NEW_LIFE_PER_POINTS = 5000
 
 var snake
 var direction = Vector2(0,0)
@@ -39,6 +39,8 @@ var current_level_number = 0
 var initial_lifes = 3
 var session_lifes = initial_lifes
 var session_score = 0
+var session_last_score = 0
+var session_locks = 0
 
 
 const STATE_WAITING_TO_START = 0
@@ -60,6 +62,7 @@ onready var tween = get_node("tween")
 var DQN
 
 func _ready():
+	# hud.spawn_fader(0.5, true)
 	states_classes = [
 		preload("state/waiting_to_start.gd").new(),
 		preload("state/in_play.gd").new(),
@@ -83,6 +86,8 @@ func _ready():
 	camera.connect("resize", self, "_on_world_resize")
 	camera.size_changed()
 	self.show_debug = false
+	session_locks = map.get_lock_count()
+	state._update_stats()
 	#test_server()
 
 func load_level(level = false):
@@ -97,6 +102,9 @@ func load_level(level = false):
 		map.apply_level(level)
 		if level.get_model():
 			DQN.fromJSON("res://src/aimodels/" + level.get_model())
+
+	session_locks = map.get_lock_count()
+	state._update_stats()
 
 func _on_world_resize(zoom, offset):
 	hud.rescale(zoom, offset)
@@ -129,6 +137,7 @@ func snake_next_level():
 	if current_level_number >= levels.size():
 		current_level_number = 0
 	load_level(levels[current_level_number].instance())
+
 
 func spawn_player_snake():
 	snake = snake_class.instance()
@@ -275,6 +284,7 @@ func restart_player():
 func restart_game():
 	print("ESTST GAME - ")
 	session_lifes = initial_lifes
+	session_score = 0
 	current_level = false
 	load_level()
 	spawn_player_snake()

@@ -4,6 +4,7 @@ func _init():
     name = 'IN_PLAY'
 
 func do_on_enter():
+    ._update_stats()
     if scene.snake:
         scene.snake.set_target(scene.direction)
 

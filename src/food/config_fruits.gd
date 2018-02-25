@@ -16,7 +16,7 @@ func build_pool():
 	var index = 0
 	for one in get_children():
 		if one.available:
-			var count = round(10 / float(one.rarity))
+			var count = one.rarity
 			for ind in range(0, count):
 				if one.type == 'Fruit':
 					pool.append(index)

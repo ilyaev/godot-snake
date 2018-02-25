@@ -72,12 +72,14 @@ func do_unlock_next(pos):
 	else:
 		unlocked += 1
 
+	world.session_locks = get_lock_count()
+
 
 
 func open_portal():
 	portal_open = true
 	for spot in lock_spots:
-		walls.set_cell(spot.x, spot.y, -1)
+		walls.set_cell(spot.x, spot.y, TILE_PORTAL)
 		world.spawn_static('whirl', spot, 'portal')
 		# world.spawn_static('spiral', spot, 'spiral')
 
@@ -130,11 +132,17 @@ func get_walls():
 		for y in range(maxY):
 			if walls.get_cell(x,y) == TILE_WALL:
 				result.append(map_to_screen(Vector2(x,y )))
-				walls.set_cell(x,y, TILE_GRASS)
+				walls.set_cell(x,y, -1)
 			for layer in layers:
 				if TILE_WALLS.has(layer.get_cell(x,y)):
-					layer.set_cell(x,y, TILE_GRASS)
+					layer.set_cell(x,y, -1)
 	return result
+
+func get_lock_count():
+	if portal_open:
+		return 0
+	else:
+		return lock_spots.size() - unlocked
 
 func get_bits():
 	var result = []

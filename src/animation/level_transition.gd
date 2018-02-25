@@ -178,4 +178,4 @@ func do_explode(pit, timer):
 	scene.remove_child(timer)
 	scene.add_explode(pit, 1 )
 	scene.map.map.set_cellv(scene.map.world_to_map(pit), scene.map.get_grass_tile())
-	scene.map.walls.set_cellv(scene.map.world_to_map(pit), scene.map.get_grass_tile())
+	scene.map.walls.set_cellv(scene.map.world_to_map(pit), -1) #scene.map.get_grass_tile())

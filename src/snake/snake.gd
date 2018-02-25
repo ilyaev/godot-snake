@@ -50,8 +50,6 @@ var turn = 1
 var search_food = false
 var need_shrink = false
 
-var last_score = 0
-
 var active = false
 
 signal collide

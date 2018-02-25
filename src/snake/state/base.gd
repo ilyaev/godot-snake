@@ -123,7 +123,7 @@ func eat_food(one_food):
     if one_food.effect_state > 0 and snake.state_id != one_food.effect_state:
         snake.set_state(one_food.effect_state, one_food.effect_duration)
 
-    snake.set_speed(max(0.1, snake.start_speed - snake.speed_rate * snake.get_size()))
+    snake.set_speed(max(0.15, snake.start_speed - snake.speed_rate * snake.get_size()))
 
     if !snake.is_in_group('foe') and one_food.effect_type == 'Key':
         var lock_pos = snake.map.unlock_next()

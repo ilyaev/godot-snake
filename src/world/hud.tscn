@@ -1,11 +1,12 @@
-[gd_scene load_steps=14 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://src/world/hud.gd" type="Script" id=1]
 [ext_resource path="res://art/fonts/yanone.fnt" type="BitmapFont" id=2]
 [ext_resource path="res://art/sprites/score_sprite_star.png" type="Texture" id=3]
 [ext_resource path="res://art/sprites/tail_icon.png" type="Texture" id=4]
 [ext_resource path="res://art/sprites/life_icon.png" type="Texture" id=5]
-[ext_resource path="res://art/sprites/hud_gamepad.png" type="Texture" id=6]
+[ext_resource path="res://art/sprites/lock_big.png" type="Texture" id=6]
+[ext_resource path="res://art/sprites/hud_gamepad.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 
@@ -85,10 +86,10 @@ tracks/0/path = NodePath("score:rect/scale")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.1, 0.2 ),
-"transitions": FloatArray( 1, 1, 1 ),
+"times": FloatArray( 0, 0.05, 0.1, 0.2 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1.5, 1.5 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+"values": [ Vector2( 1.5, 1.5 ), Vector2( 2, 2 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("score:rect/pos")
@@ -98,7 +99,7 @@ tracks/1/keys = {
 "times": FloatArray( 0, 0.05, 0.1, 0.2 ),
 "transitions": FloatArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 168, 5 ), Vector2( 192, 17 ), Vector2( 189, 17 ), Vector2( 181, 4 ) ]
+"values": [ Vector2( 376, 4 ), Vector2( 370, -10 ), Vector2( 388, 25 ), Vector2( 378, 8 ) ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -108,30 +109,20 @@ length = 0.3
 loop = false
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("ankh:transform/pos")
+tracks/0/path = NodePath("ankh:transform/rot")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0 ),
-"transitions": FloatArray( 1 ),
-"update": 0,
-"values": [ Vector2( 333.222, 50.0163 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("ankh:transform/rot")
-tracks/1/interp = 1
-tracks/1/imported = false
-tracks/1/keys = {
 "times": FloatArray( 0, 0.18, 0.3 ),
 "transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 180.0, 360.0 ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("ankh:transform/scale")
-tracks/2/interp = 1
-tracks/2/imported = false
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("ankh:transform/scale")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
 "times": FloatArray( 0, 0.12, 0.18, 0.3 ),
 "transitions": FloatArray( 1, 1, 1, 1 ),
 "update": 0,
@@ -219,14 +210,15 @@ texture = ExtResource( 3 )
 visibility/opacity = 0.9
 anchor/left = 1
 anchor/right = 1
+rect/scale = Vector2( 0.7, 0.7 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 451.0
+margin/left = 438.0
 margin/top = 1.0
-margin/right = -80.0
-margin/bottom = 148.0
+margin/right = -263.0
+margin/bottom = 109.0
 
 [node name="score" type="Label" parent="ui/top_right"]
 
@@ -235,10 +227,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 181.0
-margin/top = 4.0
-margin/right = 239.0
-margin/bottom = 63.0
+margin/left = 372.0
+margin/top = 8.0
+margin/right = 430.0
+margin/bottom = 67.0
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.0163574, 0.0259418, 0.261719, 1 )
 text = "3"
@@ -255,10 +247,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 349.0
-margin/top = -11.0
-margin/right = 407.0
-margin/bottom = 68.0
+margin/left = 522.0
+margin/top = -9.0
+margin/right = 580.0
+margin/bottom = 70.0
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.0163574, 0.0259418, 0.261719, 1 )
 text = "0"
@@ -268,9 +260,29 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Sprite" type="Sprite" parent="ui/top_right"]
+[node name="locks_count" type="Label" parent="ui/top_right"]
 
-transform/pos = Vector2( 150.674, 47.3343 )
+rect/scale = Vector2( 1.5, 1.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 196.0
+margin/top = -8.0
+margin/right = 254.0
+margin/bottom = 71.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.0163574, 0.0259418, 0.261719, 1 )
+text = "0"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="tail" type="Sprite" parent="ui/top_right"]
+
+transform/pos = Vector2( 335.6, 49.6575 )
 transform/scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 4 )
 
@@ -289,9 +301,16 @@ autoplay = ""
 
 [node name="ankh" type="Sprite" parent="ui/top_right"]
 
-transform/pos = Vector2( 333.222, 50.0163 )
+transform/pos = Vector2( 500.708, 55.5439 )
+transform/rot = 360.0
 transform/scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 5 )
+
+[node name="locks" type="Sprite" parent="ui/top_right"]
+
+transform/pos = Vector2( 168.275, 49.5517 )
+transform/scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 6 )
 
 [node name="bottom_right" type="Container" parent="ui"]
 
@@ -314,7 +333,7 @@ margin/bottom = -35.0
 visibility/self_opacity = 0.5
 transform/pos = Vector2( 229.726, 223.684 )
 transform/scale = Vector2( 3, 3 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="btn_left" type="TouchScreenButton" parent="ui/bottom_right/gamepad"]
 
@@ -392,7 +411,7 @@ margin/bottom = -22.0
 visibility/self_opacity = 0.5
 transform/pos = Vector2( 215.242, 239.559 )
 transform/scale = Vector2( 3, 3 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="btn_left" type="TouchScreenButton" parent="ui/bottom_left/gamepad"]
 

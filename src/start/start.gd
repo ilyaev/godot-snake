@@ -5,9 +5,13 @@ var width = 640 * 2
 var height = 480 * 2
 var original_zoom
 var field_height
+var fader_spawned = false
+var fader = false
 
 onready var camera = get_node("camera")
 onready var ui = get_node("ui")
+onready var player = get_node("ui/animation")
+onready var fader_class = preload('res://src/world/fader.tscn')
 
 func _ready():
 	field_height = height
@@ -38,7 +42,8 @@ func _process(delta):
 
 
 func _on_button_pressed():
-	get_node("/root/global").start_game()
+	# get_node("/root/global").start_game()
+	spawn_fader(0.5)
 	# get_node("/root/global").tools()
 
 
@@ -48,3 +53,41 @@ func _on_tbtn_start_pressed():
 
 func _on_autostart_timeout():
 	_on_button_pressed()
+
+
+func _on_animation_finished():
+	player.play("snake")
+	pass # replace with function body
+
+
+func _on_animation1_finished():
+	get_node("ui/animation1").play("snake2")
+	pass # replace with function body
+
+
+func _on_animation2_finished():
+	get_node("ui/animation2").play("snake3")
+	pass # replace with function body
+
+
+func _on_animation3_finished():
+	get_node("ui/animation3").play("whirl")
+	pass # replace with function body
+
+
+func spawn_fader(ttl = 2):
+	if fader_spawned:
+		return
+	fader_spawned = true
+	fader = fader_class.instance()
+	fader.set_z(101)
+	fader.set_scale(Vector2(10000,10000))
+	fader.ttl = ttl
+	add_child(fader)
+	fader.connect("faded", self, "on_faded")
+	pass
+
+func on_faded():
+	get_node("/root/global").start_game()
+	fader_spawned = false
+	fader.queue_free()

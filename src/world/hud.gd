@@ -5,6 +5,8 @@ onready var world = get_node("/root/world")
 onready var label_score = get_node("ui/top_right/score")
 onready var label_lifes = get_node("ui/top_right/lifes")
 onready var label_experience = get_node("ui/top_left/score")
+onready var label_locks = get_node("ui/top_right/locks_count")
+onready var sprite_locks = get_node("ui/top_right/locks")
 onready var score_animation = get_node("ui/top_right/animation")
 onready var bottom_left = get_node("ui/bottom_left")
 onready var bottom_right = get_node("ui/bottom_right")
@@ -12,6 +14,9 @@ onready var top_left = get_node("ui/top_left")
 onready var top_right = get_node("ui/top_right")
 onready var animation = get_node("ui/animation")
 onready var fader_class = preload('res://src/world/fader.tscn')
+
+var lock_texture = preload("res://art/sprites/lock_big.png")
+var unlock_texture = preload("res://art/sprites/unlock_big.png")
 
 var hidable = []
 
@@ -78,6 +83,18 @@ func set_lifes(lifes):
 		score_animation.play("life")
 	label_lifes.set_text(lifes)
 
+func set_locks(locks):
+	if label_locks.get_text() != locks:
+		if locks == "0":
+			sprite_locks.set_texture(unlock_texture)
+			label_locks.hide()
+			print("OPEN PORTAL")
+		elif label_locks.get_text() == "0":
+			sprite_locks.set_texture(lock_texture)
+			label_locks.show()
+			print("CLOSE PORTAL")
+	label_locks.set_text(locks)
+
 func update_score(new_score, new_experience):
 	if new_score == score and new_experience == experience:
 		return
@@ -87,11 +104,12 @@ func update_score(new_score, new_experience):
 	label_score.set_text(score)
 	label_experience.set_text(experience)
 
-func spawn_fader(ttl = 2):
+func spawn_fader(ttl = 2, invert = false):
 	if fader_spawned:
 		return
 	fader_spawned = true
 	fader = fader_class.instance()
+	fader.invert = invert
 	fader.set_z(101)
 	fader.set_scale(world.camera.size)
 	fader.ttl = ttl
