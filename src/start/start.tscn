@@ -41,7 +41,7 @@ tracks/0/keys = {
 "values": [ 0.0, 1.0 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 
 resource/name = "snake2"
 length = 4.0
@@ -58,7 +58,7 @@ tracks/0/keys = {
 "values": [ 0.0, 1.0 ]
 }
 
-[sub_resource type="Curve2D" id=4]
+[sub_resource type="Curve2D" id=5]
 
 bake_interval = 5.0
 _data = {
@@ -114,9 +114,6 @@ script/script = ExtResource( 1 )
 
 texture = ExtResource( 2 )
 centered = false
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="camera" type="Camera2D" parent="."]
 
@@ -208,8 +205,8 @@ curve = SubResource( 2 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="ui/Path2D"]
 
-transform/pos = Vector2( 638.09, 364.294 )
-transform/rot = -3.4447
+transform/pos = Vector2( 771.577, 416.747 )
+transform/rot = -28.8126
 offset = 1108.4
 h_offset = 0.0
 v_offset = 0.0
@@ -243,7 +240,7 @@ autoplay = "snake"
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/snake2 = SubResource( 5 )
+anims/snake2 = SubResource( 4 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -252,12 +249,12 @@ autoplay = "snake2"
 [node name="Path2D 2" type="Path2D" parent="ui"]
 
 z/z = 1
-curve = SubResource( 4 )
+curve = SubResource( 5 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="ui/Path2D 2"]
 
-transform/pos = Vector2( 478.92, 557.94 )
-transform/rot = -18.8436
+transform/pos = Vector2( 479.332, 558.081 )
+transform/rot = -18.7656
 offset = 5483.28
 h_offset = 0.0
 v_offset = 0.0
@@ -268,13 +265,11 @@ lookahead = 4.0
 
 [node name="Sprite2 2" type="Sprite" parent="ui/Path2D 2/PathFollow2D"]
 
-transform/scale = Vector2( 1, 1 )
 texture = ExtResource( 6 )
 
 [node name="Sprite23" type="Sprite" parent="ui/Path2D 2/PathFollow2D"]
 
 transform/pos = Vector2( -61.6736, 0.701752 )
-transform/scale = Vector2( 1, 1 )
 texture = ExtResource( 7 )
 
 [node name="Path2D 3" type="Path2D" parent="ui"]
@@ -285,8 +280,8 @@ curve = SubResource( 6 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="ui/Path2D 3"]
 
-transform/pos = Vector2( 537.13, 42.9842 )
-transform/rot = -159.208
+transform/pos = Vector2( 838.87, 550.862 )
+transform/rot = 149.268
 offset = 6049.92
 h_offset = 0.0
 v_offset = 0.0

@@ -28,7 +28,21 @@ var fader_spawned = false
 var fader
 
 func _ready():
+	world.hide()
+	get_node("ui").hide()
 	original_height = ui.get_size().y
+
+	var shower = fader_class.instance()
+	shower.set_z(101)
+	shower.set_scale(Vector2(10000,10000))
+	shower.ttl = 1
+	shower.invert = true
+	add_child(shower)
+	shower.connect("faded", self, "on_showed", [shower])
+
+	# world.show()
+	# get_node("ui").show()
+
 	label_score.set_text("2")
 	label_lifes.set_text("3")
 	hidable = [
@@ -50,6 +64,10 @@ func _ready():
 		}
 	]
 	pass
+
+func on_showed(obj):
+	print('free')
+	obj.queue_free()
 
 func rescale(zoom, offset):
 	offset.x = min(0, offset.x)
@@ -150,3 +168,9 @@ func _on_btn_up_pressed():
 
 func _on_btn_down_pressed():
 	world.ui_command('down')
+
+
+func _on_Timer_timeout():
+	world.show()
+	get_node("ui").show()
+	pass # replace with function body

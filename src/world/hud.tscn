@@ -172,6 +172,7 @@ autoplay = ""
 
 [node name="top_left" type="Container" parent="ui"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -484,6 +485,13 @@ margin/top = 175.0
 margin/right = -186.0
 margin/bottom = -183.0
 
+[node name="Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 0.1
+one_shot = true
+autostart = true
+
 [connection signal="pressed" from="ui/bottom_right/gamepad/btn_left" to="." method="_on_btn_left_pressed"]
 
 [connection signal="pressed" from="ui/bottom_right/gamepad/btn_right" to="." method="_on_btn_right_pressed"]
@@ -499,5 +507,7 @@ margin/bottom = -183.0
 [connection signal="pressed" from="ui/bottom_left/gamepad/btn_up" to="." method="_on_btn_up_pressed"]
 
 [connection signal="pressed" from="ui/bottom_left/gamepad/btn_down" to="." method="_on_btn_down_pressed"]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 

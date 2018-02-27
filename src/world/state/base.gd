@@ -29,10 +29,16 @@ func process_input(event):
 	elif event.is_action_pressed("ui_select"):
 		scene.do_debug_action()
 	elif event.is_action_pressed("ui_focus_next"):
-		scene.show_debug = !scene.show_debug
+        scene.show_debug = !scene.show_debug
+	elif event.is_action_pressed("ui_cancel"):
+        on_back_btn()
 	elif event.is_action_pressed("ui_accept"):
 		if scene.state_id != scene.STATE_DEBUG_MENU:
 			scene.spawn_enemy_snake(true)
+
+func on_back_btn():
+    if scene.global.state == scene.global.APP_STATE_PLAY:
+        scene.global.back_to_start()
 
 func play_unlock_one_animation(fly_to_pos):
     var anim = anim_unlock_one.instance()
