@@ -16,6 +16,7 @@ func do_on_enter():
         call_deferred('_load_level')
         return
 
+    scene.hud.hide_controls()
     var vortex = vortex_class.instance()
     vortex.set_pos(scene.snake.head.get_pos())
     vortex.connect("finished", self, "anim_finished", [vortex])
@@ -25,6 +26,7 @@ func do_on_enter():
     scene.snake.set_state(scene.snake.SNAKE_STATE_INACTIVE)
     for foe in scene.snake.world.snakes.get_children():
         foe.set_state(scene.snake.SNAKE_STATE_INACTIVE)
+
 
 func _load_level():
     scene.map.apply_level(scene.current_level)
@@ -39,4 +41,5 @@ func anim_finished(vortex):
     scene.snake.world.remove_child(vortex)
     scene.destroy_all()
     call_deferred('_load_level')
+    scene.hud.show_controls()
 

@@ -14,6 +14,10 @@ onready var top_left = get_node("ui/top_left")
 onready var top_right = get_node("ui/top_right")
 onready var animation = get_node("ui/animation")
 onready var fader_class = preload('res://src/world/fader.tscn')
+onready var global = get_node("/root/global")
+
+onready var dpad_class = preload('res://src/world/controls/dpad.tscn')
+onready var slider_class = preload('res://src/world/controls/slider.tscn')
 
 var lock_texture = preload("res://art/sprites/lock_big.png")
 var unlock_texture = preload("res://art/sprites/unlock_big.png")
@@ -26,6 +30,8 @@ var experience = "0"
 var cur_offset
 var fader_spawned = false
 var fader
+var bl_pos
+var br_pos
 
 func _ready():
 	world.hide()
@@ -60,9 +66,39 @@ func _ready():
 			'animation': "bottom_right_visibility"
 		}
 	]
-	pass
+	bottom_left.hide()
+	bottom_right.hide()
+
+	set_control_style()
+
+
+func set_control_style():
+	print("Adjust CONTRILS!! - ", global.get_control_style())
+	var control = dpad_class.instance()
+	var control2 = dpad_class.instance()
+	if global.get_control_style() == "1":
+		control = slider_class.instance()
+		control2 = slider_class.instance()
+	for one in bottom_left.get_children():
+		one.queue_free()
+	for one in bottom_right.get_children():
+		one.queue_free()
+
+	control.set_centered(true)
+	control.set_pos(Vector2(230,225))
+	control.connect("command", self, "_on_gamepad_command")
+
+	control2.set_centered(true)
+	control2.set_pos(Vector2(230,210))
+	control2.connect("command", self, "_on_gamepad_command")
+
+	bottom_left.add_child(control)
+	bottom_right.add_child(control2)
+
+	# var control =
 
 func on_showed(obj):
+	show_controls()
 	obj.queue_free()
 
 func rescale(zoom, offset):
@@ -76,14 +112,41 @@ func rescale(zoom, offset):
 	ui.set_scale(Vector2(1,1) / zoom)
 	ui.set_pos((offset / zoom) * -1)
 
+	bl_pos = bottom_left.get_pos()
+	br_pos = bottom_right.get_pos()
+
 
 func hide_controls():
-	bottom_left.hide()
-	bottom_right.hide()
+	tween_hide(bottom_left, bl_pos)
+	tween_hide(bottom_right, br_pos)
 
 func show_controls():
-	bottom_left.show()
-	bottom_right.show()
+	tween_show(bottom_left, bl_pos)
+	tween_show(bottom_right, br_pos)
+
+func tween_show(component, origin):
+	var shift = Vector2(0, 500)
+	var tween = Tween.new()
+	add_child(tween)
+	tween.interpolate_property(component, "rect/pos", origin + shift, origin, 0.1 + randf() * 0.4, Tween.TRANS_SINE, Tween.EASE_OUT)
+	tween.connect("tween_complete", self, "tween_complete", [tween])
+	tween.start()
+	component.set_pos(origin + shift)
+	component.show()
+
+func tween_hide(component, origin):
+	var shift = Vector2(0, 500)
+	var tween = Tween.new()
+	add_child(tween)
+	tween.interpolate_property(component, "rect/pos", origin, origin + shift, 0.3 + randf() * 0.4, Tween.TRANS_SINE, Tween.EASE_OUT)
+	tween.connect("tween_complete", self, "tween_complete", [tween])
+	tween.start()
+
+func tween_complete(obj, key, tween):
+	print("Quet Tween")
+	tween.queue_free()
+
+
 
 func get_center():
 	return ui.get_size() / 2

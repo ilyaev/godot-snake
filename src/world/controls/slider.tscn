@@ -10,6 +10,7 @@ radius = 10.0
 
 [node name="sprite" type="Sprite"]
 
+visibility/self_opacity = 0.5
 transform/scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 script/script = ExtResource( 2 )

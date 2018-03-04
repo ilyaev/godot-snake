@@ -343,8 +343,7 @@ margin/bottom = -22.0
 
 [node name="gamepad" parent="ui/bottom_left" instance=ExtResource( 8 )]
 
-visibility/self_opacity = 0.5
-transform/pos = Vector2( 240.183, 225.419 )
+transform/pos = Vector2( 268.877, 225.419 )
 
 [node name="center" type="Container" parent="ui"]
 

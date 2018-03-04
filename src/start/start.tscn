@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=1]
+[gd_scene load_steps=24 format=1]
 
 [ext_resource path="res://src/start/start.gd" type="Script" id=1]
 [ext_resource path="res://art/StartScreen_crop.png" type="Texture" id=2]
@@ -11,11 +11,14 @@
 [ext_resource path="res://art/sprites/key_3.png" type="Texture" id=9]
 [ext_resource path="res://art/sprites/lock_big.png" type="Texture" id=10]
 [ext_resource path="res://art/sprites/whirl_black.png" type="Texture" id=11]
+[ext_resource path="res://art/sprites/btn_settings.png" type="Texture" id=12]
+[ext_resource path="res://src/start/settings.tscn" type="PackedScene" id=13]
+[ext_resource path="res://art/material_black.png" type="Texture" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
+extents = Vector2( 8, 8 )
 
 [sub_resource type="Curve2D" id=2]
 
@@ -106,6 +109,11 @@ tracks/0/keys = {
 "values": [ 0.0, 360.0 ]
 }
 
+[sub_resource type="RectangleShape2D" id=9]
+
+custom_solver_bias = 0.0
+extents = Vector2( 40, 40 )
+
 [node name="start" type="Node2D"]
 
 script/script = ExtResource( 1 )
@@ -114,6 +122,9 @@ script/script = ExtResource( 1 )
 
 texture = ExtResource( 2 )
 centered = false
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="camera" type="Camera2D" parent="."]
 
@@ -136,6 +147,7 @@ drag_margin/bottom = 0.2
 
 [node name="ui" type="Container" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -164,9 +176,25 @@ shortcut = null
 params/resize_mode = 0
 params/stretch_mode = 0
 
+[node name="btn_settings" type="TextureButton" parent="ui"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1055.0
+margin/top = 542.0
+margin/right = 1167.0
+margin/bottom = 648.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+
 [node name="tbtn_start" type="TouchScreenButton" parent="ui"]
 
-transform/pos = Vector2( 297.579, 812.34 )
+transform/pos = Vector2( 307.81, 834.081 )
 transform/scale = Vector2( 49.3673, 17.4769 )
 normal = null
 pressed = null
@@ -248,6 +276,7 @@ autoplay = "snake2"
 
 [node name="Path2D 2" type="Path2D" parent="ui"]
 
+editor/display_folded = true
 z/z = 1
 curve = SubResource( 5 )
 
@@ -438,12 +467,52 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = "whirl"
 
+[node name="tbtn_settings" type="TouchScreenButton" parent="ui"]
+
+transform/pos = Vector2( 1063.05, 545.605 )
+transform/scale = Vector2( 2, 2 )
+normal = ExtResource( 12 )
+pressed = null
+bitmask = null
+shape = SubResource( 9 )
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+
+[node name="settings" parent="ui" instance=ExtResource( 13 )]
+
+visibility/visible = false
+transform/pos = Vector2( 381.115, 235.32 )
+z/z = 1000
+
 [node name="autostart" type="Timer" parent="."]
 
 process_mode = 1
 wait_time = 180.0
 one_shot = true
 autostart = true
+
+[node name="border_left" type="Node2D" parent="."]
+
+visibility/visible = false
+z/z = 4000
+
+[node name="Sprite" type="Sprite" parent="border_left"]
+
+texture = ExtResource( 14 )
+modulate = Color( 0.816406, 0.137131, 0.137131, 1 )
+
+[node name="border_right" type="Node2D" parent="."]
+
+visibility/visible = false
+z/z = 4000
+
+[node name="Sprite" type="Sprite" parent="border_right"]
+
+texture = ExtResource( 14 )
+modulate = Color( 0.816406, 0.137131, 0.137131, 1 )
 
 [connection signal="pressed" from="ui/btn_start" to="." method="_on_button_pressed"]
 
@@ -456,6 +525,10 @@ autostart = true
 [connection signal="finished" from="ui/animation2" to="." method="_on_animation2_finished"]
 
 [connection signal="finished" from="ui/animation3" to="." method="_on_animation3_finished"]
+
+[connection signal="pressed" from="ui/tbtn_settings" to="." method="_on_btn_settings_pressed"]
+
+[connection signal="changed" from="ui/settings" to="." method="_on_settings_changed"]
 
 [connection signal="timeout" from="autostart" to="." method="_on_autostart_timeout"]
 

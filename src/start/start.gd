@@ -7,11 +7,23 @@ var original_zoom
 var field_height
 var fader_spawned = false
 var fader = false
+var own_state
+var own_state_id
+var own_states_classes = [
+	preload("state_normal.gd").new(),
+	preload("state_settings.gd").new()
+]
 
 onready var camera = get_node("camera")
 onready var ui = get_node("ui")
 onready var player = get_node("ui/animation")
+onready var settings = get_node("ui/settings")
 onready var fader_class = preload('res://src/world/fader.tscn')
+onready var border_left = get_node("border_left")
+onready var border_right = get_node("border_right")
+
+const STATE_NORMAL = 0
+const STATE_SETTINGS = 1
 
 func _ready():
 	field_height = height
@@ -19,12 +31,22 @@ func _ready():
 	size_changed()
 	get_tree().get_root().connect("size_changed", self, "size_changed")
 	ui.get_node("btn_start").set_default_cursor_shape(Control.CURSOR_POINTING_HAND)
+	ui.get_node("btn_settings").set_default_cursor_shape(Control.CURSOR_POINTING_HAND)
 	set_process(true)
 	set_process_input(true)
+	set_state(STATE_NORMAL)
+
+
+func set_state(new_state):
+	if own_state and own_state.has_method("_on_exit"):
+		own_state._on_exit()
+	own_state_id = new_state
+	own_state = own_states_classes[new_state]
+	own_state.scene = self
+	own_state._on_enter()
 
 func _input(event):
-	if event.is_pressed():
-		_on_tbtn_start_pressed()
+	own_state.input(event)
 
 func size_changed():
 	var size = get_tree().get_root().get_children()[1].get_viewport_rect().size
@@ -36,13 +58,26 @@ func size_changed():
 	camera.set_zoom(original_zoom * scale)
 	camera.set_offset(offset)
 
+
+	if size.x > width:
+		border_left.set_scale(Vector2(space, size.y * scale * 2))
+		border_left.set_pos(Vector2(-space/2, 0))
+		border_left.show()
+
+		border_right.set_scale(Vector2(space, size.y * scale * 2))
+		border_right.set_pos(Vector2(width + space / 2, 0))
+		border_right.show()
+	else:
+		border_left.hide()
+		border_right.hide()
+
 func _process(delta):
 	ui.get_node("start_in").set_text("Start in " + String(int(round(get_node("autostart").get_time_left()))) + " seconds")
 	pass
 
 
 func _on_button_pressed():
-	spawn_fader(0.5)
+	own_state.start_game()
 
 
 func _on_tbtn_start_pressed():
@@ -86,3 +121,10 @@ func on_faded():
 	# get_node("/root/global").tools()
 	fader_spawned = false
 	fader.queue_free()
+
+func _on_btn_settings_pressed():
+	own_state.settings_pressed()
+
+
+func _on_settings_changed():
+	own_state.settings_changed()

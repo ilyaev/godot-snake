@@ -104,10 +104,10 @@ func next_command():
         action = random_action()
     else:
         var state = build_state()
-        var start_time = OS.get_ticks_msec()
+        # var start_time = OS.get_ticks_msec()
         action = actions[DQN.act(state)]
-        var run_time = OS.get_ticks_msec() -  start_time
-        print("ACT_TIME: ", run_time)
+        # var run_time = OS.get_ticks_msec() -  start_time
+        # print("ACT_TIME: ", run_time)
         if snake.map.is_wall(Vector2(pos.x + action.dx, pos.y + action.dy)):
             action = random_action()
 
