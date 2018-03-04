@@ -74,7 +74,7 @@ func _ready():
 
 
 	DQN = preload("../dqn/agent.gd").new()
-	DQN.fromJSON("res://src/aimodels/DEFAULT")
+	DQN.fromJSON("res://src/aimodels/DEFAULT.json")
 
 	set_state(STATE_WAITING_TO_START, self)
 	load_level(levels[0].instance())
@@ -101,7 +101,7 @@ func load_level(level = false):
 		current_level = level
 		map.apply_level(level)
 		if level.get_model():
-			DQN.fromJSON("res://src/aimodels/" + level.get_model())
+			DQN.fromJSON("res://src/aimodels/" + level.get_model() + ".json")
 
 	session_locks = map.get_lock_count()
 	state._update_stats()

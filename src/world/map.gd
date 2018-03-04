@@ -280,34 +280,34 @@ func get_grass_tile():
 func add_wall(pos):
 	var cell = world_to_map(pos)
 	var cell_id = get_cell_id(cell.x, cell.y)
-	if !cell_id_to_index.has(cell_id):
-		return
-	var cell_index = cell_id_to_index[cell_id]
-	for dx in [-1, 0, 1]:
-		for dy in [-1, 0, 1]:
-			if (dx == 0 or dy == 0) and (dx + dy) != 0:
-				var id = get_cell_id(cell.x + dx, cell.y + dy)
-				if  cell_id_to_index.has(id) and astar.has_point(cell_id_to_index[id]):
-					var index = cell_id_to_index[id]
-					if astar.are_points_connected(cell_index, index):
-						astar.disconnect_points(cell_index, index)
+	# if !cell_id_to_index.has(cell_id):
+	# 	return
+	# var cell_index = cell_id_to_index[cell_id]
+	# for dx in [-1, 0, 1]:
+	# 	for dy in [-1, 0, 1]:
+	# 		if (dx == 0 or dy == 0) and (dx + dy) != 0:
+	# 			var id = get_cell_id(cell.x + dx, cell.y + dy)
+	# 			if  cell_id_to_index.has(id) and astar.has_point(cell_id_to_index[id]):
+	# 				var index = cell_id_to_index[id]
+	# 				if astar.are_points_connected(cell_index, index):
+	# 					astar.disconnect_points(cell_index, index)
 	wall_map[cell_id] = true
 
 
 func remove_wall(pos):
 	var cell = world_to_map(pos)
 	var cell_id = get_cell_id(cell.x, cell.y)
-	if !cell_id_to_index.has(cell_id) or get_cell(cell.x, cell.y) == TILE_WALL:
-		return
-	var cell_index = cell_id_to_index[cell_id]
-	for dx in [-1, 0, 1]:
-		for dy in [-1, 0, 1]:
-			if (dx == 0 or dy == 0) and (dx + dy) != 0:
-				var id = get_cell_id(cell.x + dx, cell.y + dy)
-				if cell_id_to_index.has(id) and astar.has_point(cell_id_to_index[id]):
-					var index = cell_id_to_index[id]
-					if !astar.are_points_connected(cell_index, index):
-						astar.connect_points(cell_index, index, true)
+	# if !cell_id_to_index.has(cell_id) or get_cell(cell.x, cell.y) == TILE_WALL:
+	# 	return
+	# var cell_index = cell_id_to_index[cell_id]
+	# for dx in [-1, 0, 1]:
+	# 	for dy in [-1, 0, 1]:
+	# 		if (dx == 0 or dy == 0) and (dx + dy) != 0:
+	# 			var id = get_cell_id(cell.x + dx, cell.y + dy)
+	# 			if cell_id_to_index.has(id) and astar.has_point(cell_id_to_index[id]):
+	# 				var index = cell_id_to_index[id]
+	# 				if !astar.are_points_connected(cell_index, index):
+	# 					astar.connect_points(cell_index, index, true)
 	wall_map[cell_id] = false
 
 

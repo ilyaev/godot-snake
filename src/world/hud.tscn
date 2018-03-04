@@ -6,7 +6,8 @@
 [ext_resource path="res://art/sprites/tail_icon.png" type="Texture" id=4]
 [ext_resource path="res://art/sprites/life_icon.png" type="Texture" id=5]
 [ext_resource path="res://art/sprites/lock_big.png" type="Texture" id=6]
-[ext_resource path="res://art/sprites/hud_gamepad.png" type="Texture" id=7]
+[ext_resource path="res://src/world/controls/dpad.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/world/controls/slider.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Animation" id=1]
 
@@ -129,11 +130,6 @@ tracks/1/keys = {
 "values": [ Vector2( 0.2, 0.2 ), Vector2( 0.15, 0.15 ), Vector2( 0.3, 0.3 ), Vector2( 0.2, 0.2 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=7]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
-
 [node name="hud" type="CanvasLayer"]
 
 layer = 1
@@ -208,6 +204,7 @@ texture = ExtResource( 3 )
 
 [node name="top_right" type="Container" parent="ui"]
 
+editor/display_folded = true
 visibility/opacity = 0.9
 anchor/left = 1
 anchor/right = 1
@@ -315,7 +312,6 @@ texture = ExtResource( 6 )
 
 [node name="bottom_right" type="Container" parent="ui"]
 
-editor/display_folded = true
 anchor/left = 1
 anchor/top = 1
 anchor/right = 1
@@ -329,72 +325,10 @@ margin/top = 426.0
 margin/right = -41.0
 margin/bottom = -35.0
 
-[node name="gamepad" type="Sprite" parent="ui/bottom_right"]
-
-visibility/self_opacity = 0.5
-transform/pos = Vector2( 229.726, 223.684 )
-transform/scale = Vector2( 3, 3 )
-texture = ExtResource( 7 )
-
-[node name="btn_left" type="TouchScreenButton" parent="ui/bottom_right/gamepad"]
-
-transform/pos = Vector2( -56.3049, -2.08591 )
-transform/scale = Vector2( 3.49376, 2.4 )
-normal = null
-pressed = null
-bitmask = null
-shape = SubResource( 7 )
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = "left"
-visibility_mode = 0
-
-[node name="btn_right" type="TouchScreenButton" parent="ui/bottom_right/gamepad"]
-
-transform/pos = Vector2( 56.1215, -2.08597 )
-transform/scale = Vector2( 3.49376, 2.4 )
-normal = null
-pressed = null
-bitmask = null
-shape = SubResource( 7 )
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = "right"
-visibility_mode = 0
-
-[node name="btn_up" type="TouchScreenButton" parent="ui/bottom_right/gamepad"]
-
-transform/pos = Vector2( -2.8941, -55.8264 )
-transform/scale = Vector2( 3.49376, 2.94471 )
-normal = null
-pressed = null
-bitmask = null
-shape = SubResource( 7 )
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = "up"
-visibility_mode = 0
-
-[node name="btn_down" type="TouchScreenButton" parent="ui/bottom_right/gamepad"]
-
-transform/pos = Vector2( -1.90503, 50.3357 )
-transform/scale = Vector2( 3.49376, 2.94471 )
-normal = null
-pressed = null
-bitmask = null
-shape = SubResource( 7 )
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = "down"
-visibility_mode = 0
+[node name="gamepad" parent="ui/bottom_right" instance=ExtResource( 7 )]
 
 [node name="bottom_left" type="Container" parent="ui"]
 
-editor/display_folded = true
 visibility/opacity = 0.2
 anchor/top = 1
 anchor/bottom = 1
@@ -407,68 +341,10 @@ margin/top = 447.0
 margin/right = 525.0
 margin/bottom = -22.0
 
-[node name="gamepad" type="Sprite" parent="ui/bottom_left"]
+[node name="gamepad" parent="ui/bottom_left" instance=ExtResource( 8 )]
 
 visibility/self_opacity = 0.5
-transform/pos = Vector2( 215.242, 239.559 )
-transform/scale = Vector2( 3, 3 )
-texture = ExtResource( 7 )
-
-[node name="btn_left" type="TouchScreenButton" parent="ui/bottom_left/gamepad"]
-
-transform/pos = Vector2( -56.3049, -2.08591 )
-transform/scale = Vector2( 3.49376, 2.4 )
-normal = null
-pressed = null
-bitmask = null
-shape = SubResource( 7 )
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = "left"
-visibility_mode = 0
-
-[node name="btn_right" type="TouchScreenButton" parent="ui/bottom_left/gamepad"]
-
-transform/pos = Vector2( 56.1215, -2.08597 )
-transform/scale = Vector2( 3.49376, 2.4 )
-normal = null
-pressed = null
-bitmask = null
-shape = SubResource( 7 )
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = "right"
-visibility_mode = 0
-
-[node name="btn_up" type="TouchScreenButton" parent="ui/bottom_left/gamepad"]
-
-transform/pos = Vector2( -2.8941, -55.8264 )
-transform/scale = Vector2( 3.49376, 2.94471 )
-normal = null
-pressed = null
-bitmask = null
-shape = SubResource( 7 )
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = "up"
-visibility_mode = 0
-
-[node name="btn_down" type="TouchScreenButton" parent="ui/bottom_left/gamepad"]
-
-transform/pos = Vector2( -1.90503, 50.3357 )
-transform/scale = Vector2( 3.49376, 2.94471 )
-normal = null
-pressed = null
-bitmask = null
-shape = SubResource( 7 )
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = "down"
-visibility_mode = 0
+transform/pos = Vector2( 240.183, 225.419 )
 
 [node name="center" type="Container" parent="ui"]
 
@@ -492,21 +368,9 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
-[connection signal="pressed" from="ui/bottom_right/gamepad/btn_left" to="." method="_on_btn_left_pressed"]
+[connection signal="command" from="ui/bottom_right/gamepad" to="." method="_on_gamepad_command"]
 
-[connection signal="pressed" from="ui/bottom_right/gamepad/btn_right" to="." method="_on_btn_right_pressed"]
-
-[connection signal="pressed" from="ui/bottom_right/gamepad/btn_up" to="." method="_on_btn_up_pressed"]
-
-[connection signal="pressed" from="ui/bottom_right/gamepad/btn_down" to="." method="_on_btn_down_pressed"]
-
-[connection signal="pressed" from="ui/bottom_left/gamepad/btn_left" to="." method="_on_btn_left_pressed"]
-
-[connection signal="pressed" from="ui/bottom_left/gamepad/btn_right" to="." method="_on_btn_right_pressed"]
-
-[connection signal="pressed" from="ui/bottom_left/gamepad/btn_up" to="." method="_on_btn_up_pressed"]
-
-[connection signal="pressed" from="ui/bottom_left/gamepad/btn_down" to="." method="_on_btn_down_pressed"]
+[connection signal="command" from="ui/bottom_left/gamepad" to="." method="_on_gamepad_command"]
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 

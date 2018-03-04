@@ -109,6 +109,7 @@ func on_tween_complete_pre(obj, key, index, one, pretween):
 func on_tween_complete(obj, key, index, one, tween):
 	remove_child(tween)
 	var follow = piece_class.instance()
+	follow.set_scale(follow.get_scale() * (0.9 + (randf() * 0.5 - 0.25)))
 	bits.remove_child(one)
 	one.set_pos(Vector2(0,0))
 	one.hide()

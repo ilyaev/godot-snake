@@ -40,9 +40,6 @@ func _ready():
 	add_child(shower)
 	shower.connect("faded", self, "on_showed", [shower])
 
-	# world.show()
-	# get_node("ui").show()
-
 	label_score.set_text("2")
 	label_lifes.set_text("3")
 	hidable = [
@@ -66,7 +63,6 @@ func _ready():
 	pass
 
 func on_showed(obj):
-	print('free')
 	obj.queue_free()
 
 func rescale(zoom, offset):
@@ -152,25 +148,10 @@ func update_player_position(pos, offset,map_pos, maxX, maxY):
 				animation.play_backwards(one.animation)
 
 
-
-
-func _on_btn_left_pressed():
-	world.ui_command('left')
-
-
-func _on_btn_right_pressed():
-	world.ui_command('right')
-
-
-func _on_btn_up_pressed():
-	world.ui_command('up')
-
-
-func _on_btn_down_pressed():
-	world.ui_command('down')
-
-
 func _on_Timer_timeout():
 	world.show()
 	get_node("ui").show()
-	pass # replace with function body
+
+
+func _on_gamepad_command(cmd):
+	world.ui_command(cmd)

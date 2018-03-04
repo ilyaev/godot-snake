@@ -1,0 +1,83 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://art/sprites/hud_gamepad.png" type="Texture" id=1]
+[ext_resource path="res://src/world/controls/dpad.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[node name="gamepad" type="Sprite"]
+
+visibility/self_opacity = 0.5
+transform/pos = Vector2( 229.726, 223.684 )
+transform/scale = Vector2( 3, 3 )
+texture = ExtResource( 1 )
+script/script = ExtResource( 2 )
+
+[node name="btn_left" type="TouchScreenButton" parent="."]
+
+transform/pos = Vector2( -56.3049, -2.08591 )
+transform/scale = Vector2( 3.49376, 2.4 )
+normal = null
+pressed = null
+bitmask = null
+shape = SubResource( 1 )
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = "left"
+visibility_mode = 0
+
+[node name="btn_right" type="TouchScreenButton" parent="."]
+
+transform/pos = Vector2( 56.1215, -2.08597 )
+transform/scale = Vector2( 3.49376, 2.4 )
+normal = null
+pressed = null
+bitmask = null
+shape = SubResource( 1 )
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = "right"
+visibility_mode = 0
+
+[node name="btn_up" type="TouchScreenButton" parent="."]
+
+transform/pos = Vector2( -2.8941, -55.8264 )
+transform/scale = Vector2( 3.49376, 2.94471 )
+normal = null
+pressed = null
+bitmask = null
+shape = SubResource( 1 )
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = "up"
+visibility_mode = 0
+
+[node name="btn_down" type="TouchScreenButton" parent="."]
+
+transform/pos = Vector2( -1.90503, 50.3357 )
+transform/scale = Vector2( 3.49376, 2.94471 )
+normal = null
+pressed = null
+bitmask = null
+shape = SubResource( 1 )
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = "down"
+visibility_mode = 0
+
+[connection signal="pressed" from="btn_left" to="." method="_on_btn_left_pressed"]
+
+[connection signal="pressed" from="btn_right" to="." method="_on_btn_right_pressed"]
+
+[connection signal="pressed" from="btn_up" to="." method="_on_btn_up_pressed"]
+
+[connection signal="pressed" from="btn_down" to="." method="_on_btn_down_pressed"]
+
+

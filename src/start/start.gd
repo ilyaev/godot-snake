@@ -42,9 +42,7 @@ func _process(delta):
 
 
 func _on_button_pressed():
-	# get_node("/root/global").start_game()
 	spawn_fader(0.5)
-	# get_node("/root/global").tools()
 
 
 func _on_tbtn_start_pressed():
@@ -57,22 +55,18 @@ func _on_autostart_timeout():
 
 func _on_animation_finished():
 	player.play("snake")
-	pass # replace with function body
 
 
 func _on_animation1_finished():
 	get_node("ui/animation1").play("snake2")
-	pass # replace with function body
 
 
 func _on_animation2_finished():
 	get_node("ui/animation2").play("snake3")
-	pass # replace with function body
 
 
 func _on_animation3_finished():
 	get_node("ui/animation3").play("whirl")
-	pass # replace with function body
 
 
 func spawn_fader(ttl = 2):
@@ -89,5 +83,6 @@ func spawn_fader(ttl = 2):
 
 func on_faded():
 	get_node("/root/global").start_game()
+	# get_node("/root/global").tools()
 	fader_spawned = false
 	fader.queue_free()

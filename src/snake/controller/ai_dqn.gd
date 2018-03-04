@@ -14,6 +14,7 @@ const FEATURE_VISION_MID_RANGE = 6
 const FEATURE_TAIL_SIZE = 7
 const FEATURE_HUNGER = 8
 const FEATURE_FULL_SCAN_6 = 10
+const FEATURE_FULL_SCAN_4 = 9
 const FEATURE_FULL_SCAN_12 = 12
 
 const MAX_DIST_TO_FOOD = 8
@@ -40,6 +41,7 @@ func _init():
 
 func initialize(params):
     DQN = params[0]
+    print("DQN ", DQN, DQN.dict.params)
     params = DQN.dict.params
     features = DQN.dict.params.features
 
@@ -64,6 +66,8 @@ func build_state():
             result.append(1 - (food_pos.y - pos.y) / maxY)
        elif feature == FEATURE_FULL_SCAN_6:
             snake.map.buildSubMap(pos.x, pos.y, 6, result)
+       elif feature == FEATURE_FULL_SCAN_4:
+            snake.map.buildSubMap(pos.x, pos.y, 4, result)
        elif feature == FEATURE_FULL_SCAN_12:
             snake.map.buildSubMap(pos.x, pos.y, 12, result)
        elif feature == FEATURE_VISION_CLOSE_RANGE:
@@ -90,9 +94,9 @@ func random_action():
 
 
 func next_command():
-
     var size = snake.tail.get_children().size()
     var random_chance = max(2, 20 - size * size)
+    # var random_chance = 101
     var action = actions[0]
     var pos = snake.map.world_to_map(snake.head.get_pos())
 
@@ -100,10 +104,14 @@ func next_command():
         action = random_action()
     else:
         var state = build_state()
+        var start_time = OS.get_ticks_msec()
         action = actions[DQN.act(state)]
+        var run_time = OS.get_ticks_msec() -  start_time
+        print("ACT_TIME: ", run_time)
         if snake.map.is_wall(Vector2(pos.x + action.dx, pos.y + action.dy)):
             action = random_action()
 
     var command = Vector2(action.dx, action.dy)
     snake.set_target(command * snake.map.snake_size)
+
 

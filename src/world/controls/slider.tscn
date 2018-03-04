@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://art/sprites/hud_gamepad_slider.png" type="Texture" id=1]
+[ext_resource path="res://src/world/controls/slider.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 10.0
+
+[node name="sprite" type="Sprite"]
+
+transform/scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+script/script = ExtResource( 2 )
+
+[node name="btn" type="TouchScreenButton" parent="."]
+
+transform/pos = Vector2( -3.76859, -3.7686 )
+transform/scale = Vector2( 9, 9 )
+normal = null
+pressed = null
+bitmask = null
+shape = SubResource( 1 )
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+
+[connection signal="pressed" from="btn" to="." method="_on_TouchScreenButton_pressed"]
+
+[connection signal="released" from="btn" to="." method="_on_TouchScreenButton_released"]
+
+

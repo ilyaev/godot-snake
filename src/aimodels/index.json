@@ -51,6 +51,16 @@
    "brainSize": 148
   },
   {
+   "file": "OneFive",
+   "features": [
+    "2",
+    "10"
+   ],
+   "name": "OneFive",
+   "description": "-",
+   "brainSize": 40
+  },
+  {
    "file": "OneM",
    "features": [
     "2",
@@ -59,6 +69,16 @@
    "name": "OneM",
    "description": "-",
    "brainSize": 40
+  },
+  {
+   "file": "OneSeven",
+   "features": [
+    "2",
+    "9"
+   ],
+   "name": "OneSeven",
+   "description": "-",
+   "brainSize": 20
   }
  ]
 }
