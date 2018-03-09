@@ -42,6 +42,7 @@ var old_speed = 0
 var lifes = 4
 
 var current_direction = Vector2(0,0)
+var immediate_direction = Vector2(0,0)
 var food = false
 var path = []
 var commands = []
@@ -117,7 +118,6 @@ func snake_next_command():
 		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()) && one_food.effect_type != 'Static':
 			state.eat_food(one_food)
 
-
 	var next_cell = map.world_to_map(head.get_pos() + head.target_direction)
 	var head_snakes = world.check_heads(self)
 
@@ -189,6 +189,7 @@ func move_to_target():
 	if !active:
 		return
 	head.move_to(current_direction, Vector2(0,0))
+	immediate_direction = current_direction
 	var prev = head
 	var prev_prev = head.get_pos() + current_direction
 	for one in tail.get_children():

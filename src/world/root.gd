@@ -36,7 +36,7 @@ var levels = [
 ]
 
 var current_level_number = 0
-var initial_lifes = 3
+var initial_lifes = 5
 var session_lifes = initial_lifes
 var session_score = 0
 var session_last_score = 0

@@ -11,14 +11,20 @@ func do_on_enter():
 
 func ui_command(cmd):
 
-    if cmd == 'left' and scene.direction.x > 0:
+    var dir = scene.snake.immediate_direction
+
+    if cmd == 'left' and dir.x > 0:
         return
-    if cmd == 'right' and scene.direction.x < 0:
+    if cmd == 'right' and dir.x < 0:
         return
-    if cmd == 'up' and scene.direction.y > 0:
+    if cmd == 'up' and dir.y > 0:
         return
-    if cmd == 'down' and scene.direction.y < 0:
+    if cmd == 'down' and dir.y < 0:
         return
+
+    # var next_cell = scene.map.world_to_map(scene.snake.head.get_pos() + scene.direction)
+    # if scene.map.wall_map[scene.map.get_cell_id(next_cell.x, next_cell.y)]:
+    #     print("WALLL!!!")
 
     ._snake_command(cmd)
     if scene.snake:
