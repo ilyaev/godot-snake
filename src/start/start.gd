@@ -13,6 +13,7 @@ var own_states_classes = [
 	preload("state_normal.gd").new(),
 	preload("state_settings.gd").new()
 ]
+var btns_enabled = false
 
 onready var camera = get_node("camera")
 onready var ui = get_node("ui")
@@ -26,6 +27,7 @@ const STATE_NORMAL = 0
 const STATE_SETTINGS = 1
 
 func _ready():
+	btns_enabled = false
 	field_height = height
 	original_zoom = camera.get_zoom()
 	size_changed()
@@ -81,7 +83,8 @@ func _on_button_pressed():
 
 
 func _on_tbtn_start_pressed():
-	_on_button_pressed()
+	if btns_enabled:
+		_on_button_pressed()
 
 
 func _on_autostart_timeout():
@@ -123,8 +126,15 @@ func on_faded():
 	fader.queue_free()
 
 func _on_btn_settings_pressed():
-	own_state.settings_pressed()
+	if btns_enabled:
+		own_state.settings_pressed()
 
 
 func _on_settings_changed():
-	own_state.settings_changed()
+	if btns_enabled:
+		own_state.settings_changed()
+
+
+func _on_enable_buttons_timeout():
+	btns_enabled = true
+	pass # replace with function body

@@ -1,9 +1,5 @@
 extends Node2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-
 onready var dpad = get_node("panel/cb_dpad")
 onready var slider = get_node("panel/cb_slider")
 onready var global = get_node("/root/global")
@@ -16,9 +12,18 @@ var settings_file = "user://settings.json"
 
 signal changed
 
+
 func _ready():
+
+	global.connect("rpc_response", self, "on_rpc_response")
+
+	# global.call_server_async('{"query":"query {  highscore {id, score}}","variables":null}')
+
 	load_settings()
 	sync_cbs()
+
+func on_rpc_response(response):
+	print("RPC: ", response)
 
 func sync_cbs():
 	dpad.set_pressed(control_mode == CONTROL_DPAD)

@@ -308,7 +308,8 @@ func remove_wall(pos):
 	# 				var index = cell_id_to_index[id]
 	# 				if !astar.are_points_connected(cell_index, index):
 	# 					astar.connect_points(cell_index, index, true)
-	wall_map[cell_id] = false
+	if get_cell(cell.x, cell.y) != TILE_WALL:
+		wall_map[cell_id] = false
 
 
 func build_wall_map():

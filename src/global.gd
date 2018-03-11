@@ -12,6 +12,28 @@ const CONTROL_SLIDER = "1"
 var state = APP_STATE_START_SCREEN
 var control_mode = CONTROL_DPAD
 
+var rpc_class = preload("res://src/rpc.gd")
+var rpc
+var _thr
+
+signal rpc_response
+
+func _init():
+	rpc = rpc_class.new()
+	rpc._port = 4000
+	rpc.connect("response", self, "on_rpc_response")
+
+func call_server(body):
+	return rpc.call(body)
+
+func call_server_async(body):
+	_thr = Thread.new()
+	_thr.start(rpc, "call", body)
+
+func on_rpc_response(response):
+	_thr.wait_to_finish()
+	emit_signal("rpc_response", response)
+
 func _ready():
 	var root = get_tree().get_root()
 	current_scene = root.get_child( root.get_child_count() -1 )

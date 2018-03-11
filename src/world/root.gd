@@ -66,7 +66,7 @@ func _ready():
 	states_classes = [
 		preload("state/waiting_to_start.gd").new(),
 		preload("state/in_play.gd").new(),
-	preload("state/death_animation.gd").new(),
+		preload("state/death_animation.gd").new(),
 		preload("state/next_level_animation.gd").new(),
 		preload("state/game_over.gd").new(),
 		preload("state/menu_debug.gd").new()
@@ -90,11 +90,16 @@ func _ready():
 	state._update_stats()
 	#test_server()
 
+func upload_score():
+	var name = "mynameZ"
+	global.call_server_async('{"query":"mutation{newScore(name:\\"' + name + '\\",score:' + String(session_score)+ '){id,time,timestamp,score}}","variables":null}')
+
 func load_level(level = false):
 	if !level:
 		level = level1_class.instance()
 
 	if current_level:
+		current_level.free()
 		current_level = level
 		set_state(STATE_NEXT_LEVEL_ANIMATION, self)
 	else:
@@ -128,6 +133,8 @@ func _on_message_recieved(msg):
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
 		global.back_to_start()
+	if what == NOTIFICATION_PREDELETE:
+		fruits_config.free()
 
 func _input(event):
 	state.process_input(event)

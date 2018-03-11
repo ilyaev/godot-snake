@@ -42,6 +42,7 @@ var old_speed = 0
 var lifes = 4
 
 var current_direction = Vector2(0,0)
+var current_command = ''
 var immediate_direction = Vector2(0,0)
 var food = false
 var path = []

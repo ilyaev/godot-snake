@@ -41,7 +41,6 @@ func _init():
 
 func initialize(params):
     DQN = params[0]
-    print("DQN ", DQN, DQN.dict.params)
     params = DQN.dict.params
     features = DQN.dict.params.features
 

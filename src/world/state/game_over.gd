@@ -5,6 +5,7 @@ var go_class = preload("res://src/world/gameover.tscn")
 var go_instance
 var can_go = false
 
+
 func _init():
     name = 'GAME_OVER'
     set_process_input(true)

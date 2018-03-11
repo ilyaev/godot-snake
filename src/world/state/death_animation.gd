@@ -13,6 +13,7 @@ func do_on_enter():
     scene.session_lifes -= 1
     if scene.session_lifes <= 0:
         scene.set_state(scene.STATE_GAME_OVER, scene)
+        scene.upload_score()
         return
     scene.restart_player()
     scene.fly_camera_to(scene.snake.head.get_pos())

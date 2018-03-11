@@ -46,6 +46,7 @@ func on_action(action):
         scene.snake_next_level()
     if action == MENU_GAMEOVER:
         scene.set_state(scene.STATE_GAME_OVER, scene)
+        scene.upload_score()
         pop_state = false
     if action == MENU_SPAWN_KEY:
         scene.spawn_food()

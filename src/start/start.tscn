@@ -514,6 +514,13 @@ z/z = 4000
 texture = ExtResource( 14 )
 modulate = Color( 0.816406, 0.137131, 0.137131, 1 )
 
+[node name="enable_buttons" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 0.5
+one_shot = true
+autostart = true
+
 [connection signal="pressed" from="ui/btn_start" to="." method="_on_button_pressed"]
 
 [connection signal="pressed" from="ui/tbtn_start" to="." method="_on_tbtn_start_pressed"]
@@ -531,5 +538,7 @@ modulate = Color( 0.816406, 0.137131, 0.137131, 1 )
 [connection signal="changed" from="ui/settings" to="." method="_on_settings_changed"]
 
 [connection signal="timeout" from="autostart" to="." method="_on_autostart_timeout"]
+
+[connection signal="timeout" from="enable_buttons" to="." method="_on_enable_buttons_timeout"]
 
 
