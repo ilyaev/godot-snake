@@ -1,40 +1,79 @@
-## rpc.gd
-# An experiment in using HTTPClient
-# for blocking RPCs
-# @author bibby<bibby@bbby.org>
-#
-# get( url )
-# post( url, body )
-# put( url, body )
-# delete( url )
-
 extends Node
 
 const ERROR = 1
 const OK = 0
 
-# TODO, setter for domain
-var _host = "localhost"
+const STATE_NOT_INITED = 0
+const STATE_READY = 1
+const STATE_PROCESSING = 2
+
+var state = STATE_NOT_INITED
+
+var _host = "pbartz-api-dispatcher.herokuapp.com"
 var _port = 80
 var _error = ""
 var _response = ""
 
+var _thread
+var _thread_pool = []
+
 signal response
+signal initialized
 
 var client = HTTPClient.new()
 
 func get(url):
 	return _request( HTTPClient.METHOD_GET, url, "" )
 
+func _init():
+	_thread = Thread.new()
+	_thread_pool = [
+		Thread.new(),
+		Thread.new(),
+		Thread.new()
+	]
+	_thread_pool[0].start(self, "init_host", _thread_pool[0])
 
-func call(body):
+func get_free_thread():
+	var result
+	var index = 0
+	for one in _thread_pool:
+		if not one.is_active():
+			return index
+		index = index + 1
+	return -1
+
+
+func init_host(thread):
+	state = STATE_NOT_INITED
+	var raw = post("/", '{"query":"query {godotSnakeServerHost {host,port}}","variables":null}')
+	var dict = {}
+	if raw and raw[0] == '{':
+		dict.parse_json(raw)
+	if dict.has('data'):
+		_host = dict.data.godotSnakeServerHost.host
+		_port = dict.data.godotSnakeServerHost.port
+		state = STATE_READY
+		print("RPC Ready: ", _host,":", _port)
+		emit_signal("initialized")
+	thread.wait_to_finish()
+
+func call(params):
+	var body = params[0]
+	var thread = params[1]
+	if state != STATE_READY:
+		print("RPC api not ready for: ", body)
+		return
+	state = STATE_PROCESSING
 	var raw = post("/", body)
 	print("RPC BODT: ", body)
 	print("RPC RESPONSE: ", raw)
 	var dict = {}
 	if raw and raw[0] == '{':
 		dict.parse_json(raw)
-	emit_signal("response", dict)
+
+	emit_signal("response", dict, thread, body)
+	state = STATE_READY
 	return dict
 
 # TODO, form encode collections if desired
@@ -85,7 +124,7 @@ func _poll():
 		current_status = client.get_status()
 		if( status != current_status ):
 			status = current_status
-			print("HTTPClient entered status ", status)
+			# print("HTTPClient entered status ", status)
 			if( status == HTTPClient.STATUS_RESOLVING ):
 				continue
 			if( status == HTTPClient.STATUS_REQUESTING ):

@@ -3,6 +3,7 @@ extends Node2D
 onready var dpad = get_node("panel/cb_dpad")
 onready var slider = get_node("panel/cb_slider")
 onready var global = get_node("/root/global")
+onready var nickname = get_node("panel/nickname")
 
 const CONTROL_DPAD = "0"
 const CONTROL_SLIDER = "1"
@@ -10,20 +11,21 @@ const CONTROL_SLIDER = "1"
 var control_mode = CONTROL_DPAD
 var settings_file = "user://settings.json"
 
+var validation_exp = RegEx.new()
+
 signal changed
 
+func _init():
+	validation_exp.compile("[A-Za-z]|\\d")
 
 func _ready():
-
 	global.connect("rpc_response", self, "on_rpc_response")
-
-	# global.call_server_async('{"query":"query {  highscore {id, score}}","variables":null}')
-
 	load_settings()
 	sync_cbs()
 
-func on_rpc_response(response):
-	print("RPC: ", response)
+func on_rpc_response(response, command):
+	pass
+	# print("RPC: CMD: ", command, ' - ', response)
 
 func sync_cbs():
 	dpad.set_pressed(control_mode == CONTROL_DPAD)
@@ -46,6 +48,7 @@ func load_settings():
 		var line = settings.get_line()
 		control_mode = line
 		settings.close()
+	nickname.set_text(global.user.name)
 
 func _on_cb_dpad_pressed():
 	control_mode = CONTROL_DPAD
@@ -60,3 +63,18 @@ func _on_cb_slider_pressed():
 
 func notify():
 	emit_signal("changed")
+
+
+func _on_LineEdit_text_changed( text ):
+	var result = ""
+	var len = text.length()
+	for one in range(0, len):
+		if validation_exp.find(text[one]) == 0:
+			result = result + text[one]
+	nickname.set_text(result)
+	nickname.set_cursor_pos(result.length())
+
+
+func _on_TouchScreenButton_pressed():
+	global.update_name(nickname.get_text())
+	notify()

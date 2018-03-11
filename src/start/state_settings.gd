@@ -26,6 +26,7 @@ func settings_pressed():
     scene.set_state(scene.STATE_NORMAL)
 
 func settings_changed():
+    scene.get_node("ui/nickname").set_text(scene.global.user.name)
     settings_pressed()
 
 func start_game():

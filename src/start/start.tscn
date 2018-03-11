@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=1]
+[gd_scene load_steps=26 format=1]
 
 [ext_resource path="res://src/start/start.gd" type="Script" id=1]
 [ext_resource path="res://art/StartScreen_crop.png" type="Texture" id=2]
@@ -13,7 +13,9 @@
 [ext_resource path="res://art/sprites/whirl_black.png" type="Texture" id=11]
 [ext_resource path="res://art/sprites/btn_settings.png" type="Texture" id=12]
 [ext_resource path="res://src/start/settings.tscn" type="PackedScene" id=13]
-[ext_resource path="res://art/material_black.png" type="Texture" id=14]
+[ext_resource path="res://art/fonts/exo2.fnt" type="BitmapFont" id=14]
+[ext_resource path="res://src/start/hs_snapshot.tscn" type="PackedScene" id=15]
+[ext_resource path="res://art/material_black.png" type="Texture" id=16]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -147,7 +149,6 @@ drag_margin/bottom = 0.2
 
 [node name="ui" type="Container" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -182,10 +183,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 1055.0
-margin/top = 542.0
-margin/right = 1167.0
-margin/bottom = 648.0
+margin/left = 54.0
+margin/top = 34.0
+margin/right = 166.0
+margin/bottom = 140.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -469,7 +470,7 @@ autoplay = "whirl"
 
 [node name="tbtn_settings" type="TouchScreenButton" parent="ui"]
 
-transform/pos = Vector2( 1063.05, 545.605 )
+transform/pos = Vector2( 62.9427, 21.252 )
 transform/scale = Vector2( 2, 2 )
 normal = ExtResource( 12 )
 pressed = null
@@ -484,8 +485,31 @@ visibility_mode = 0
 [node name="settings" parent="ui" instance=ExtResource( 13 )]
 
 visibility/visible = false
-transform/pos = Vector2( 381.115, 235.32 )
+transform/pos = Vector2( 391.346, 124.055 )
 z/z = 1000
+
+[node name="nickname" type="Label" parent="ui"]
+
+rect/scale = Vector2( 1.5, 1.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 184.0
+margin/top = 36.0
+margin/right = 335.0
+margin/bottom = 87.0
+custom_fonts/font = ExtResource( 14 )
+custom_colors/font_color = Color( 0.0313497, 0.0302124, 0.175781, 1 )
+text = "Rookie"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="snapshot" parent="ui" instance=ExtResource( 15 )]
+
+visibility/visible = false
+transform/pos = Vector2( 33.7949, 216.782 )
 
 [node name="autostart" type="Timer" parent="."]
 
@@ -501,7 +525,7 @@ z/z = 4000
 
 [node name="Sprite" type="Sprite" parent="border_left"]
 
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 modulate = Color( 0.816406, 0.137131, 0.137131, 1 )
 
 [node name="border_right" type="Node2D" parent="."]
@@ -511,7 +535,7 @@ z/z = 4000
 
 [node name="Sprite" type="Sprite" parent="border_right"]
 
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 modulate = Color( 0.816406, 0.137131, 0.137131, 1 )
 
 [node name="enable_buttons" type="Timer" parent="."]

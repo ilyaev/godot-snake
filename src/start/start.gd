@@ -22,6 +22,8 @@ onready var settings = get_node("ui/settings")
 onready var fader_class = preload('res://src/world/fader.tscn')
 onready var border_left = get_node("border_left")
 onready var border_right = get_node("border_right")
+onready var global = get_node("/root/global")
+onready var snapshot = get_node("ui/snapshot")
 
 const STATE_NORMAL = 0
 const STATE_SETTINGS = 1
@@ -37,7 +39,17 @@ func _ready():
 	set_process(true)
 	set_process_input(true)
 	set_state(STATE_NORMAL)
+	ui.get_node("nickname").set_text(global.user.name)
+	load_highscore()
 
+
+func load_highscore():
+	global.load_highscore()
+
+
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		get_tree().quit()
 
 func set_state(new_state):
 	if own_state and own_state.has_method("_on_exit"):
