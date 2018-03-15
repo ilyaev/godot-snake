@@ -1,8 +1,14 @@
 extends Area2D
 
 var speed = 0.2
+var next_speed = 0.2
 var start_position = Vector2(0, 0)
+var start_position_map = Vector2(0, 0)
 var target_direction = Vector2(0, 0)
+var current_target_direction = Vector2(0, 0)
+var target_position = Vector2(0, 0)
+var target_position_map = Vector2(0, 0)
+var target_direction_map = Vector2(0, 0)
 
 const STATE_STOP = 0
 const STATE_START = 1
@@ -11,6 +17,14 @@ const STATE_END = 3
 
 var state = STATE_STOP
 var active = true
+
+var map_pos = Vector2(0, 0)
+
+var shift = Vector2(0,0)
+var all_time = 0
+var moves = 0
+
+var is_head = false
 
 
 onready var tween = get_node("tween")
@@ -21,28 +35,47 @@ signal move_finish
 signal collide
 
 func _ready():
+	is_head = is_in_group("head")
 	tween.connect("tween_complete", self, "tween_complete")
+	all_time = 0
+	set_fixed_process(true)
+
+func _fixed_process(delta):
+	all_time = all_time + delta
+	if all_time >= (speed + delta) and state == STATE_INTWEEN:
+		state = STATE_END
+		# set_pos(world.map.map_to_screen(target_position_map))
+		emit_signal("move_finish")
+	else:
+		set_pos(get_pos() + current_target_direction * ( delta / speed ))
 
 func relocate(position):
 	set_pos(position)
 	start_position = get_pos()
+	target_position = get_pos()
+
+func relocate_on_map(position):
+	start_position_map = position
+	target_position_map = position
 
 
 func tween_complete(obj, key):
 	state = STATE_END
+	set_pos(target_position)
 	start_position = get_pos()
 	emit_signal("move_finish")
 
+func move_to_map(direction, next_direction):
 
-func move_to(direction, next_direction):
-	state = STATE_INTWEEN
+	var diff = (target_position_map + direction) - target_position_map
 
-	var corner_transition = Tween.TRANS_SINE
+	start_position_map = target_position_map
+	target_position_map = start_position_map + direction
+	target_direction_map = direction
+
 	var start_rotation = round(get_rot() / 90)
+	var corner_transition = Tween.TRANS_SINE
 
-	target_direction = direction
-	tween.interpolate_property(self, "transform/pos", start_position, start_position + direction, speed, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
 
 	if direction.x == 0 and next_direction.x != 0:
 		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation + 90 * sign(next_direction.x) * sign(direction.y), speed, corner_transition, Tween.EASE_IN_OUT)
@@ -50,6 +83,18 @@ func move_to(direction, next_direction):
 	if direction.y == 0 and next_direction.y != 0:
 		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation - 90 * sign(next_direction.y) * sign(direction.x), speed, corner_transition, Tween.EASE_IN_OUT)
 		rotation.start()
+
+func move_to(direction):
+	state = STATE_INTWEEN
+	moves = moves + 1
+
+	start_position = target_position # get_pos()
+	target_position = start_position + direction
+	target_direction = target_position - get_pos()
+	current_target_direction = target_direction
+
+	all_time = 0
+
 
 func destroy():
 	queue_free()

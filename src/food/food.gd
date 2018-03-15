@@ -24,7 +24,6 @@ func _ready():
 
 func on_animation_finished():
 	animation.play(auto_anim)
-	print("FINISHED")
 
 func destroy():
 	active = false

@@ -8,6 +8,7 @@ const APP_STATE_TOOLS = 2
 
 const CONTROL_DPAD = "0"
 const CONTROL_SLIDER = "1"
+const TRY_LIMIT = 100
 
 var state = APP_STATE_START_SCREEN
 var control_mode = CONTROL_DPAD
@@ -19,6 +20,9 @@ var rpc_class = preload("res://src/rpc.gd")
 var rpc
 var _thr
 var _thread_pool
+
+
+var rpc_attempt_counter = 0
 
 signal rpc_response
 
@@ -100,11 +104,16 @@ func call_server_async(body):
 		timer.start()
 		add_child(timer)
 	else:
+		rpc_attempt_counter = 0
 		_thread_pool[next_thread].start(rpc, "call", [body, _thread_pool[next_thread]])
 
 func call_atempt(body, timer):
 	print("Call Next Atempt: ")
 	timer.queue_free()
+	rpc_attempt_counter = rpc_attempt_counter + 1
+	if rpc_attempt_counter > TRY_LIMIT:
+		print("TRY Limit reached")
+		return
 	call_server_async(body)
 
 func on_rpc_response(response, thread, body):

@@ -66,9 +66,11 @@ func snake_collide():
 func deactivate():
     snake.active = false
     snake.head.deactivate()
-    snake.map.remove_wall(snake.head.get_pos())
+    # snake.map.remove_wall(snake.head.get_pos())
+    snake.map.remove_wall_map(snake.head.target_position_map)
     for body in snake.tail.get_children():
-        snake.map.remove_wall(body.get_pos())
+        # snake.map.remove_wall(body.get_pos())
+        snake.map.remove_wall_map(body.target_position_map)
         body.deactivate()
 
 func destroy():
@@ -104,7 +106,8 @@ func doShrink():
 
         var back = snake.tail.get_children().back()
         var pos = back.get_pos()
-        snake.map.remove_wall(pos + back.target_direction)
+        # snake.map.remove_wall(pos + back.target_direction)
+        snake.map.remove_wall_map(back.target_position_map + back.target_direction_map)
         back.destroy()
         snake.world.add_explode(back.get_pos(), 1)
         snake.state.proxy_emit_signal("tail_shrink", pos)
@@ -136,8 +139,7 @@ func next_move():
     if !snake.active:
         return
 
-    snake.head.get_node("sprite").set_flip_h(snake.head.target_direction.x < 0)
-    snake.head.set_rot(0)
+
 
     var last_body = snake.head
     var prelast_body = snake.head
@@ -148,7 +150,8 @@ func next_move():
     if snake.tail.get_children().size() > 1:
         prelast_body = snake.tail.get_children()[snake.tail.get_children().size() - 2]
 
-    var tdiff = prelast_body.get_pos() - last_body.get_pos()
+    # var tdiff = prelast_body.get_pos() - last_body.get_pos()
+    var tdiff = prelast_body.target_position_map - last_body.target_position_map
 
     last_body.get_node("sprite").set_flip_h(tdiff.x < 0)
     last_body.set_rot(0)
@@ -161,9 +164,12 @@ func next_move():
 
     snake.snake_next_command()
 
-    if snake.head.target_direction.y < 0:
+    snake.head.get_node("sprite").set_flip_h(snake.head.target_direction_map.x < 0)
+    snake.head.set_rot(0)
+
+    if snake.head.target_direction_map.y < 0:
         snake.head.set_rot(PI/2)
-    elif snake.head.target_direction.y > 0:
+    elif snake.head.target_direction_map.y > 0:
         snake.head.set_rot(-PI/2)
 
     snake.state.proxy_emit_signal("after_move")

@@ -157,7 +157,8 @@ func spawn_player_snake():
 	snakes.add_child(snake)
 	snake.relocate(map.map_to_screen(map.get_next_player_spawn_pos()))
 	snake.spawn_food()
-	map.add_wall(snake.head.get_pos())
+	# map.add_wall(snake.head.get_pos())
+	map.add_wall_map(snake.head.start_position_map)
 
 func spawn_enemy_snake(ignore_max = false):
 	if !ignore_max and snakes.get_children().size() >= current_level.get_max_enemy() + 1:

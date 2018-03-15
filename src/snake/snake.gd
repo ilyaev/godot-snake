@@ -91,6 +91,7 @@ func set_state(new_state, timeout = 0):
 
 func relocate(position):
 	head.relocate(position)
+	head.relocate_on_map(map.world_to_map(position))
 
 func is_moving():
 	if !active:
@@ -143,11 +144,15 @@ func snake_next_command():
 	move_to_target()
 
 	if is_moving() and active == true:
-		map.add_wall(head.get_pos() + head.target_direction)
+		# map.add_wall(head.get_pos() + head.target_direction)
+		map.add_wall_map(head.target_position_map)
 		var tail_body = head
 		if tail.get_children().size() > 0:
 			tail_body = tail.get_children().back()
-		map.remove_wall(tail_body.start_position)
+		# map.remove_wall(tail_body.start_position)
+		map.remove_wall_map(tail_body.start_position_map)
+
+
 
 
 	if need_shrink:
@@ -189,13 +194,17 @@ func set_target(direction):
 func move_to_target():
 	if !active:
 		return
-	head.move_to(current_direction, Vector2(0,0))
+
+	head.move_to_map(current_direction / 64, Vector2(0,0))
+	head.move_to(current_direction)
+
 	immediate_direction = current_direction
 	var prev = head
-	var prev_prev = head.get_pos() + current_direction
+	var prev_prev = head.start_position_map + current_direction / 64
 	for one in tail.get_children():
-		one.move_to(prev.get_pos() - one.get_pos(), prev_prev - prev.get_pos())
-		prev_prev = prev.get_pos()
+		one.move_to_map(prev.start_position_map - one.target_position_map, prev_prev - prev.start_position_map)
+		one.move_to(map.map_to_screen(prev.start_position_map) - one.get_pos())
+		prev_prev = prev.start_position_map
 		prev = one
 
 func get_size():
@@ -223,7 +232,9 @@ func doGrow():
 	else:
 		one.set_texture(world.snake_tail_texture)
 
-	one.relocate(last.get_pos())
+	# one.relocate(last.get_pos())
+	one.relocate(map.map_to_screen(last.target_position_map))
+	one.relocate_on_map(last.target_position_map)
 
 func clear_path():
 	path.resize(0)
@@ -253,6 +264,6 @@ func ready_to_start():
 
 func set_speed(new_speed):
 	speed = max(new_speed, 0.01)
-	head.speed = speed
+	head.next_speed = speed
 	for one in tail.get_children():
-		one.speed = speed
+		one.next_speed = speed

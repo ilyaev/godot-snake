@@ -277,6 +277,10 @@ func get_grass_tile():
 		return TILE_GRASS
 
 
+func add_wall_map(cell):
+	var cell_id = get_cell_id(cell.x, cell.y)
+	wall_map[cell_id] = true
+
 func add_wall(pos):
 	var cell = world_to_map(pos)
 	var cell_id = get_cell_id(cell.x, cell.y)
@@ -293,6 +297,11 @@ func add_wall(pos):
 	# 					astar.disconnect_points(cell_index, index)
 	wall_map[cell_id] = true
 
+
+func remove_wall_map(cell):
+	var cell_id = get_cell_id(cell.x, cell.y)
+	if get_cell(cell.x, cell.y) != TILE_WALL:
+		wall_map[cell_id] = false
 
 func remove_wall(pos):
 	var cell = world_to_map(pos)
@@ -326,10 +335,12 @@ func build_wall_map():
 				wall_map[cell_id] = false
 
 	for snake in snakes.get_children():
-		var cell = world_to_map(snake.head.get_pos())
+		# var cell = world_to_map(snake.head.get_pos())
+		var cell = snake.head.target_position_map
 		wall_map[get_cell_id(cell.x, cell.y)] = true
 		for body in snake.tail.get_children():
-			var cell = world_to_map(body.get_pos())
+			# var cell = world_to_map(body.get_pos())
+			var cell = body.target_position_map
 			wall_map[get_cell_id(cell.x, cell.y)] = true
 	if !astar:
 		build_astar()
