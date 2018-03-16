@@ -11,23 +11,14 @@ var target_position_map = Vector2(0, 0)
 var target_direction_map = Vector2(0, 0)
 
 const STATE_STOP = 0
-const STATE_START = 1
 const STATE_INTWEEN = 2
 const STATE_END = 3
 
 var state = STATE_STOP
 var active = true
 
-var map_pos = Vector2(0, 0)
-
-var shift = Vector2(0,0)
 var all_time = 0
-var moves = 0
 
-var is_head = false
-
-
-onready var tween = get_node("tween")
 onready var world = get_node("/root/world")
 onready var rotation = get_node("rotation")
 
@@ -35,8 +26,6 @@ signal move_finish
 signal collide
 
 func _ready():
-	is_head = is_in_group("head")
-	tween.connect("tween_complete", self, "tween_complete")
 	all_time = 0
 	set_fixed_process(true)
 
@@ -44,7 +33,7 @@ func _fixed_process(delta):
 	all_time = all_time + delta
 	if all_time >= (speed + delta) and state == STATE_INTWEEN:
 		state = STATE_END
-		# set_pos(world.map.map_to_screen(target_position_map))
+		# speed = next_speed
 		emit_signal("move_finish")
 	else:
 		set_pos(get_pos() + current_target_direction * ( delta / speed ))
@@ -58,12 +47,6 @@ func relocate_on_map(position):
 	start_position_map = position
 	target_position_map = position
 
-
-func tween_complete(obj, key):
-	state = STATE_END
-	set_pos(target_position)
-	start_position = get_pos()
-	emit_signal("move_finish")
 
 func move_to_map(direction, next_direction):
 
@@ -86,7 +69,6 @@ func move_to_map(direction, next_direction):
 
 func move_to(direction):
 	state = STATE_INTWEEN
-	moves = moves + 1
 
 	start_position = target_position # get_pos()
 	target_position = start_position + direction

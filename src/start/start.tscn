@@ -234,8 +234,8 @@ curve = SubResource( 2 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="ui/Path2D"]
 
-transform/pos = Vector2( -68.0426, 243.677 )
-transform/rot = -107.439
+transform/pos = Vector2( -70.3077, 241.411 )
+transform/rot = -112.891
 offset = 3383.74
 h_offset = 0.0
 v_offset = 0.0
@@ -283,8 +283,8 @@ curve = SubResource( 5 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="ui/Path2D 2"]
 
-transform/pos = Vector2( 478.92, 557.94 )
-transform/rot = -18.8449
+transform/pos = Vector2( 478.919, 557.938 )
+transform/rot = -56.5467
 offset = 5482.58
 h_offset = 0.0
 v_offset = 0.0
