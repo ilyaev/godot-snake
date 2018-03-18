@@ -16,7 +16,7 @@ func get_model():
 		return model
 
 func get_max_enemy():
-	# return 0
+	return 0
 	if get_node('academy') and get_node('academy').get_children().size() > 0:
 		return get_node('academy').get_children()[0].max_enemy
 	else:

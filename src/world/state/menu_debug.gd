@@ -68,6 +68,7 @@ func do_on_exit():
     if alter_snake_state:
         scene.snake.set_state(scene.snake.SNAKE_STATE_NORMAL)
     scene.hud.remove_child(menu)
+    # menu.free()
     pass
 
 func ui_command(cmd):

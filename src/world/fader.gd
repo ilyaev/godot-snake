@@ -22,6 +22,7 @@ func _ready():
 	pass
 
 func do_faded(obj, key, timer):
+	timer.queue_free()
 	emit_signal("faded")
 
 func reverse(ttl = 2):

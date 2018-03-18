@@ -33,8 +33,11 @@ var fader
 var bl_pos
 var br_pos
 
+var perf_initial = 0
+
 func _ready():
 	world.hide()
+	perf_initial = Performance.get_monitor(Performance.OBJECT_COUNT)
 	get_node("ui").hide()
 	original_height = ui.get_size().y
 
@@ -45,6 +48,7 @@ func _ready():
 	shower.invert = true
 	add_child(shower)
 	shower.connect("faded", self, "on_showed", [shower])
+	set_fixed_process(true)
 
 	label_score.set_text("2")
 	label_lifes.set_text("3")
@@ -73,16 +77,22 @@ func _ready():
 
 
 func set_control_style():
-	print("Adjust CONTRILS!! - ", global.get_control_style())
-	var control = dpad_class.instance()
-	var control2 = dpad_class.instance()
-	if global.get_control_style() == "1":
-		control = slider_class.instance()
-		control2 = slider_class.instance()
 	for one in bottom_left.get_children():
 		one.queue_free()
 	for one in bottom_right.get_children():
 		one.queue_free()
+
+	var os = OS.get_name()
+	if os == 'OSX' or os == 'Windows':
+		return
+
+
+	var control = dpad_class.instance()
+	var control2 = dpad_class.instance()
+
+	if global.get_control_style() == "1":
+		control = slider_class.instance()
+		control2 = slider_class.instance()
 
 	control.set_centered(true)
 	control.set_pos(Vector2(230,225))
@@ -100,6 +110,9 @@ func set_control_style():
 func on_showed(obj):
 	show_controls()
 	obj.queue_free()
+
+func _fixed_process(delta):
+	top_left.get_node("fps").set_text("FPS: " + str(OS.get_frames_per_second()) + ' / ' + str(perf_initial))
 
 func rescale(zoom, offset):
 	offset.x = min(0, offset.x)

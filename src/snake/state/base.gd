@@ -24,7 +24,7 @@ func run_timer():
     if !timer:
         timer = Timer.new()
         timer.set_one_shot(true)
-        timer.connect("timeout", self, "on_timer")
+        timer.connect("timeout", self, "on_timer", [timer])
         timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
         snake.add_child(timer)
     timer.stop()
@@ -35,7 +35,7 @@ func on_exit_state():
     if timer:
         timer.stop()
 
-func on_timer():
+func on_timer(timer):
     if next_state:
         snake.set_state(next_state)
     else:

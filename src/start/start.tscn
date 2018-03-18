@@ -344,7 +344,7 @@ autoplay = "snake3"
 
 transform/pos = Vector2( 641.252, 766.417 )
 z/z = 2
-config/amount = 10
+config/amount = 5
 config/lifetime = 6.0
 config/process_mode = 1
 config/local_space = false
@@ -370,7 +370,7 @@ params/anim_initial_pos = 0.0
 
 transform/pos = Vector2( 1054.98, 766.417 )
 z/z = 2
-config/amount = 9
+config/amount = 4
 config/lifetime = 6.0
 config/process_mode = 1
 config/local_space = false
@@ -396,7 +396,7 @@ params/anim_initial_pos = 0.0
 
 transform/pos = Vector2( 211.192, 722.867 )
 z/z = 2
-config/amount = 8
+config/amount = 3
 config/lifetime = 6.0
 config/process_mode = 1
 config/local_space = false
@@ -506,10 +506,28 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
+[node name="nickscore" type="Label" parent="ui"]
+
+rect/scale = Vector2( 1.3, 1.3 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 390.0
+margin/top = 97.0
+margin/right = 541.0
+margin/bottom = 148.0
+custom_fonts/font = ExtResource( 14 )
+custom_colors/font_color = Color( 0.0313497, 0.0302124, 0.175781, 1 )
+text = "4001"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="snapshot" parent="ui" instance=ExtResource( 15 )]
 
-visibility/visible = false
-transform/pos = Vector2( 33.7949, 216.782 )
+transform/pos = Vector2( 28.8075, 159.426 )
 
 [node name="autostart" type="Timer" parent="."]
 

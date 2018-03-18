@@ -18,8 +18,13 @@ var user = {}
 
 var rpc_class = preload("res://src/rpc.gd")
 var rpc
-var _thr
 var _thread_pool
+
+const RPC_HANDSHAKE = 'handshake'
+const RPC_NEW_SCORE = 'newScore'
+const RPC_HS_SNAPSHOT = 'highscoreSnapshot'
+
+var DQN
 
 
 var rpc_attempt_counter = 0
@@ -32,6 +37,7 @@ func _init():
 		Thread.new(),
 		Thread.new()
 	]
+	DQN = preload("dqn/agent.gd").new()
 	rpc = rpc_class.new()
 	rpc.connect("response", self, "on_rpc_response")
 	rpc.connect("initialized", self, "handshake")
@@ -60,7 +66,8 @@ func load_user_info():
 	if not ufile.file_exists(user_file):
 		user = {
 			"userid": gen_user_id(),
-			"name": 'rookie'
+			"name": 'rookie',
+			"maxScore": 0
 		}
 		ufile.open(user_file, File.WRITE)
 		ufile.store_line(user.to_json())
@@ -73,17 +80,20 @@ func load_user_info():
 
 
 func handshake():
-	call_server_async(gen_rpc_query(["mutation", "handshake", user, '{userid}']))
-	load_highscore()
+	call_server_async(gen_rpc_query(["mutation", RPC_HANDSHAKE, {"userid": user.userid, "name": user.name}, '{_id, maxScore}']))
 
 func load_highscore():
-	call_server_async(gen_rpc_query(["query", "highscoreSnapshot", {}, '{caption,rows{name,score}}']))
+	call_server_async(gen_rpc_query(["query", RPC_HS_SNAPSHOT, {}, '{caption,rows{name,score}}']))
 
 
 func post_score(score, name = ""):
 	if not name:
 		name = user.name
-	call_server_async(gen_rpc_query(['mutation', 'newScore', {"name": name, "score": int(score), "userid": user.userid}, '{name,score}']))
+	call_server_async(gen_rpc_query(['mutation', RPC_NEW_SCORE, {"name": name, "score": int(score), "userid": user._id}, '{name,score}']))
+	if int(score) > int(user.maxScore):
+		user.maxScore = str(score)
+		return true
+	return false
 
 
 func gen_user_id():
@@ -119,13 +129,21 @@ func call_atempt(body, timer):
 func on_rpc_response(response, thread, body):
 	var command = 'graphql'
 	var js = {}
+
 	js.parse_json(body)
 	var query = js.query
+
 	command = query.split("{")[1].split("(")[0].split('{')[0]
 
 	if thread:
 		thread.wait_to_finish()
-	emit_signal("rpc_response", response, command)
+
+	if typeof(response) == TYPE_DICTIONARY and response.has('data'):
+		if command == RPC_HANDSHAKE:
+			user._id = response.data.handshake._id
+			user.maxScore = response.data.handshake.maxScore
+			update_name(user.name)
+		emit_signal("rpc_response", response, command)
 
 func _ready():
 	var root = get_tree().get_root()

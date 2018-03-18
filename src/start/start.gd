@@ -40,14 +40,26 @@ func _ready():
 	set_process_input(true)
 	set_state(STATE_NORMAL)
 	ui.get_node("nickname").set_text(global.user.name)
+	update_user_hs()
 	load_highscore()
 
+
+func update_user_hs():
+	if int(global.user.maxScore) > 0:
+		ui.get_node("nickscore").show()
+		ui.get_node("nickscore").set_text(str(global.user.maxScore))
+	else:
+		ui.get_node("nickscore").hide()
 
 func load_highscore():
 	global.load_highscore()
 
 
 func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		for one in own_states_classes:
+			one.free()
+
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
 		get_tree().quit()
 

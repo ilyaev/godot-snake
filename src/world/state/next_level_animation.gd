@@ -38,7 +38,7 @@ func _load_level():
     scene.fly_camera_to(scene.snake.head.get_pos())
 
 func anim_finished(vortex):
-    scene.snake.world.remove_child(vortex)
+    vortex.queue_free()
     scene.destroy_all()
     call_deferred('_load_level')
     scene.hud.show_controls()

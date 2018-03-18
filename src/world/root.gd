@@ -73,7 +73,7 @@ func _ready():
 	]
 
 
-	DQN = preload("../dqn/agent.gd").new()
+	DQN = global.DQN
 	DQN.fromJSON("res://src/aimodels/DEFAULT.json")
 
 	set_state(STATE_WAITING_TO_START, self)
@@ -135,6 +135,8 @@ func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
 		global.back_to_start()
 	if what == NOTIFICATION_PREDELETE:
+		for one in states_classes:
+			one.free()
 		fruits_config.free()
 
 func _input(event):

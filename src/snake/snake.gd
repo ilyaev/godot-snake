@@ -267,3 +267,11 @@ func set_speed(new_speed):
 	head.next_speed = speed
 	for one in tail.get_children():
 		one.next_speed = speed
+
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		for one in states_classes:
+			one.free()
+		for one in controller_classes:
+			one.free()

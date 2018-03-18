@@ -34,7 +34,6 @@ func _ready():
 	scene.hud.add_child(flash)
 	pass
 
-
 func spawn_fader(ttl = 2):
 	if fader_spawned:
 		return

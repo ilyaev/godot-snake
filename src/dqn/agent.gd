@@ -47,3 +47,8 @@ func fromJSON(fileName):
     ns = j.ns
     na = j.na
     net = netFromJSON(j.net)
+
+func release():
+
+    print("RELEASE DQN")
+    net.clear()
