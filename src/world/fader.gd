@@ -33,5 +33,5 @@ func reverse(ttl = 2):
 	tween.start()
 
 func do_finish(obj, key, timer):
-	remove_child(timer)
+	timer.queue_free()
 	queue_free()

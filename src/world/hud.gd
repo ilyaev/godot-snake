@@ -35,6 +35,10 @@ var br_pos
 
 var perf_initial = 0
 
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		global.perf.objects = perf_initial
+
 func _ready():
 	world.hide()
 	perf_initial = Performance.get_monitor(Performance.OBJECT_COUNT)
@@ -112,7 +116,7 @@ func on_showed(obj):
 	obj.queue_free()
 
 func _fixed_process(delta):
-	top_left.get_node("fps").set_text("FPS: " + str(OS.get_frames_per_second()) + ' / ' + str(perf_initial))
+	top_left.get_node("fps").set_text("FPS: " + str(OS.get_frames_per_second()) + ' / ' + str(perf_initial) + ' / +' + str(perf_initial - global.perf.objects) + ' / ' + str(Performance.get_monitor(Performance.OBJECT_COUNT)))
 
 func rescale(zoom, offset):
 	offset.x = min(0, offset.x)

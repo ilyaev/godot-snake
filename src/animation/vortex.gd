@@ -10,7 +10,12 @@ func _ready():
 	sample = piece_class.instance()
 	path = sample.get_node('path')
 	curve = path.get_curve()
-	sample.free()
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		print("Free SAMPLE")
+		sample.free()
+
 
 func get_point(index):
 	return target_positions[index]

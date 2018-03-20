@@ -61,14 +61,14 @@ func on_action(action):
                 one.snake_collide()
 
     if hide_menu and pop_state:
+        menu = false
         scene.pop_state()
 
 func do_on_exit():
     scene.snake.set_speed(snake_speed)
     if alter_snake_state:
         scene.snake.set_state(scene.snake.SNAKE_STATE_NORMAL)
-    scene.hud.remove_child(menu)
-    # menu.free()
+    menu.queue_free()
     pass
 
 func ui_command(cmd):

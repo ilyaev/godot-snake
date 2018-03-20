@@ -21,7 +21,7 @@ func set_state(new_state, scene):
         state.do_on_exit()
     state_id = new_state
     state = states_classes[new_state]
-    print("SET STATE - ", state.name)
+    print("SET MAIN STATE - ", state.name)
     state.scene = scene
     state.do_on_enter()
 

@@ -24,7 +24,14 @@ const RPC_HANDSHAKE = 'handshake'
 const RPC_NEW_SCORE = 'newScore'
 const RPC_HS_SNAPSHOT = 'highscoreSnapshot'
 
+var last_objects = 0
+
 var DQN
+
+var perf = {
+	"objects": 0,
+	"nodes": 0
+}
 
 
 var rpc_attempt_counter = 0
@@ -167,6 +174,11 @@ func start_game():
 	state = APP_STATE_PLAY
 	goto_scene("res://src/world/root.tscn")
 
+func print_objects(chapter = ""):
+	var new_objects = Performance.get_monitor(Performance.OBJECT_COUNT)
+	print(chapter, " - obj: ", Performance.get_monitor(Performance.OBJECT_COUNT), " diff: ", new_objects - last_objects)
+	last_objects = new_objects
+
 func back_to_start():
 	state = APP_STATE_START_SCREEN
 	goto_scene("res://src/start/start.tscn")
@@ -176,7 +188,11 @@ func tools():
 	goto_scene("res://src/academy.tscn")
 
 func _deferred_goto_scene(path):
+	if current_scene.has_method("on_scene_exit"):
+		current_scene.on_scene_exit()
+	print_objects()
 	current_scene.free()
+	print_objects()
 	var s = ResourceLoader.load(path)
 	current_scene = s.instance()
 	get_tree().get_root().add_child(current_scene)

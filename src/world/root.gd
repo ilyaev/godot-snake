@@ -118,6 +118,10 @@ func _on_world_resize(zoom, offset):
 func on_scene_enter():
 	pass
 
+func on_scene_exit():
+	# OS.print_all_resources('res://src/RS.txt')
+	print("EXIT ROOT SCENE")
+
 func test_server():
 	print('TEST SERVER')
 	websocket = preload('res://src/websocket.gd').new(self)
@@ -138,6 +142,8 @@ func _notification(what):
 		for one in states_classes:
 			one.free()
 		fruits_config.free()
+		if current_level:
+			current_level.free()
 
 func _input(event):
 	state.process_input(event)
