@@ -233,8 +233,8 @@ func doGrow():
 		one.set_texture(world.snake_tail_texture)
 
 	# one.relocate(last.get_pos())
-	one.relocate(map.map_to_screen(last.target_position_map))
-	one.relocate_on_map(last.target_position_map)
+	one.relocate(map.map_to_screen(last.start_position_map))
+	one.relocate_on_map(last.start_position_map)
 
 func clear_path():
 	path.resize(0)

@@ -61,7 +61,7 @@ func on_action(action):
                 one.snake_collide()
 
     if hide_menu and pop_state:
-        menu = false
+        # menu = false
         scene.pop_state()
 
 func do_on_exit():

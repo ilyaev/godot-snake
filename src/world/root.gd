@@ -182,7 +182,8 @@ func spawn_enemy_snake(ignore_max = false):
 	foe.relocate(map.map_to_screen(map.get_next_spawn_pos()))
 	foe.set_target(direction)
 	foe.spawn_food()
-	map.add_wall(foe.head.get_pos())
+	# map.add_wall(foe.head.get_pos())
+	# map.add_wall_map(foe.head.start_position_map)
 	foe.controller.find_route()
 
 

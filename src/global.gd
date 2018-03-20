@@ -73,7 +73,7 @@ func load_user_info():
 	if not ufile.file_exists(user_file):
 		user = {
 			"userid": gen_user_id(),
-			"name": 'rookie',
+			"name": 'Rookie',
 			"maxScore": 0
 		}
 		ufile.open(user_file, File.WRITE)
