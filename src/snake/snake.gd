@@ -217,6 +217,7 @@ func doShrink():
 func doGrow():
 	var one = world.body_class.instance()
 	var last = head
+	var prev_size = get_size()
 
 	if tail.get_child_count() > 0:
 		last = tail.get_children().back()
@@ -232,9 +233,12 @@ func doGrow():
 	else:
 		one.set_texture(world.snake_tail_texture)
 
-	# one.relocate(last.get_pos())
-	one.relocate(map.map_to_screen(last.start_position_map))
-	one.relocate_on_map(last.start_position_map)
+	if prev_size == 0:
+		one.relocate(map.map_to_screen(last.start_position_map))
+		one.relocate_on_map(last.start_position_map)
+	else:
+		one.relocate(map.map_to_screen(last.target_position_map))
+		one.relocate_on_map(last.target_position_map)
 
 func clear_path():
 	path.resize(0)
@@ -256,8 +260,8 @@ func _on_animation_finished():
 	state.on_animation_finished()
 
 func ready_to_start():
-	active = true
 	call_deferred("doGrow")
+	active = true
 	if is_in_group("foe"):
 		next_command()
 

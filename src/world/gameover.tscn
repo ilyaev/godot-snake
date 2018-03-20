@@ -10,7 +10,7 @@ length = 1.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Label:rect/pos")
+tracks/0/path = NodePath("caption/caption_label:rect/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
@@ -20,7 +20,7 @@ tracks/0/keys = {
 "values": [ Vector2( -139, -28 ), Vector2( -557, -106 ), Vector2( -420, -87 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Label:rect/size")
+tracks/1/path = NodePath("caption/caption_label:rect/size")
 tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = {
@@ -30,7 +30,7 @@ tracks/1/keys = {
 "values": [ Vector2( 267, 63 ), Vector2( 267, 63 ), Vector2( 267, 63 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Label:rect/scale")
+tracks/2/path = NodePath("caption/caption_label:rect/scale")
 tracks/2/interp = 1
 tracks/2/imported = false
 tracks/2/keys = {
@@ -55,7 +55,16 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
-[node name="Label" type="Label" parent="."]
+[node name="Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="caption" type="Node2D" parent="."]
+
+[node name="caption_label" type="Label" parent="caption"]
 
 rect/scale = Vector2( 3, 3 )
 focus/ignore_mouse = true
@@ -74,6 +83,29 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
+[node name="score" type="Node2D" parent="."]
+
+[node name="score_label" type="Label" parent="score"]
+
+rect/scale = Vector2( 3, 3 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -415.0
+margin/top = 143.0
+margin/right = -148.0
+margin/bottom = 206.0
+custom_fonts/font = ExtResource( 2 )
+text = "123456"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [connection signal="finished" from="animator" to="." method="_on_animator_finished"]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 

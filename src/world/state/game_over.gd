@@ -23,6 +23,7 @@ func do_on_enter():
 
     go_instance = go_class.instance()
     go_instance.set_z(102)
+    go_instance.score_value = scene.session_score
     scene.hud.add_to_center(go_instance)
     scene.hud.hide_controls()
     scene.hud.spawn_fader()
