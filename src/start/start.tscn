@@ -528,6 +528,7 @@ max_lines_visible = -1
 [node name="snapshot" parent="ui" instance=ExtResource( 15 )]
 
 transform/pos = Vector2( 28.8075, 159.426 )
+z/z = 10
 
 [node name="autostart" type="Timer" parent="."]
 

@@ -23,6 +23,7 @@ var _thread_pool
 const RPC_HANDSHAKE = 'handshake'
 const RPC_NEW_SCORE = 'newScore'
 const RPC_HS_SNAPSHOT = 'highscoreSnapshot'
+const RPC_SCORE_RANK = 'rankByScore'
 
 var last_objects = 0
 
@@ -92,6 +93,9 @@ func handshake():
 func load_highscore():
 	call_server_async(gen_rpc_query(["query", RPC_HS_SNAPSHOT, {}, '{caption,rows{name,score}}']))
 
+
+func load_rank_by_score(score):
+	call_server_async(gen_rpc_query(["query", RPC_SCORE_RANK, {"score": score}, '{rank, rankText}']))
 
 func post_score(score, name = ""):
 	if not name:

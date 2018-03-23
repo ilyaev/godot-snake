@@ -24,7 +24,7 @@ func roll_in():
 	set_pos(start_pos)
 	var trans = Tween.TRANS_BACK
 	# trans = randi() % 11
-	tween.interpolate_property(self, "transform/pos", start_pos, new_pos, 0.5 + (randf() * 0.3 - 0.15), trans, Tween.EASE_OUT)
+	tween.interpolate_property(self, "transform/pos", start_pos, new_pos, 0.5, trans, Tween.EASE_OUT)
 	tween.start()
 
 func tween_complete(obj, key, tween):

@@ -208,7 +208,6 @@ margin/right = 287.0
 margin/bottom = 37.0
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.116438, 0.0384521, 0.492188, 1 )
-text = "0"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
