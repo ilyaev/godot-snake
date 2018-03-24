@@ -206,8 +206,7 @@ func spawn_food(snake = false):
 		fruit = fruits_config.get_node('key')
 	var food = food_class.instance()
 	food.add_to_group("food")
-	foods.add_child(food)
-	food.set_texture(fruit.get_texture())
+
 	food.experience = fruit.experience
 	food.effect_type = fruit.type
 	food.effect_state = fruit.state
@@ -234,6 +233,9 @@ func spawn_food(snake = false):
 	for one in foods.get_children():
 		if one.is_in_group("food") and one.active:
 			map.add_food_to_map(one.get_pos())
+
+	foods.add_child(food)
+	food.set_texture(fruit.get_texture())
 
 func game_tick():
 	state.game_tick()
