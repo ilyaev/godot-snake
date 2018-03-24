@@ -39,7 +39,7 @@ func fly_up():
 	sprite.set_modulate(Color(0, 0, 0, 0.5))
 
 	var tween = Tween.new()
-	tween.interpolate_property(self, "transform/pos", get_pos(), Vector2(get_pos().x + (randi() % 400 - 200), 0),  1.2, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+	tween.interpolate_property(self, "transform/pos", get_pos(), Vector2(get_pos().x + (randi() % 400 - 200), 0),  1.2, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.connect('tween_complete', self, "on_fall_tween_complete", [tween])
 	add_child(tween)
 	tween.start()
