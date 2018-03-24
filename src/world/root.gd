@@ -262,19 +262,21 @@ func _on_snake_spawn_timer_timeout():
 	get_node("snake_spawn_timer").set_wait_time(2)
 	need_spawn = true
 
-func add_explode(pos, delay):
+
+func add_explode(pos, delay, anim_class = explode_class, mode = ''):
 	var ms_delay = 0.3 * delay / 100
 	var timer = Timer.new()
 	timer.set_one_shot(true)
-	timer.connect("timeout", self, "do_explode", [pos, timer])
+	timer.connect("timeout", self, "do_explode", [pos, timer, anim_class, mode])
 	timer.set_wait_time(ms_delay)
 	timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
 	timer.start()
 	add_child(timer)
 
-func do_explode(pos, timer):
+func do_explode(pos, timer, anim_class, mode):
 	timer.queue_free()
-	var explode = explode_class.instance()
+	var explode = anim_class.instance()
+	explode.set_mode(mode)
 	explode.set_pos(pos)
 	add_child(explode)
 

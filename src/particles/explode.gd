@@ -3,6 +3,9 @@ extends Particles2D
 
 var tween
 
+func set_mode(mode):
+	pass
+
 func _ready():
 	tween = Tween.new()
 	add_child(tween)

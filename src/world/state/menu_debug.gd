@@ -9,6 +9,7 @@ const MENU_GAMEOVER = 3
 const MENU_SPAWN_KEY = 4
 const MENU_INVINCIBLE = 5
 const MENU_KILLALL = 6
+const MENU_OPEN_LOCK = 7
 
 var snake_speed = 0
 var alter_snake_state = true
@@ -23,6 +24,7 @@ func do_on_enter():
     scene.snake.set_speed(1)
     menu.menu_items = [
         {"label": "Invincible", "action": MENU_INVINCIBLE},
+        {"label": "Open Lock", "action": MENU_OPEN_LOCK},
         {"label": "Kill All", "action": MENU_KILLALL},
 		{"label": "Hit The Wall", "action": MENU_WALL},
 		{"label": "Next Level", "action": MENU_NEXT_LEVEL},
@@ -59,9 +61,13 @@ func on_action(action):
         for one in scene.snakes.get_children():
             if one.is_in_group("foe"):
                 one.snake_collide()
+    if action == MENU_OPEN_LOCK:
+        var lock_pos = scene.snake.map.unlock_next()
+        if lock_pos.x != -1:
+            scene.snake.world.state.play_unlock_one_animation(lock_pos)
+        hide_menu = false
 
     if hide_menu and pop_state:
-        # menu = false
         scene.pop_state()
 
 func do_on_exit():

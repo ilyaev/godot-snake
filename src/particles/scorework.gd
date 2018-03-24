@@ -1,8 +1,14 @@
 extends Node2D
 
+var key_texture = preload("res://art/sprites/keyRed.png")
+
 func _ready():
 	pass
 
+
+func set_mode(mode):
+	if mode == 'key':
+		get_node("particles").set_texture(key_texture)
 
 func _on_Timer_timeout():
 	var tween = Tween.new()

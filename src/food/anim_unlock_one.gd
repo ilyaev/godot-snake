@@ -4,6 +4,7 @@ onready var animation = get_node('animation')
 onready var tween = get_node("tween")
 onready var map = get_node("/root/world/walls")
 onready var world = get_node("/root/world")
+onready var starlode_class = preload("res://src/particles/scorework.tscn")
 
 var fly_to_pos
 var do_unlock = true
@@ -14,6 +15,7 @@ func _ready():
 
 func fly_to(pos):
 	fly_to_pos = pos
+	world.add_explode(fly_to_pos, 0.01, starlode_class, 'key')
 
 func _on_Timer_timeout():
 	animation.play("fly")
@@ -24,5 +26,4 @@ func _on_Timer_timeout():
 func _on_tween_tween_complete( object, key ):
 	if do_unlock:
 		map.do_unlock_next(fly_to_pos)
-		world.add_explode(fly_to_pos, 0.1)
 	queue_free()
