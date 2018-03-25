@@ -10,7 +10,9 @@ onready var animation = get_node("animation")
 const SNAKE_STATE_NORMAL = 0
 const SNAKE_STATE_INVINCIBLE = 1
 const SNAKE_STATE_FLASH = 2
-const SNAKE_STATE_INACTIVE = 3
+const SNAKE_STATE_SLOW = 3
+const SNAKE_STATE_INACTIVE = 4
+
 
 const SNAKE_CONTROLLER_INPUT = 0
 const SNAKE_CONTROLLER_AI_ASTAR = 1
@@ -22,6 +24,7 @@ var states_classes = [
 	preload("state/normal.gd").new(),
 	preload("state/invincible.gd").new(),
 	preload("state/flash.gd").new(),
+	preload("state/slow.gd").new(),
 	preload("state/inactive.gd").new()
 ]
 
@@ -35,8 +38,10 @@ var controller_classes = [
 
 
 var score = 0
-var speed = 0.2
-var start_speed = 0.2
+var speed = 1
+var next_speed = 1
+var base_speed = 0.2
+var start_speed = 1
 var speed_rate = 0.007
 var old_speed = 0
 var lifes = 4
@@ -51,6 +56,7 @@ var id
 var turn = 1
 var search_food = false
 var need_shrink = false
+var all_time = 0
 
 var active = false
 
@@ -72,6 +78,11 @@ func _ready():
 		set_state(SNAKE_STATE_INVINCIBLE, 3)
 	else:
 		set_state(SNAKE_STATE_NORMAL)
+	all_time = 0
+	set_fixed_process(true)
+
+func _fixed_process(delta):
+	state.fixed_process(delta)
 
 func set_controller(new_controller):
 	controller_id = new_controller
@@ -105,6 +116,7 @@ func is_moving():
 
 func next_move():
 	state.next_move()
+	all_time = 0
 
 func snake_next_command():
 
@@ -117,7 +129,7 @@ func snake_next_command():
 	controller.next_command()
 
 	for one_food in foods.get_children():
-		if map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()) && one_food.effect_type != 'Static':
+		if one_food.active == true and map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()) && one_food.effect_type != 'Static':
 			state.eat_food(one_food)
 
 	var next_cell = map.world_to_map(head.get_pos() + head.target_direction)
@@ -267,10 +279,7 @@ func ready_to_start():
 
 
 func set_speed(new_speed):
-	speed = max(new_speed, 0.01)
-	head.next_speed = speed
-	for one in tail.get_children():
-		one.next_speed = speed
+	next_speed = new_speed
 
 
 func _notification(what):

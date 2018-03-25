@@ -10,6 +10,26 @@ var timer
 func _init():
     pass
 
+
+func fixed_process(delta):
+    var speed = snake.speed
+    var base_speed = snake.base_speed
+    var de_speed = (base_speed / speed)
+
+    delta = delta * speed
+    var real_delta = ( delta / de_speed )
+
+    snake.all_time = snake.all_time + delta
+    if snake.all_time >= (de_speed + delta) and snake.head.state == snake.head.STATE_INTWEEN:
+        snake.head.state = snake.head.STATE_END
+        snake.next_move()
+        snake.speed = snake.next_speed
+    else:
+        snake.head.set_pos(snake.head.get_pos() + snake.head.current_target_direction * real_delta)
+        for body in snake.tail.get_children():
+            body.set_pos(body.get_pos() + body.current_target_direction * real_delta)
+
+
 func next_level():
     snake.emit_signal('next_level')
 
@@ -127,7 +147,7 @@ func eat_food(one_food):
     if one_food.effect_state > 0 and snake.state_id != one_food.effect_state:
         snake.set_state(one_food.effect_state, one_food.effect_duration)
 
-    snake.set_speed(max(0.15, snake.start_speed - snake.speed_rate * snake.get_size()))
+    # snake.set_speed(max(0.15, snake.start_speed - snake.speed_rate * snake.get_size()))
 
     if !snake.is_in_group('foe') and one_food.effect_type == 'Key':
         var lock_pos = snake.map.unlock_next()

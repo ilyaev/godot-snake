@@ -19,7 +19,4 @@ func process(delta):
     waited = waited + delta
     scene.camera.align_to(scene.snake.head.get_pos())
     if waited > 3:
-        var cmd = 'right'
-        ._snake_command(cmd)
-        scene.set_state(scene.STATE_IN_PLAY, scene)
-        .ui_command(cmd)
+        ui_command('right')

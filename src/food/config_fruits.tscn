@@ -292,7 +292,7 @@ available = true
 
 [node name="grenade" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1361.51, 1071.07 )
+transform/pos = Vector2( 1359.31, 1068.87 )
 texture = ExtResource( 22 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -318,20 +318,20 @@ available = false
 
 [node name="spice_poganka" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1290.75, 199.264 )
+transform/pos = Vector2( 1286.35, 197.062 )
 texture = ExtResource( 24 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = -1000
-rarity = 5
+rarity = 3
 type = "Spice"
 state = 2
-state_duration = -1
+state_duration = 5
 available = true
 
 [node name="spice_red_flower" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1272.94, 749.065 )
+transform/pos = Vector2( 1268.54, 753.469 )
 texture = ExtResource( 25 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -344,16 +344,16 @@ available = false
 
 [node name="spice_mushroom" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1267.27, 470.935 )
+transform/pos = Vector2( 1265.07, 470.935 )
 texture = ExtResource( 26 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = -500
-rarity = 1
+rarity = 3
 type = "Spice"
-state = 0
-state_duration = -1
-available = false
+state = 3
+state_duration = 5
+available = true
 
 [node name="spice_violet" type="Sprite" parent="."]
 
@@ -361,7 +361,7 @@ transform/pos = Vector2( 1508.04, 196.338 )
 texture = ExtResource( 27 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
-experience = 100
+experience = 300
 rarity = 1
 type = "Spice"
 state = 0

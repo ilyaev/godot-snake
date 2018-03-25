@@ -21,7 +21,7 @@ func do_on_enter():
     menu = menu_class.instance()
     snake_speed = scene.snake.speed
     scene.snake.set_state(scene.snake.SNAKE_STATE_INVINCIBLE)
-    scene.snake.set_speed(1)
+    scene.snake.set_speed(0.5)
     menu.menu_items = [
         {"label": "Invincible", "action": MENU_INVINCIBLE},
         {"label": "Open Lock", "action": MENU_OPEN_LOCK},

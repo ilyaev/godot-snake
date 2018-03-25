@@ -103,7 +103,7 @@ max_lines_visible = -1
 [node name="rank" type="Node2D" parent="."]
 
 transform/pos = Vector2( 0, 260 )
-transform/scale = Vector2( 0.1, 0.1 )
+transform/scale = Vector2( 0.2, 0.2 )
 
 [node name="rank_label" type="Label" parent="rank"]
 
@@ -125,8 +125,6 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="score" type="Node2D" parent="."]
-
-editor/display_folded = true
 
 [node name="score_label" type="Label" parent="score"]
 

@@ -18,7 +18,7 @@ func build_pool():
 		if one.available:
 			var count = one.rarity
 			for ind in range(0, count):
-				if one.type == 'Fruit':
+				if one.type == 'Fruit' or one.type == 'Spice':
 					pool.append(index)
 		index = index + 1
 

@@ -1,7 +1,8 @@
 extends Area2D
 
-var speed = 0.2
-var next_speed = 0.2
+var speed = 1
+var base_speed = 0.2
+var next_speed = 1
 var start_position = Vector2(0, 0)
 var start_position_map = Vector2(0, 0)
 var target_direction = Vector2(0, 0)
@@ -27,16 +28,17 @@ signal collide
 
 func _ready():
 	all_time = 0
-	set_fixed_process(true)
+	# set_fixed_process(true)
 
 func _fixed_process(delta):
+	delta = delta * speed
 	all_time = all_time + delta
-	if all_time >= (speed + delta) and state == STATE_INTWEEN:
+	if all_time >= (base_speed + delta) and state == STATE_INTWEEN:
 		state = STATE_END
 		# speed = next_speed
 		emit_signal("move_finish")
 	else:
-		set_pos(get_pos() + current_target_direction * ( delta / speed ))
+		set_pos(get_pos() + current_target_direction * ( delta / (base_speed / speed) ))
 
 func relocate(position):
 	set_pos(position)
@@ -61,10 +63,10 @@ func move_to_map(direction, next_direction):
 
 
 	if direction.x == 0 and next_direction.x != 0:
-		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation + 90 * sign(next_direction.x) * sign(direction.y), speed, corner_transition, Tween.EASE_IN_OUT)
+		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation + 90 * sign(next_direction.x) * sign(direction.y), speed * base_speed, corner_transition, Tween.EASE_IN_OUT)
 		rotation.start()
 	if direction.y == 0 and next_direction.y != 0:
-		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation - 90 * sign(next_direction.y) * sign(direction.x), speed, corner_transition, Tween.EASE_IN_OUT)
+		rotation.interpolate_property(self, "transform/rot", start_rotation, start_rotation - 90 * sign(next_direction.y) * sign(direction.x), speed * base_speed, corner_transition, Tween.EASE_IN_OUT)
 		rotation.start()
 
 func move_to(direction):
