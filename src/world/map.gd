@@ -160,6 +160,10 @@ func clear_food_map():
 	food_map.clear()
 	pass
 
+func clear_wall_map():
+	wall_map.clear()
+	pass
+
 func add_food_to_map(pos):
 	var cell = world_to_map(pos)
 	var cid = String(cell.x) + ':' + String(cell.y)
@@ -335,13 +339,12 @@ func build_wall_map():
 				wall_map[cell_id] = false
 
 	for snake in snakes.get_children():
-		# var cell = world_to_map(snake.head.get_pos())
-		var cell = snake.head.target_position_map
-		wall_map[get_cell_id(cell.x, cell.y)] = true
-		for body in snake.tail.get_children():
-			# var cell = world_to_map(body.get_pos())
-			var cell = body.target_position_map
+		if snake.active == true:
+			var cell = snake.head.target_position_map
 			wall_map[get_cell_id(cell.x, cell.y)] = true
+			for body in snake.tail.get_children():
+				var cell = body.target_position_map
+				wall_map[get_cell_id(cell.x, cell.y)] = true
 	if !astar:
 		build_astar()
 	var run_time = OS.get_ticks_msec() -  start_time

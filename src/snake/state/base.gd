@@ -159,8 +159,6 @@ func next_move():
     if !snake.active:
         return
 
-
-
     var last_body = snake.head
     var prelast_body = snake.head
 

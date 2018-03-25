@@ -207,14 +207,16 @@ func move_to_target():
 	if !active:
 		return
 
-	head.move_to_map(current_direction / 64, Vector2(0,0))
+	var snake_speed = base_speed / speed
+
+	head.move_to_map(current_direction / 64, Vector2(0,0), snake_speed)
 	head.move_to(current_direction)
 
 	immediate_direction = current_direction
 	var prev = head
 	var prev_prev = head.start_position_map + current_direction / 64
 	for one in tail.get_children():
-		one.move_to_map(prev.start_position_map - one.target_position_map, prev_prev - prev.start_position_map)
+		one.move_to_map(prev.start_position_map - one.target_position_map, prev_prev - prev.start_position_map, snake_speed)
 		one.move_to(map.map_to_screen(prev.start_position_map) - one.get_pos())
 		prev_prev = prev.start_position_map
 		prev = one

@@ -7,6 +7,8 @@ onready var walls = get_node('walls')
 onready var piece_class = preload('res://src/animation/vortex_piece.tscn')
 onready var fader_class = preload('res://src/world/fader.tscn')
 onready var flash_class = preload('res://src/world/flash.tscn')
+onready var midlevel_class = preload('res://src/world/midlevel.tscn')
+
 var wall_texture = preload("res://art/medium/sprite_11.png")
 
 var target_positions = []
@@ -37,6 +39,19 @@ func _ready():
 	scene.hud.add_child(flash)
 	pass
 
+func spawn_midlevel():
+	var midlevel = midlevel_class.instance()
+	midlevel.set_z(102)
+	midlevel.set_pos(scene.camera.size / 2)
+	midlevel.score_value = scene.session_score
+	midlevel.connect("oncontinue", self, "do_continue", [midlevel])
+	scene.hud.add_to_center(midlevel)
+
+func do_continue(midlevel):
+	midlevel.queue_free()
+	fader.reverse(0.5)
+	emit_signal("finished")
+
 func spawn_fader(ttl = 2):
 	if fader_spawned:
 		return
@@ -46,6 +61,7 @@ func spawn_fader(ttl = 2):
 	fader.set_scale(scene.camera.size)
 	fader.ttl = ttl
 	scene.hud.add_child(fader)
+	spawn_midlevel()
 	pass
 
 func _process(delta):
@@ -55,6 +71,8 @@ func _process(delta):
 	r = half_size / 3
 	bits.set_pos(old_pos + Vector2(rand_range(-r,r), 0))
 	pass
+
+
 
 func build():
 	to_finish = bits.get_children().size()
@@ -129,8 +147,7 @@ func on_animation_end(follow, one):
 	finished = finished + 1
 	if finished == to_finish: #allbits.size():
 		vortex.queue_free()
-		fader.reverse(0.5)
-		emit_signal("finished")
+		# fader.reverse(0.5)
 
 func apply_scene():
 	half_size = scene.map.half_size
