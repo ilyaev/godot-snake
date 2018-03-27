@@ -27,15 +27,16 @@ func ui_command(cmd):
 
     ._snake_command(cmd)
 
-    # var next_cell = scene.map.world_to_map(scene.snake.head.get_pos() + dir)
     var pronext_cell = scene.map.world_to_map(scene.snake.head.start_position + scene.direction + scene.snake.head.target_direction)
     var not_in_map = false
     if pronext_cell.x < 0 or pronext_cell.y < 0 or pronext_cell.x > scene.map.maxX - 1 or pronext_cell.y > scene.map.maxY - 1:
-        not_in_map = true
+        if scene.snake.state_id != scene.snake.SNAKE_STATE_INVINCIBLE:
+            not_in_map = true
 
     if not_in_map or (cmd != scene.snake.current_command and scene.map.wall_map[scene.map.get_cell_id(pronext_cell.x, pronext_cell.y)]):
-        scene.direction = old_dir
-        return
+        if scene.snake.state_id != scene.snake.SNAKE_STATE_INVINCIBLE:
+            scene.direction = old_dir
+            return
 
 
     if scene.snake:

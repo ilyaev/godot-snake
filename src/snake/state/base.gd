@@ -144,7 +144,7 @@ func eat_food(one_food):
     else:
         one_food.destroy()
 
-    if one_food.effect_state > 0 and snake.state_id != one_food.effect_state:
+    if one_food.effect_state > 0 and snake.state_id != one_food.effect_state and snake.state_id != 1:
         snake.set_state(one_food.effect_state, one_food.effect_duration)
 
     # snake.set_speed(max(0.15, snake.start_speed - snake.speed_rate * snake.get_size()))

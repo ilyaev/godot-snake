@@ -45,7 +45,7 @@ __meta__ = {
 
 [node name="banana" type="Sprite" parent="."]
 
-transform/pos = Vector2( 152.614, 163.932 )
+transform/pos = Vector2( 154.816, 161.73 )
 texture = ExtResource( 2 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -53,7 +53,7 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
-state_duration = 5
+state_duration = 10
 available = true
 
 [node name="black-berry" type="Sprite" parent="."]
@@ -136,7 +136,7 @@ available = false
 
 [node name="lemon" type="Sprite" parent="."]
 
-transform/pos = Vector2( 403.033, 623.683 )
+transform/pos = Vector2( 400.831, 625.885 )
 texture = ExtResource( 10 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -144,7 +144,7 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
-state_duration = 5
+state_duration = 10
 available = true
 
 [node name="lime" type="Sprite" parent="."]
@@ -170,7 +170,7 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
-state_duration = 5
+state_duration = 10
 available = true
 
 [node name="peach" type="Sprite" parent="."]
@@ -183,7 +183,7 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
-state_duration = 5
+state_duration = 10
 available = true
 
 [node name="pear" type="Sprite" parent="."]
@@ -227,7 +227,7 @@ available = true
 
 [node name="red-apple" type="Sprite" parent="."]
 
-transform/pos = Vector2( 952.092, 591.891 )
+transform/pos = Vector2( 952.092, 589.689 )
 texture = ExtResource( 17 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -326,7 +326,7 @@ experience = -1000
 rarity = 3
 type = "Spice"
 state = 2
-state_duration = 5
+state_duration = 7
 available = true
 
 [node name="spice_red_flower" type="Sprite" parent="."]
@@ -409,7 +409,7 @@ available = false
 
 [node name="spice_coco" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1770.24, 480.026 )
+transform/pos = Vector2( 1768.04, 477.824 )
 texture = ExtResource( 31 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -461,7 +461,7 @@ available = true
 
 [node name="spiral" type="Sprite" parent="."]
 
-transform/pos = Vector2( 998.648, 1078.33 )
+transform/pos = Vector2( 1000.85, 1078.33 )
 texture = ExtResource( 35 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )

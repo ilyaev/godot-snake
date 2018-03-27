@@ -1,12 +1,11 @@
 [gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://src/levels/level_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://src/training/two.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/training/GameTwo.tscn" type="PackedScene" id=2]
 
 [node name="level" instance=ExtResource( 1 )]
 
 name = "Level Two"
-max_enemy = 3
 
 [node name="level" parent="academy" instance=ExtResource( 2 )]
 

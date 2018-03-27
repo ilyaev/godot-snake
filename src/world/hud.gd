@@ -116,7 +116,7 @@ func on_showed(obj):
 	obj.queue_free()
 
 func _fixed_process(delta):
-	top_left.get_node("fps").set_text("FPS: " + str(OS.get_frames_per_second()) + ' / ' + str(perf_initial) + ' / +' + str(perf_initial - global.perf.objects) + ' / ' + str(Performance.get_monitor(Performance.OBJECT_COUNT)))
+	# top_left.get_node("fps").set_text("FPS: " + str(OS.get_frames_per_second()) + ' / ' + str(perf_initial) + ' / +' + str(perf_initial - global.perf.objects) + ' / ' + str(Performance.get_monitor(Performance.OBJECT_COUNT)))
 	pass
 
 func rescale(zoom, offset):

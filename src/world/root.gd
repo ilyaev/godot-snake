@@ -93,7 +93,6 @@ func _ready():
 func upload_score():
 	var name = global.user.name
 	global.post_score(String(session_score), name)
-	# global.call_server_async('{"query":"mutation{newScore(name:\\"' + name + '\\",score:' + String(session_score)+ '){id,time,timestamp,score}}","variables":null}')
 
 func load_level(level = false):
 	if !level:

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://src/levels/level_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://src/training/one.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/training/GameOne.tscn" type="PackedScene" id=2]
 
 [node name="level" instance=ExtResource( 1 )]
 
