@@ -6,8 +6,11 @@
 [node name="level" instance=ExtResource( 1 )]
 
 name = "Level One"
-model = "OneSeven"
+model = "GameOneFull"
 
 [node name="level" parent="academy" instance=ExtResource( 2 )]
+
+max_enemy = 3
+model = "GameOneFull"
 
 

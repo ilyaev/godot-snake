@@ -53,6 +53,9 @@ func build_state():
         food_pos = snake.map.world_to_map(snake.food.get_pos())
     var maxX = snake.map.maxX - 1
     var maxY = snake.map.maxY - 1
+    var invincible = false
+    if snake.state_id == snake.SNAKE_STATE_INVINCIBLE:
+        invincible = true
     for featureStr in features:
        var feature = int(featureStr)
        if feature == FEATURE_HEAD_COORDINATES:
@@ -64,11 +67,11 @@ func build_state():
             result.append(1 - (food_pos.x - pos.x) / maxX)
             result.append(1 - (food_pos.y - pos.y) / maxY)
        elif feature == FEATURE_FULL_SCAN_6:
-            snake.map.buildSubMap(pos.x, pos.y, 6, result)
+            snake.map.buildSubMap(pos.x, pos.y, 6, result, invincible)
        elif feature == FEATURE_FULL_SCAN_4:
-            snake.map.buildSubMap(pos.x, pos.y, 4, result)
+            snake.map.buildSubMap(pos.x, pos.y, 4, result, invincible)
        elif feature == FEATURE_FULL_SCAN_12:
-            snake.map.buildSubMap(pos.x, pos.y, 12, result)
+            snake.map.buildSubMap(pos.x, pos.y, 12, result, invincible)
        elif feature == FEATURE_VISION_CLOSE_RANGE:
             for action in actions:
                 var flag = 0
@@ -107,7 +110,7 @@ func next_command():
         action = actions[DQN.act(state)]
         # var run_time = OS.get_ticks_msec() -  start_time
         # print("ACT_TIME: ", run_time)
-        if snake.map.is_wall(Vector2(pos.x + action.dx, pos.y + action.dy)):
+        if snake.map.is_wall(Vector2(pos.x + action.dx, pos.y + action.dy)) and snake.state_id != snake.SNAKE_STATE_INVINCIBLE:
             action = random_action()
 
     var command = Vector2(action.dx, action.dy)

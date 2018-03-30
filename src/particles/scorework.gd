@@ -7,8 +7,10 @@ func _ready():
 
 
 func set_mode(mode):
-	if mode == 'key':
+	if mode == 'key' or mode == 'unlocked':
 		get_node("particles").set_texture(key_texture)
+	if mode == 'unlocked':
+		get_node("particles").set_color(Color(0,1,0,0.5))
 
 func _on_Timer_timeout():
 	var tween = Tween.new()

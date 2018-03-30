@@ -14,6 +14,7 @@ const TILE_WALL_LEFT = 5
 const TILE_WALL_RIGHT = 4
 const TILE_WALL_UP = 7
 const TILE_WALL_DOWN = 6
+const TILE_INNER_WALL = 12
 const GRASS_TILES = [0, 9, 10, 11]
 const PIT_TILES = [13, 14, 15, 16,17,18,19,20,21,22,23,24,14]
 const PLAYER_PIT_TILES = [25,26,27,28,29,30,31,32,33,13]
@@ -55,7 +56,7 @@ func export_level(level):
 		for y in range(maxY):
 			var cell_id = walls.get_cell(x,y)
 			var map_id = map.get_cell(x,y)
-			if cell_id == TILE_WALL:
+			if cell_id == TILE_WALL or map_id == TILE_INNER_WALL:
 				data.walls.append({
 					x = x,
 					y = y

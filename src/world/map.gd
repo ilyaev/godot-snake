@@ -181,7 +181,7 @@ func is_food_map(cell):
 	else:
 		return false
 
-func buildSubMap(cx, cy, drange, result):
+func buildSubMap(cx, cy, drange, result, invincible = false):
 	var c = 0
 	for dx in range(-drange / 2, drange / 2):
 		for dy in range(-drange/2, drange / 2):

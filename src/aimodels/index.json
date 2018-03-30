@@ -1,84 +1,54 @@
 {
  "models": [
   {
-   "file": "12",
-   "features": [
-    "2",
-    "12"
-   ],
-   "name": "12",
-   "description": "-",
-   "brainSize": 148
-  },
-  {
-   "file": "DEFAULT",
+   "file": "GameFiveFull.json",
    "features": [
     "2",
     "10"
    ],
-   "name": "DEFAULT",
+   "name": "GameFiveFull",
    "description": "-",
    "brainSize": 40
   },
   {
-   "file": "Odin",
+   "file": "GameOneFull.json",
    "features": [
     "2",
     "10"
    ],
-   "name": "Odin",
+   "name": "GameOneFull",
    "description": "-",
    "brainSize": 40
   },
   {
-   "file": "One32",
+   "file": "GameTwoFull.json",
    "features": [
     "2",
     "10"
    ],
-   "name": "One32",
+   "name": "GameTwoFull",
    "description": "-",
    "brainSize": 40
   },
   {
-   "file": "OneA",
-   "features": [
-    "2",
-    "12"
-   ],
-   "name": "OneA",
-   "description": "-",
-   "brainSize": 148
-  },
-  {
-   "file": "OneFive",
+   "file": "GameaThreeFull.json",
    "features": [
     "2",
     "10"
    ],
-   "name": "OneFive",
+   "name": "GameaThreeFull",
    "description": "-",
    "brainSize": 40
   },
   {
-   "file": "OneM",
+   "file": "g5.json",
    "features": [
     "2",
     "10"
    ],
-   "name": "OneM",
+   "name": "g5",
    "description": "-",
    "brainSize": 40
-  },
-  {
-   "file": "OneSeven",
-   "features": [
-    "2",
-    "9"
-   ],
-   "name": "OneSeven",
-   "description": "-",
-   "brainSize": 20
   }
  ]
 }

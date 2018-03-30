@@ -74,7 +74,7 @@ func _ready():
 
 
 	DQN = global.DQN
-	DQN.fromJSON("res://src/aimodels/DEFAULT.json")
+	# DQN.fromJSON("res://src/aimodels/DEFAULT.json")
 
 	set_state(STATE_WAITING_TO_START, self)
 	load_level(levels[0].instance())
@@ -106,6 +106,7 @@ func load_level(level = false):
 		current_level = level
 		map.apply_level(level)
 		if level.get_model():
+			print("LOAD DQN: ", level.get_model() + ".json")
 			DQN.fromJSON("res://src/aimodels/" + level.get_model() + ".json")
 
 	session_locks = map.get_lock_count()
@@ -260,7 +261,7 @@ func _process(delta):
 	state.process(delta)
 
 func _on_snake_spawn_timer_timeout():
-	get_node("snake_spawn_timer").set_wait_time(2)
+	get_node("snake_spawn_timer").set_wait_time(10)
 	need_spawn = true
 
 

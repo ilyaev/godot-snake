@@ -171,7 +171,8 @@ func next_move():
     # var tdiff = prelast_body.get_pos() - last_body.get_pos()
     var tdiff = prelast_body.target_position_map - last_body.target_position_map
 
-    last_body.get_node("sprite").set_flip_h(tdiff.x < 0)
+    if last_body.get_node("sprite"):
+        last_body.get_node("sprite").set_flip_h(tdiff.x < 0)
     last_body.set_rot(0)
 
     if tdiff.y < 0:
@@ -182,7 +183,8 @@ func next_move():
 
     snake.snake_next_command()
 
-    snake.head.get_node("sprite").set_flip_h(snake.head.target_direction_map.x < 0)
+    if snake.head.get_node("sprite"):
+        snake.head.get_node("sprite").set_flip_h(snake.head.target_direction_map.x < 0)
     snake.head.set_rot(0)
 
     if snake.head.target_direction_map.y < 0:

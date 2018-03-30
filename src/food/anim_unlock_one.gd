@@ -14,8 +14,11 @@ func _ready():
 	pass
 
 func fly_to(pos):
+	var animkey = 'key'
+	if do_unlock:
+		animkey = 'unlocked'
 	fly_to_pos = pos
-	world.add_explode(fly_to_pos, 0.01, starlode_class, 'key')
+	world.add_explode(fly_to_pos, 0.01, starlode_class, animkey)
 
 func _on_Timer_timeout():
 	animation.play("fly")
