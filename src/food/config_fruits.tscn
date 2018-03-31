@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=1]
+[gd_scene load_steps=37 format=1]
 
 [ext_resource path="res://src/food/config_fruits.gd" type="Script" id=1]
 [ext_resource path="res://art/big/fruits/banana_small.png" type="Texture" id=2]
@@ -21,20 +21,21 @@
 [ext_resource path="res://art/big/fruits/red-grape_small.png" type="Texture" id=19]
 [ext_resource path="res://art/big/fruits/star-fruit_small.png" type="Texture" id=20]
 [ext_resource path="res://art/big/fruits/strawberry_small.png" type="Texture" id=21]
-[ext_resource path="res://art/big/fruits/grenade.png" type="Texture" id=22]
-[ext_resource path="res://art/big/fruits/watermelon_small.png" type="Texture" id=23]
-[ext_resource path="res://art/spice/alchemy (2).png" type="Texture" id=24]
-[ext_resource path="res://art/spice/alchemy (3).png" type="Texture" id=25]
-[ext_resource path="res://art/spice/alchemy (1).png" type="Texture" id=26]
-[ext_resource path="res://art/spice/alchemy (5).png" type="Texture" id=27]
-[ext_resource path="res://art/spice/alchemy (6).png" type="Texture" id=28]
-[ext_resource path="res://art/spice/alchemy (7).png" type="Texture" id=29]
-[ext_resource path="res://art/spice/alchemy (8).png" type="Texture" id=30]
-[ext_resource path="res://art/spice/alchemy (9).png" type="Texture" id=31]
-[ext_resource path="res://art/spice/alchemy (10).png" type="Texture" id=32]
-[ext_resource path="res://art/sprites/key_3.png" type="Texture" id=33]
-[ext_resource path="res://art/sprites/whirl_black.png" type="Texture" id=34]
-[ext_resource path="res://art/sprites/whirl_blue.png" type="Texture" id=35]
+[ext_resource path="res://art/sprites/pumpkin.png" type="Texture" id=22]
+[ext_resource path="res://art/big/fruits/grenade.png" type="Texture" id=23]
+[ext_resource path="res://art/big/fruits/watermelon_small.png" type="Texture" id=24]
+[ext_resource path="res://art/spice/alchemy (2).png" type="Texture" id=25]
+[ext_resource path="res://art/spice/alchemy (3).png" type="Texture" id=26]
+[ext_resource path="res://art/spice/alchemy (1).png" type="Texture" id=27]
+[ext_resource path="res://art/spice/alchemy (5).png" type="Texture" id=28]
+[ext_resource path="res://art/spice/alchemy (6).png" type="Texture" id=29]
+[ext_resource path="res://art/spice/alchemy (7).png" type="Texture" id=30]
+[ext_resource path="res://art/spice/alchemy (8).png" type="Texture" id=31]
+[ext_resource path="res://art/spice/alchemy (9).png" type="Texture" id=32]
+[ext_resource path="res://art/spice/alchemy (10).png" type="Texture" id=33]
+[ext_resource path="res://art/sprites/key_3.png" type="Texture" id=34]
+[ext_resource path="res://art/sprites/whirl_black.png" type="Texture" id=35]
+[ext_resource path="res://art/sprites/whirl_blue.png" type="Texture" id=36]
 
 [node name="config_fruits" type="Node2D"]
 
@@ -53,6 +54,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 10
 available = true
 
@@ -66,6 +69,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = true
 
@@ -79,6 +84,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = true
 
@@ -92,6 +99,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = true
 
@@ -105,6 +114,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = false
 
@@ -118,6 +129,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = false
 
@@ -131,6 +144,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = false
 
@@ -144,6 +159,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 10
 available = true
 
@@ -157,6 +174,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = false
 
@@ -170,6 +189,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 10
 available = true
 
@@ -183,6 +204,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 10
 available = true
 
@@ -196,6 +219,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = false
 
@@ -209,6 +234,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = true
 
@@ -222,6 +249,8 @@ experience = 200
 rarity = 1
 type = "Fruit"
 state = 2
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = true
 
@@ -235,6 +264,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = false
 
@@ -248,6 +279,8 @@ experience = 200
 rarity = 1
 type = "Fruit"
 state = 2
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = true
 
@@ -261,6 +294,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = false
 
@@ -274,6 +309,8 @@ experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = false
 
@@ -287,103 +324,119 @@ experience = 200
 rarity = 1
 type = "Fruit"
 state = 2
+action = "Nothing"
+anim = ""
 state_duration = 5
+available = true
+
+[node name="pumpkin" type="Sprite" parent="."]
+
+transform/pos = Vector2( 780.13, 1399.2 )
+texture = ExtResource( 22 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 3 )
+experience = 200
+rarity = 3
+type = "Fruit"
+state = 0
+action = "FoodRain"
+anim = "Pumpkin"
+state_duration = -1
 available = true
 
 [node name="grenade" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1359.31, 1068.87 )
-texture = ExtResource( 22 )
+transform/pos = Vector2( 1356.25, 1068.87 )
+texture = ExtResource( 23 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = 100
 rarity = 30
 type = "Fruit"
 state = 0
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = true
 
 [node name="watermellon" type="Sprite" parent="."]
 
 transform/pos = Vector2( 950.82, 797.312 )
-texture = ExtResource( 23 )
+texture = ExtResource( 24 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = 100
 rarity = 1
 type = "Fruit"
 state = 1
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = false
 
 [node name="spice_poganka" type="Sprite" parent="."]
 
 transform/pos = Vector2( 1286.35, 197.062 )
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = -1000
 rarity = 3
 type = "Spice"
 state = 2
+action = "Nothing"
+anim = ""
 state_duration = 7
 available = true
 
 [node name="spice_red_flower" type="Sprite" parent="."]
 
 transform/pos = Vector2( 1268.54, 753.469 )
-texture = ExtResource( 25 )
+texture = ExtResource( 26 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = 100
 rarity = 1
 type = "Spice"
 state = 0
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = false
 
 [node name="spice_mushroom" type="Sprite" parent="."]
 
 transform/pos = Vector2( 1265.07, 470.935 )
-texture = ExtResource( 26 )
+texture = ExtResource( 27 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = -500
 rarity = 3
 type = "Spice"
 state = 3
+action = "Nothing"
+anim = ""
 state_duration = 5
 available = true
 
 [node name="spice_violet" type="Sprite" parent="."]
 
 transform/pos = Vector2( 1508.04, 196.338 )
-texture = ExtResource( 27 )
+texture = ExtResource( 28 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = 300
 rarity = 1
 type = "Spice"
 state = 0
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = true
 
 [node name="spice_geocinda" type="Sprite" parent="."]
 
 transform/pos = Vector2( 1515.6, 445.451 )
-texture = ExtResource( 28 )
-offset = Vector2( -17.4171, -25.6882 )
-script/script = ExtResource( 3 )
-experience = 100
-rarity = 1
-type = "Spice"
-state = 0
-state_duration = -1
-available = false
-
-[node name="spice_mint" type="Sprite" parent="."]
-
-transform/pos = Vector2( 1515.71, 717.846 )
 texture = ExtResource( 29 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -391,12 +444,14 @@ experience = 100
 rarity = 1
 type = "Spice"
 state = 0
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = false
 
-[node name="spice_autumn" type="Sprite" parent="."]
+[node name="spice_mint" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1762.92, 207.054 )
+transform/pos = Vector2( 1515.71, 717.846 )
 texture = ExtResource( 30 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -404,64 +459,74 @@ experience = 100
 rarity = 1
 type = "Spice"
 state = 0
+action = "Nothing"
+anim = ""
+state_duration = -1
+available = false
+
+[node name="spice_autumn" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1762.92, 207.054 )
+texture = ExtResource( 31 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 3 )
+experience = 100
+rarity = 1
+type = "Spice"
+state = 0
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = false
 
 [node name="spice_coco" type="Sprite" parent="."]
 
 transform/pos = Vector2( 1768.04, 477.824 )
-texture = ExtResource( 31 )
+texture = ExtResource( 32 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = -1000
 rarity = 1
 type = "Spice"
 state = 0
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = false
 
 [node name="spice_torn" type="Sprite" parent="."]
 
 transform/pos = Vector2( 1780.96, 729.198 )
-texture = ExtResource( 32 )
+texture = ExtResource( 33 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = -1000
 rarity = 3
 type = "Spice"
 state = 0
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = true
 
 [node name="key" type="Sprite" parent="."]
 
 transform/pos = Vector2( 205.848, 1054.11 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
 experience = 500
 rarity = 1
 type = "Key"
 state = 0
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = true
 
 [node name="whirl" type="Sprite" parent="."]
 
 transform/pos = Vector2( 567.011, 1078.33 )
-texture = ExtResource( 34 )
-offset = Vector2( -17.4171, -25.6882 )
-script/script = ExtResource( 3 )
-experience = 1000
-rarity = 1
-type = "Static"
-state = 0
-state_duration = -1
-available = true
-
-[node name="spiral" type="Sprite" parent="."]
-
-transform/pos = Vector2( 1000.85, 1078.33 )
 texture = ExtResource( 35 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -469,6 +534,23 @@ experience = 1000
 rarity = 1
 type = "Static"
 state = 0
+action = "Nothing"
+anim = ""
+state_duration = -1
+available = true
+
+[node name="spiral" type="Sprite" parent="."]
+
+transform/pos = Vector2( 1000.85, 1078.33 )
+texture = ExtResource( 36 )
+offset = Vector2( -17.4171, -25.6882 )
+script/script = ExtResource( 3 )
+experience = 1000
+rarity = 1
+type = "Static"
+state = 0
+action = "Nothing"
+anim = ""
 state_duration = -1
 available = true
 

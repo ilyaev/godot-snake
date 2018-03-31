@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://art/sprites/pumpkin.png" type="Texture" id=1]
+
+[node name="pumpkin" type="Sprite"]
+
+transform/pos = Vector2( 393.513, 1437.66 )
+texture = ExtResource( 1 )
+offset = Vector2( -17.4171, -25.6882 )
+
+

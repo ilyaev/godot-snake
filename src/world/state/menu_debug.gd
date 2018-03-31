@@ -51,7 +51,7 @@ func on_action(action):
         scene.upload_score()
         pop_state = false
     if action == MENU_SPAWN_KEY:
-        scene.spawn_food()
+        scene.spawn_food(false, Vector2(-1,-1), true)
         hide_menu = false
         pass
     if action == MENU_INVINCIBLE:

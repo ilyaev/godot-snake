@@ -8,6 +8,8 @@ var effect_duration = -1
 var active = true
 var auto_anim = "show"
 var loop = false
+var action = 'Nothing'
+var post_anim = ''
 
 onready var animation = get_node("animation")
 onready var timer = get_node("timer")
@@ -21,6 +23,9 @@ func _ready():
 		sprite.set_scale(Vector2(0,0))
 		fall_down()
 	animation.play(auto_anim)
+	if post_anim:
+		loop = true
+		auto_anim = post_anim
 	if loop:
 		animation.connect("finished", self, "on_animation_finished")
 

@@ -13,6 +13,7 @@ var enemy_snake_body_texture = preload("res://art/medium/sprite_01_1.png")
 var enemy_head_texture = preload("res://art/medium/sprite_02_1.png")
 var explode_class = preload("res://src/particles/explode.tscn")
 var body_class = preload("res://src/snake/body.tscn")
+var food_drop_class = preload("res://src/food/food-drop.tscn")
 var food_class = preload("res://src/food/food.tscn")
 var last_id = 0
 var need_spawn = false
@@ -169,6 +170,9 @@ func spawn_player_snake():
 	map.add_wall_map(snake.head.start_position_map)
 
 func spawn_enemy_snake(ignore_max = false):
+	var spawn_pos = map.get_next_spawn_pos()
+	if !map.free_around(spawn_pos, 2):
+		return
 	if !ignore_max and snakes.get_children().size() >= current_level.get_max_enemy() + 1:
 		return
 	var foe = snake_class.instance()
@@ -179,7 +183,7 @@ func spawn_enemy_snake(ignore_max = false):
 	foe.add_to_group("foe")
 	foe.id = next_id()
 	snakes.add_child(foe)
-	foe.relocate(map.map_to_screen(map.get_next_spawn_pos()))
+	foe.relocate(map.map_to_screen(spawn_pos))
 	foe.set_target(direction)
 	foe.spawn_food()
 	# map.add_wall(foe.head.get_pos())
@@ -199,11 +203,28 @@ func spawn_static(key, pos, anim = ''):
 	food.effect_type = fruit.type
 	food.set_pos(map.map_to_screen(pos))
 
+func rain_food(pos):
+	for i in range(20):
+		var drop = food_drop_class.instance()
+		drop.set_pos(pos)
+		drop.force = randi() % 1000 + 2500
+		drop.ttl = 0.2 + randf() * 0.5
+		drop.delay = randf()
+		drop.direction = Vector2(randf() - 0.5, randf() * -1)
+		drop.connect("finished", self, "rain_dropped", [drop])
+		add_child(drop)
 
-func spawn_food(snake = false):
+func rain_dropped(pos, drop):
+	var mpos = map.world_to_map(pos)
+	if map.cell_available(mpos):
+		spawn_food(false, mpos, true)
+
+
+func spawn_food(snake = false, food_pos = Vector2(-1,-1), ranf = false):
 	var fruit = fruits_config.get_next_fruit()
-	if !snake:
+	if !snake and !ranf:
 		fruit = fruits_config.get_node('key')
+
 	var food = food_class.instance()
 	food.add_to_group("food")
 
@@ -211,6 +232,8 @@ func spawn_food(snake = false):
 	food.effect_type = fruit.type
 	food.effect_state = fruit.state
 	food.effect_duration = fruit.state_duration
+	food.action = fruit.action
+	food.post_anim = fruit.anim
 	if snake:
 		food.snake = snake
 		snake.food = food
@@ -224,7 +247,10 @@ func spawn_food(snake = false):
 		food_x = round(rand_range(0, map.maxX - 1))
 		food_y = round(rand_range(0, map.maxY - 1))
 
-	food.set_pos(map.map_to_screen(Vector2(food_x, food_y)))
+	if food_pos.x > -1:
+		food.set_pos(map.map_to_screen(food_pos))
+	else:
+		food.set_pos(map.map_to_screen(Vector2(food_x, food_y)))
 
 	if fruit.type == 'Key':
 		state.spawn_key_animation(food.get_pos())

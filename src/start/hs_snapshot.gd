@@ -15,7 +15,7 @@ func _ready():
 	pass
 
 func on_rpc_response(response, command):
-	if command == 'highscoreSnapshot':
+	if command == global.RPC_HS_SNAPSHOT:
 		var table = response.data.highscoreSnapshot[0]
 		all_data = response.data.highscoreSnapshot
 		current_index = 0

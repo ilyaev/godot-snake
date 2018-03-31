@@ -194,9 +194,7 @@ func tools():
 func _deferred_goto_scene(path):
 	if current_scene.has_method("on_scene_exit"):
 		current_scene.on_scene_exit()
-	print_objects()
 	current_scene.free()
-	print_objects()
 	var s = ResourceLoader.load(path)
 	current_scene = s.instance()
 	get_tree().get_root().add_child(current_scene)

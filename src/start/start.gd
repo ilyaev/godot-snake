@@ -22,7 +22,6 @@ onready var settings = get_node("ui/settings")
 onready var fader_class = preload('res://src/world/fader.tscn')
 onready var border_left = get_node("border_left")
 onready var border_right = get_node("border_right")
-onready var global = get_node("/root/global")
 onready var snapshot = get_node("ui/snapshot")
 
 const STATE_NORMAL = 0

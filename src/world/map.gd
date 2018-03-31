@@ -200,6 +200,21 @@ func map_to_screen(pos):
 func get_cell_id(x, y):
 	return str(x, 'x', y)
 
+func cell_available(cell):
+	return !is_wall(cell)
+
+func free_around(cell, rad):
+	var result = true
+	for x in range(rad):
+		for y in range(rad):
+			var ncell = cell + Vector2(x,y)
+			if is_wall(ncell):
+				result = false
+			for snake in snakes.get_children():
+				if snake.head.start_position_map.x == ncell.x and snake.head.start_position_map.y == ncell.y:
+					result = false
+	return result
+
 func is_wall(cell):
 	var cell_id = get_cell_id(cell.x, cell.y)
 	if wall_map.has(cell_id) and !wall_map[cell_id]:
