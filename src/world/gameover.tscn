@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://src/world/gameover.gd" type="Script" id=1]
-[ext_resource path="res://art/fonts/exo2.fnt" type="BitmapFont" id=2]
+[ext_resource path="res://art/fonts/futura.fnt" type="BitmapFont" id=2]
+[ext_resource path="res://art/fonts/exo2.fnt" type="BitmapFont" id=3]
 
 [sub_resource type="Animation" id=1]
 
@@ -14,17 +15,17 @@ tracks/0/path = NodePath("caption/caption_label:rect/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.5, 1 ),
+"times": FloatArray( 0, 0.3, 0.7 ),
 "transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -139, -28 ), Vector2( -557, -106 ), Vector2( -420, -87 ) ]
+"values": [ Vector2( 512, 103 ), Vector2( -911, -208 ), Vector2( 514, 102 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("caption/caption_label:rect/size")
 tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = {
-"times": FloatArray( 0, 0.5, 1 ),
+"times": FloatArray( 0, 0.3, 0.7 ),
 "transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 267, 63 ), Vector2( 267, 63 ), Vector2( 267, 63 ) ]
@@ -34,10 +35,10 @@ tracks/2/path = NodePath("caption/caption_label:rect/scale")
 tracks/2/interp = 1
 tracks/2/imported = false
 tracks/2/keys = {
-"times": FloatArray( 0, 0.5, 1 ),
+"times": FloatArray( 0, 0.3, 0.7 ),
 "transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 4, 4 ), Vector2( 3, 3 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 4, 4 ), Vector2( 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -81,29 +82,42 @@ autostart = true
 
 [node name="caption" type="Node2D" parent="."]
 
+transform/pos = Vector2( -982.353, -208.578 )
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="caption_label" type="Label" parent="caption"]
 
-rect/scale = Vector2( 3, 3 )
+visibility/light_mask = 0
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = -420.0
-margin/top = -87.0
-margin/right = -153.0
-margin/bottom = -24.0
+margin/left = 514.0
+margin/top = 102.0
+margin/right = 1435.0
+margin/bottom = 310.0
 custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 0.327332, 0.195312, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+custom_constants/shadow_as_outline = 60
 text = "GAME OVER"
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="rank" type="Node2D" parent="."]
 
 transform/pos = Vector2( 0, 260 )
-transform/scale = Vector2( 0.2, 0.2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="rank_label" type="Label" parent="rank"]
 
@@ -116,7 +130,7 @@ margin/left = -420.0
 margin/top = -87.0
 margin/right = -153.0
 margin/bottom = -24.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
 text = "1st"
 align = 1
 valign = 1
@@ -125,6 +139,12 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="score" type="Node2D" parent="."]
+
+transform/pos = Vector2( -15.3471, -65.4368 )
+transform/scale = Vector2( 0.6, 0.6 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="score_label" type="Label" parent="score"]
 
@@ -138,12 +158,18 @@ margin/top = 143.0
 margin/right = -148.0
 margin/bottom = 206.0
 custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+custom_constants/shadow_as_outline = 1
 text = "123456"
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="rankanim" type="AnimationPlayer" parent="."]
 

@@ -207,7 +207,7 @@ func rain_food(pos):
 	for i in range(20):
 		var drop = food_drop_class.instance()
 		drop.set_pos(pos)
-		drop.force = randi() % 1000 + 2500
+		drop.force = randi() % 1000 + 1000
 		drop.ttl = 0.2 + randf() * 0.5
 		drop.delay = randf()
 		drop.direction = Vector2(randf() - 0.5, randf() * -1)
@@ -224,6 +224,8 @@ func spawn_food(snake = false, food_pos = Vector2(-1,-1), ranf = false):
 	var fruit = fruits_config.get_next_fruit()
 	if !snake and !ranf:
 		fruit = fruits_config.get_node('key')
+	if ranf:
+		fruit = fruits_config.get_node('grenade')
 
 	var food = food_class.instance()
 	food.add_to_group("food")

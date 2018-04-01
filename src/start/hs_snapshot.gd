@@ -26,7 +26,7 @@ func update_table(table):
 	for child in rows.get_children():
 		child.update("","")
 		child.queue_free()
-	caption.set_text(table.caption + ' High-Score')
+	caption.set_text(table.caption)
 	roll_in()
 	var pos = 0
 	for row in table.rows:

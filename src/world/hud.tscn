@@ -1,13 +1,14 @@
-[gd_scene load_steps=15 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://src/world/hud.gd" type="Script" id=1]
-[ext_resource path="res://art/fonts/yanone.fnt" type="BitmapFont" id=2]
-[ext_resource path="res://art/sprites/score_sprite_star.png" type="Texture" id=3]
-[ext_resource path="res://art/sprites/tail_icon.png" type="Texture" id=4]
-[ext_resource path="res://art/sprites/life_icon.png" type="Texture" id=5]
-[ext_resource path="res://art/sprites/lock_big.png" type="Texture" id=6]
-[ext_resource path="res://src/world/controls/dpad.tscn" type="PackedScene" id=7]
-[ext_resource path="res://src/world/controls/slider.tscn" type="PackedScene" id=8]
+[ext_resource path="res://art/fonts/futura.fnt" type="BitmapFont" id=2]
+[ext_resource path="res://art/fonts/yanone.fnt" type="BitmapFont" id=3]
+[ext_resource path="res://art/sprites/score_sprite_star.png" type="Texture" id=4]
+[ext_resource path="res://art/sprites/tail_icon.png" type="Texture" id=5]
+[ext_resource path="res://art/sprites/life_icon.png" type="Texture" id=6]
+[ext_resource path="res://art/sprites/lock_big.png" type="Texture" id=7]
+[ext_resource path="res://src/world/controls/dpad.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/world/controls/slider.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Animation" id=1]
 
@@ -173,23 +174,23 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 20.0
-margin/top = 20.0
+margin/top = 21.0
 margin/right = 338.0
-margin/bottom = 184.0
+margin/bottom = 185.0
 
 [node name="score" type="Label" parent="ui/top_left"]
 
-rect/scale = Vector2( 1.3, 1.3 )
+rect/scale = Vector2( 0.5, 0.5 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 53.0
-margin/top = -14.0
-margin/right = 146.0
-margin/bottom = 38.0
+margin/left = 61.0
+margin/top = -32.0
+margin/right = 154.0
+margin/bottom = 176.0
 custom_fonts/font = ExtResource( 2 )
-custom_colors/font_color = Color( 0.116438, 0.0384521, 0.492188, 1 )
+custom_colors/font_color = Color( 0.258824, 0.258824, 0.258824, 1 )
 text = "0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -206,7 +207,7 @@ margin/left = 194.0
 margin/top = -15.0
 margin/right = 287.0
 margin/bottom = 37.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.116438, 0.0384521, 0.492188, 1 )
 percent_visible = 1.0
 lines_skipped = 0
@@ -216,11 +217,10 @@ max_lines_visible = -1
 
 transform/pos = Vector2( 18.7675, 18.3682 )
 transform/scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="top_right" type="Container" parent="ui"]
 
-editor/display_folded = true
 visibility/opacity = 0.9
 anchor/left = 1
 anchor/right = 1
@@ -236,17 +236,17 @@ margin/bottom = 109.0
 
 [node name="score" type="Label" parent="ui/top_right"]
 
-rect/scale = Vector2( 1.5, 1.5 )
+rect/scale = Vector2( 0.7, 0.7 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 372.0
-margin/top = 8.0
-margin/right = 430.0
-margin/bottom = 67.0
+margin/left = 259.0
+margin/top = -20.0
+margin/right = 371.0
+margin/bottom = 188.0
 custom_fonts/font = ExtResource( 2 )
-custom_colors/font_color = Color( 0.0163574, 0.0259418, 0.261719, 1 )
+custom_colors/font_color = Color( 0.258824, 0.258824, 0.258824, 1 )
 text = "3"
 align = 1
 valign = 1
@@ -256,17 +256,17 @@ max_lines_visible = -1
 
 [node name="lifes" type="Label" parent="ui/top_right"]
 
-rect/scale = Vector2( 1.5, 1.5 )
+rect/scale = Vector2( 0.7, 0.7 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 522.0
-margin/top = -9.0
-margin/right = 580.0
-margin/bottom = 70.0
+margin/left = 508.0
+margin/top = -18.0
+margin/right = 586.0
+margin/bottom = 190.0
 custom_fonts/font = ExtResource( 2 )
-custom_colors/font_color = Color( 0.0163574, 0.0259418, 0.261719, 1 )
+custom_colors/font_color = Color( 0.258824, 0.258824, 0.258824, 1 )
 text = "0"
 align = 1
 valign = 1
@@ -276,17 +276,17 @@ max_lines_visible = -1
 
 [node name="locks_count" type="Label" parent="ui/top_right"]
 
-rect/scale = Vector2( 1.5, 1.5 )
+rect/scale = Vector2( 0.7, 0.7 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 196.0
-margin/top = -8.0
-margin/right = 254.0
-margin/bottom = 71.0
+margin/left = 54.0
+margin/top = -18.0
+margin/right = 132.0
+margin/bottom = 190.0
 custom_fonts/font = ExtResource( 2 )
-custom_colors/font_color = Color( 0.0163574, 0.0259418, 0.261719, 1 )
+custom_colors/font_color = Color( 0.258824, 0.258824, 0.258824, 1 )
 text = "0"
 align = 1
 valign = 1
@@ -296,9 +296,9 @@ max_lines_visible = -1
 
 [node name="tail" type="Sprite" parent="ui/top_right"]
 
-transform/pos = Vector2( 335.6, 49.6575 )
+transform/pos = Vector2( 210.178, 54.5217 )
 transform/scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="animation" type="AnimationPlayer" parent="ui/top_right"]
 
@@ -315,16 +315,16 @@ autoplay = ""
 
 [node name="ankh" type="Sprite" parent="ui/top_right"]
 
-transform/pos = Vector2( 500.708, 55.5439 )
+transform/pos = Vector2( 460.714, 58.2102 )
 transform/rot = 360.0
 transform/scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 
 [node name="locks" type="Sprite" parent="ui/top_right"]
 
-transform/pos = Vector2( 168.275, 49.5517 )
+transform/pos = Vector2( 11.6506, 53.1547 )
 transform/scale = Vector2( 0.4, 0.4 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="bottom_right" type="Container" parent="ui"]
 
@@ -341,7 +341,7 @@ margin/top = 426.0
 margin/right = -41.0
 margin/bottom = -35.0
 
-[node name="gamepad" parent="ui/bottom_right" instance=ExtResource( 7 )]
+[node name="gamepad" parent="ui/bottom_right" instance=ExtResource( 8 )]
 
 [node name="bottom_left" type="Container" parent="ui"]
 
@@ -357,7 +357,7 @@ margin/top = 447.0
 margin/right = 525.0
 margin/bottom = -22.0
 
-[node name="gamepad" parent="ui/bottom_left" instance=ExtResource( 8 )]
+[node name="gamepad" parent="ui/bottom_left" instance=ExtResource( 9 )]
 
 transform/pos = Vector2( 268.877, 225.419 )
 
@@ -372,9 +372,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 133.0
-margin/top = 175.0
+margin/top = 176.0
 margin/right = -186.0
-margin/bottom = -183.0
+margin/bottom = -182.0
 
 [node name="Timer" type="Timer" parent="."]
 

@@ -7,4 +7,6 @@
 
 [node name="level" parent="academy" instance=ExtResource( 2 )]
 
+model = "GameFour"
+
 

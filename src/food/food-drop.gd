@@ -11,6 +11,7 @@ var acceleration = Vector2(0,0)
 var rot = 0
 var age = 0
 var delay = 0
+var emited = false
 
 signal finished
 
@@ -31,7 +32,9 @@ func _fixed_process(delta):
 		set_rot(get_rot() + rot * delta)
 		acceleration = acceleration + gravity_acceleration
 		velocity = velocity + acceleration
-		if age >= ttl:
+		if age >= ttl and !emited:
 			emit_signal("finished", get_pos())
+			emited = true
+		if age >= ttl * 2:
 			queue_free()
 	pass

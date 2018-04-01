@@ -5,6 +5,12 @@
 
 [node name="level" instance=ExtResource( 1 )]
 
+max_enemy = 5
+model = "GameThree"
+
 [node name="level" parent="academy" instance=ExtResource( 2 )]
+
+max_enemy = 5
+model = "GameThree"
 
 

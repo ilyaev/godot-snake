@@ -90,9 +90,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 116.0
-margin/top = 27.0
+margin/top = 28.0
 margin/right = 410.0
-margin/bottom = 78.0
+margin/bottom = 79.0
 custom_fonts/font = ExtResource( 2 )
 text = "Nickname"
 align = 1
@@ -117,8 +117,8 @@ placeholder/alpha = 0.6
 align = 1
 max_length = 10
 focus_mode = 2
-caret/caret_blink = true
-caret/caret_blink_speed = 0.5
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
 
 [node name="btn_apply" type="TouchScreenButton" parent="panel"]
 

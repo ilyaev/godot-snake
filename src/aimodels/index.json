@@ -1,52 +1,32 @@
 {
  "models": [
   {
-   "file": "GameFiveFull.json",
+   "file": "GameOne.json",
    "features": [
     "2",
     "10"
    ],
-   "name": "GameFiveFull",
+   "name": "GameOne",
    "description": "-",
    "brainSize": 40
   },
   {
-   "file": "GameOneFull.json",
+   "file": "GameThree.json",
    "features": [
     "2",
     "10"
    ],
-   "name": "GameOneFull",
+   "name": "GameThree",
    "description": "-",
    "brainSize": 40
   },
   {
-   "file": "GameTwoFull.json",
+   "file": "GameTwo.json",
    "features": [
     "2",
     "10"
    ],
-   "name": "GameTwoFull",
-   "description": "-",
-   "brainSize": 40
-  },
-  {
-   "file": "GameaThreeFull.json",
-   "features": [
-    "2",
-    "10"
-   ],
-   "name": "GameaThreeFull",
-   "description": "-",
-   "brainSize": 40
-  },
-  {
-   "file": "g5.json",
-   "features": [
-    "2",
-    "10"
-   ],
-   "name": "g5",
+   "name": "GameTwo",
    "description": "-",
    "brainSize": 40
   }

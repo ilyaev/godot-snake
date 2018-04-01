@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://src/academy.gd" type="Script" id=1]
 [ext_resource path="res://src/training/GameOne.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://src/training/GameThree.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/training/GameFour.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/training/GameFive.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/training/GameSix.tscn" type="PackedScene" id=7]
 
 [node name="academy" type="Node2D"]
 
@@ -22,5 +23,7 @@ script/script = ExtResource( 1 )
 [node name="GameFour" parent="." instance=ExtResource( 5 )]
 
 [node name="GameFive" parent="." instance=ExtResource( 6 )]
+
+[node name="GameSix" parent="." instance=ExtResource( 7 )]
 
 

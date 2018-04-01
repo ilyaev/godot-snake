@@ -193,7 +193,7 @@ func set_locks(locks):
 func update_score(new_score, new_experience):
 	if new_score == score and new_experience == experience:
 		return
-	score_animation.play("label")
+	# score_animation.play("label")
 	score = new_score
 	experience = new_experience
 	label_score.set_text(score)
