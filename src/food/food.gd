@@ -10,6 +10,7 @@ var auto_anim = "show"
 var loop = false
 var action = 'Nothing'
 var post_anim = ''
+var map_pos = Vector2(-1,-1)
 
 onready var animation = get_node("animation")
 onready var timer = get_node("timer")
@@ -28,6 +29,13 @@ func _ready():
 		auto_anim = post_anim
 	if loop:
 		animation.connect("finished", self, "on_animation_finished")
+
+func get_map_pos():
+	if !active:
+		return Vector2(-1,-1)
+	if map_pos.x < 0:
+		map_pos = world.map.world_to_map(get_pos())
+	return map_pos
 
 func on_animation_finished():
 	animation.play(auto_anim)
@@ -50,6 +58,7 @@ func fly_up():
 	tween.start()
 
 func fall_down():
+	active = false
 	var tween = Tween.new()
 	tween.interpolate_property(self, "transform/pos", get_pos() - Vector2(0, get_pos().y), get_pos(),  0.7, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 	tween.connect('tween_complete', self, "on_fall_tween_complete", [tween])
@@ -57,6 +66,7 @@ func fall_down():
 	tween.start()
 
 func on_fall_tween_complete(obj, key, tween):
+	active = true
 	tween.queue_free()
 
 func _on_timer_timeout():

@@ -15,6 +15,7 @@ var control_mode = CONTROL_DPAD
 
 var user_file = 'user://user.json'
 var user = {}
+var _start_time = 0
 
 var rpc_class = preload("res://src/rpc.gd")
 var rpc
@@ -201,6 +202,12 @@ func _deferred_goto_scene(path):
 	get_tree().set_current_scene( current_scene )
 	current_scene.on_scene_enter()
 
+
+func start_time():
+	_start_time = OS.get_ticks_msec()
+
+func end_time(caption = "TS"):
+	print(caption, ': ', OS.get_ticks_msec() - _start_time)
 
 func arr_join(arr, separator = ""):
 	var output = "";

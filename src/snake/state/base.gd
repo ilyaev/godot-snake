@@ -22,7 +22,9 @@ func fixed_process(delta):
     snake.all_time = snake.all_time + delta
     if snake.all_time >= (de_speed + delta) and snake.head.state == snake.head.STATE_INTWEEN:
         snake.head.state = snake.head.STATE_END
+        # global.start_time()
         snake.next_move()
+        # global.end_time()
         snake.speed = snake.next_speed
     else:
         snake.head.set_pos(snake.head.get_pos() + snake.head.current_target_direction * real_delta)
@@ -171,7 +173,6 @@ func next_move():
     if snake.tail.get_children().size() > 1:
         prelast_body = snake.tail.get_children()[snake.tail.get_children().size() - 2]
 
-    # var tdiff = prelast_body.get_pos() - last_body.get_pos()
     var tdiff = prelast_body.target_position_map - last_body.target_position_map
 
     if last_body.get_node("sprite"):

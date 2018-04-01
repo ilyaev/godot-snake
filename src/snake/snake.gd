@@ -128,27 +128,30 @@ func snake_next_command():
 
 	controller.next_command()
 
+	var head_pos = map.world_to_map(head.get_pos())
+
 	for one_food in foods.get_children():
-		if one_food.active == true and map.world_to_map(head.get_pos()) == map.world_to_map(one_food.get_pos()) && one_food.effect_type != 'Static':
+		if one_food.active == true and head_pos == one_food.get_map_pos() && one_food.effect_type != 'Static':
 			state.eat_food(one_food)
 
 	var next_cell = map.world_to_map(head.get_pos() + head.target_direction)
-	var head_snakes = world.check_heads(self)
 
-	if head_snakes.size() > 0:
-		if is_in_group("foe"):
-			destroy()
-		else:
-			state.proxy_emit_signal("collide")
-			state.destroy_food()
-		for one in head_snakes:
-			if one.is_in_group("foe"):
-				one.destroy()
-			else:
-				one.state.proxy_emit_signal("collide")
-				one.state.destroy_food()
+	# var head_snakes = world.check_heads(self)
 
-	elif next_cell.x < 0 or next_cell.y < 0 or next_cell.x > map.maxX - 1 or next_cell.y > map.maxY - 1 or map.wall_map[map.get_cell_id(next_cell.x, next_cell.y)]:
+	# if head_snakes.size() > 0:
+	# 	if is_in_group("foe"):
+	# 		destroy()
+	# 	else:
+	# 		state.proxy_emit_signal("collide")
+	# 		state.destroy_food()
+	# 	for one in head_snakes:
+	# 		if one.is_in_group("foe"):
+	# 			one.destroy()
+	# 		else:
+	# 			one.state.proxy_emit_signal("collide")
+	# 			one.state.destroy_food()
+
+	if next_cell.x < 0 or next_cell.y < 0 or next_cell.x > map.maxX - 1 or next_cell.y > map.maxY - 1 or map.wall_map[map.get_cell_id(next_cell.x, next_cell.y)]:
 		snake_collide()
 	elif map.is_portal(next_cell) and !is_in_group("foe"):
 		state.next_level()
@@ -156,16 +159,11 @@ func snake_next_command():
 	move_to_target()
 
 	if is_moving() and active == true:
-		# map.add_wall(head.get_pos() + head.target_direction)
 		map.add_wall_map(head.target_position_map)
 		var tail_body = head
 		if tail.get_children().size() > 0:
 			tail_body = tail.get_children().back()
-		# map.remove_wall(tail_body.start_position)
 		map.remove_wall_map(tail_body.start_position_map)
-
-
-
 
 	if need_shrink:
 		need_shrink = false
@@ -208,13 +206,14 @@ func move_to_target():
 		return
 
 	var snake_speed = base_speed / speed
+	var dir64 = current_direction / 64
 
-	head.move_to_map(current_direction / 64, Vector2(0,0), snake_speed)
+	head.move_to_map(dir64, Vector2(0,0), snake_speed)
 	head.move_to(current_direction)
 
 	immediate_direction = current_direction
 	var prev = head
-	var prev_prev = head.start_position_map + current_direction / 64
+	var prev_prev = head.start_position_map + dir64
 	for one in tail.get_children():
 		one.move_to_map(prev.start_position_map - one.target_position_map, prev_prev - prev.start_position_map, snake_speed)
 		one.move_to(map.map_to_screen(prev.start_position_map) - one.get_pos())
