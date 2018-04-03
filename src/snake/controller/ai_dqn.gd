@@ -98,22 +98,16 @@ func random_action():
 func next_command():
     var size = snake.tail.get_children().size()
     var random_chance = max(2, 20 - size * size)
-    # var random_chance = 101
     var action = actions[0]
     var pos = snake.map.world_to_map(snake.head.get_pos())
 
     if rand_range(0, 100) < random_chance:
         action = random_action()
+        var command = Vector2(action.dx, action.dy)
+        snake.set_target(command * snake.map.snake_size)
+        snake.further_command()
     else:
         var state = build_state()
-        # var start_time = OS.get_ticks_msec()
-        action = actions[DQN.act(state)]
-        # var run_time = OS.get_ticks_msec() -  start_time
-        # print("ACT_TIME: ", run_time)
-        if snake.map.is_wall(Vector2(pos.x + action.dx, pos.y + action.dy)) and snake.state_id != snake.SNAKE_STATE_INVINCIBLE:
-            action = random_action()
-
-    var command = Vector2(action.dx, action.dy)
-    snake.set_target(command * snake.map.snake_size)
+        snake.world.query_action(state, self)
 
 

@@ -5,4 +5,5 @@ func _init():
 
 func next_command():
     snake.set_target(snake.world.direction)
+    snake.further_command()
 

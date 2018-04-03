@@ -8,7 +8,7 @@ const APP_STATE_TOOLS = 2
 
 const CONTROL_DPAD = "0"
 const CONTROL_SLIDER = "1"
-const TRY_LIMIT = 100
+const TRY_LIMIT = 50
 
 var state = APP_STATE_START_SCREEN
 var control_mode = CONTROL_DPAD
@@ -121,7 +121,7 @@ func call_server_async(body):
 		var timer = Timer.new()
 		timer.set_one_shot(true)
 		timer.connect("timeout", self, "call_atempt", [body, timer])
-		timer.set_wait_time(0.2)
+		timer.set_wait_time(0.5)
 		timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
 		timer.start()
 		add_child(timer)
@@ -130,7 +130,6 @@ func call_server_async(body):
 		_thread_pool[next_thread].start(rpc, "call", [body, _thread_pool[next_thread]])
 
 func call_atempt(body, timer):
-	print("Call Next Atempt: ")
 	timer.queue_free()
 	rpc_attempt_counter = rpc_attempt_counter + 1
 	if rpc_attempt_counter > TRY_LIMIT:
@@ -195,7 +194,13 @@ func tools():
 func _deferred_goto_scene(path):
 	if current_scene.has_method("on_scene_exit"):
 		current_scene.on_scene_exit()
-	current_scene.free()
+
+	if current_scene.has_method("free"):
+		if current_scene._thread_pool.size() > 0:
+			for tp in current_scene._thread_pool:
+				if tp and tp.is_active():
+					tp.wait_to_finish()
+		current_scene.free()
 	var s = ResourceLoader.load(path)
 	current_scene = s.instance()
 	get_tree().get_root().add_child(current_scene)

@@ -45,6 +45,7 @@ var start_speed = 1
 var speed_rate = 0.007
 var old_speed = 0
 var lifes = 4
+var next_action = []
 
 var current_direction = Vector2(0,0)
 var current_command = ''
@@ -59,6 +60,7 @@ var need_shrink = false
 var all_time = 0
 
 var active = false
+var calculating = false
 
 signal collide
 signal tail_shrink
@@ -66,6 +68,11 @@ signal after_move
 signal next_level
 
 func _ready():
+	for one in states_classes:
+		add_child(one)
+	for one in controller_classes:
+		add_child(one)
+
 	head.add_to_group("head")
 	head.speed = speed
 	relocate(head.get_pos())
@@ -82,7 +89,18 @@ func _ready():
 	set_fixed_process(true)
 
 func _fixed_process(delta):
-	state.fixed_process(delta)
+	if !calculating:
+		if next_action.size() > 0:
+			var action = next_action[0]
+			next_action.resize(0)
+			var pos = map.world_to_map(head.get_pos())
+			if map.is_wall(Vector2(pos.x + action.dx, pos.y + action.dy)) and state_id != SNAKE_STATE_INVINCIBLE:
+				action = controller.random_action()
+			var command = Vector2(action.dx, action.dy)
+			set_target(command * map.snake_size)
+			further_command()
+
+		state.fixed_process(delta)
 
 func set_controller(new_controller):
 	controller_id = new_controller
@@ -105,7 +123,7 @@ func relocate(position):
 	head.relocate_on_map(map.world_to_map(position))
 
 func is_moving():
-	if !active:
+	if !active or calculating:
 		return true
 	if current_direction.x == 0 and current_direction.y == 0:
 		return false
@@ -119,7 +137,6 @@ func next_move():
 	all_time = 0
 
 func snake_next_command():
-
 	turn += 1
 
 	if search_food:
@@ -128,29 +145,14 @@ func snake_next_command():
 
 	controller.next_command()
 
+func further_command():
 	var head_pos = map.world_to_map(head.get_pos())
 
 	for one_food in foods.get_children():
-		if one_food.active == true and head_pos == one_food.get_map_pos() && one_food.effect_type != 'Static':
+		if one_food and one_food.has_method("queue_free") and one_food.active == true and head_pos == one_food.get_map_pos() && one_food.effect_type != 'Static':
 			state.eat_food(one_food)
 
 	var next_cell = map.world_to_map(head.get_pos() + head.target_direction)
-
-	# var head_snakes = world.check_heads(self)
-
-	# if head_snakes.size() > 0:
-	# 	if is_in_group("foe"):
-	# 		destroy()
-	# 	else:
-	# 		state.proxy_emit_signal("collide")
-	# 		state.destroy_food()
-	# 	for one in head_snakes:
-	# 		if one.is_in_group("foe"):
-	# 			one.destroy()
-	# 		else:
-	# 			one.state.proxy_emit_signal("collide")
-	# 			one.state.destroy_food()
-
 	if next_cell.x < 0 or next_cell.y < 0 or next_cell.x > map.maxX - 1 or next_cell.y > map.maxY - 1 or map.wall_map[map.get_cell_id(next_cell.x, next_cell.y)]:
 		snake_collide()
 	elif map.is_portal(next_cell) and !is_in_group("foe"):
@@ -161,8 +163,10 @@ func snake_next_command():
 	if is_moving() and active == true:
 		map.add_wall_map(head.target_position_map)
 		var tail_body = head
+
 		if tail.get_children().size() > 0:
 			tail_body = tail.get_children().back()
+
 		map.remove_wall_map(tail_body.start_position_map)
 
 	if need_shrink:
@@ -285,7 +289,5 @@ func set_speed(new_speed):
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
-		for one in states_classes:
-			one.free()
-		for one in controller_classes:
-			one.free()
+		controller_classes.resize(0)
+		states_classes.resize(0)

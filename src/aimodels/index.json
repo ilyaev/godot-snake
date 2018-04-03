@@ -1,6 +1,26 @@
 {
  "models": [
   {
+   "file": "GameFive.json",
+   "features": [
+    "2",
+    "10"
+   ],
+   "name": "GameFive",
+   "description": "-",
+   "brainSize": 40
+  },
+  {
+   "file": "GameFour.json",
+   "features": [
+    "2",
+    "10"
+   ],
+   "name": "GameFour",
+   "description": "-",
+   "brainSize": 40
+  },
+  {
    "file": "GameOne.json",
    "features": [
     "2",

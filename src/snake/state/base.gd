@@ -22,9 +22,7 @@ func fixed_process(delta):
     snake.all_time = snake.all_time + delta
     if snake.all_time >= (de_speed + delta) and snake.head.state == snake.head.STATE_INTWEEN:
         snake.head.state = snake.head.STATE_END
-        # global.start_time()
         snake.next_move()
-        # global.end_time()
         snake.speed = snake.next_speed
     else:
         snake.head.set_pos(snake.head.get_pos() + snake.head.current_target_direction * real_delta)
@@ -88,15 +86,14 @@ func snake_collide():
 func deactivate():
     snake.active = false
     snake.head.deactivate()
-    # snake.map.remove_wall(snake.head.get_pos())
     snake.map.remove_wall_map(snake.head.target_position_map)
     for body in snake.tail.get_children():
-        # snake.map.remove_wall(body.get_pos())
         snake.map.remove_wall_map(body.target_position_map)
         body.deactivate()
 
 func destroy():
-    snake.food.destroy()
+    if snake.food:
+        snake.food.destroy()
     snake.deactivate()
 
     snake.world.add_explode(snake.head.get_pos(), 1)
@@ -128,7 +125,6 @@ func doShrink():
 
         var back = snake.tail.get_children().back()
         var pos = back.get_pos()
-        # snake.map.remove_wall(pos + back.target_direction)
         snake.map.remove_wall_map(back.target_position_map + back.target_direction_map)
         back.destroy()
         snake.world.add_explode(back.get_pos(), 1)
@@ -140,19 +136,15 @@ func eat_food(one_food):
     if !snake.is_in_group("foe"):
         snake.world.session_score += one_food.experience
     snake.doGrow()
-
     if one_food and one_food.snake:
         snake.spawn_food_by_snake(one_food.snake)
     else:
         one_food.destroy()
-
     if one_food.effect_state > 0 and snake.state_id != 1:
         snake.set_state(one_food.effect_state, one_food.effect_duration)
 
     if one_food.action == 'FoodRain':
         snake.world.rain_food(one_food.get_pos())
-
-    # snake.set_speed(max(0.15, snake.start_speed - snake.speed_rate * snake.get_size()))
 
     if !snake.is_in_group('foe') and one_food.effect_type == 'Key':
         var lock_pos = snake.map.unlock_next()

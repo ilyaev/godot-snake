@@ -7,6 +7,8 @@ var dict = {}
 var Mat = preload('mat.gd')
 var Graph = preload('graph.gd')
 
+var mutex = Mutex.new()
+
 func Matrix(n,d):
     var tmp = Mat.new()
     tmp.init(n, d)

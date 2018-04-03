@@ -26,6 +26,7 @@ var level3_class = preload("res://src/levels/level3.tscn")
 var level4_class = preload("res://src/levels/level4.tscn")
 var level5_class = preload("res://src/levels/level5.tscn")
 var current_level = false
+
 onready var global = get_node("/root/global")
 
 var levels = [
@@ -368,3 +369,40 @@ func do_debug_action():
 	else:
 		push_state()
 		set_state(STATE_DEBUG_MENU, self)
+
+
+func fetch_thread():
+	for thread in _thread_pool:
+		if !thread.is_active():
+			return thread
+	var new_thread = Thread.new()
+	_thread_pool.append(new_thread)
+	return new_thread
+
+func query_action(controller_state, controller):
+
+	controller.snake.calculating = true
+	controller.snake.next_action = []
+
+	var thread = fetch_thread()
+
+	thread.start(self, '_query_action', [controller, controller_state, thread])
+
+func _query_action(params):
+	var controller = params[0]
+	var controller_state = params[1]
+	var thread = params[2]
+	var action = {}
+	var act_index = -1
+
+	if controller and controller.has_method("queue_free") and controller.DQN:
+		DQN.mutex.lock()
+		act_index = DQN.act(controller_state)
+		DQN.mutex.unlock()
+
+	thread.wait_to_finish()
+
+	if controller and controller.has_method("queue_free") and controller.DQN:
+		action = controller.actions[act_index]
+		controller.snake.next_action = [action]
+		controller.snake.calculating = false

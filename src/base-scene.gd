@@ -5,6 +5,7 @@ var state setget set_state, get_state
 var state_id
 var states_classes
 var state_stack = []
+var _thread_pool = []
 
 func on_scene_enter():
     print("ON SCENE ENTER STUB!!!!")
