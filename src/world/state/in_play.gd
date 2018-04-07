@@ -46,7 +46,7 @@ func ui_command(cmd):
 
 
 func process(delta):
-    if scene.snake:
+    if scene and scene.snake and scene.camera:
         scene.camera.align_to(scene.snake.head.get_pos())
 
 func game_tick():

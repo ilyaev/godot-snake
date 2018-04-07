@@ -8,10 +8,10 @@ var state_stack = []
 var _thread_pool = []
 
 func on_scene_enter():
-    print("ON SCENE ENTER STUB!!!!")
+    print("Scene Entered")
 
 func on_quit_request():
-    print("REquest to quit")
+    print("Request to quit")
 
 
 func on_pause():

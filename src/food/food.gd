@@ -20,15 +20,38 @@ onready var eaten_texture = preload("res://art/medium/snake_tail_1.png")
 
 func _ready():
 	active = true
+
 	if auto_anim == "show":
 		sprite.set_scale(Vector2(0,0))
 		fall_down()
+
 	animation.play(auto_anim)
+
 	if post_anim:
 		loop = true
 		auto_anim = post_anim
 	if loop:
 		animation.connect("finished", self, "on_animation_finished")
+
+	if action == 'SnakeBin':
+		prepare_bin()
+
+func prepare_bin():
+	var timer = Timer.new()
+	timer.set_one_shot(true)
+	timer.connect("timeout", self, "open_bin", [timer])
+	timer.set_wait_time(effect_duration)
+	timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
+	add_child(timer)
+	timer.start()
+
+func open_bin(timer):
+	timer.queue_free()
+	world.rain_snake(get_pos())
+	if snake and snake.has_method("spawn_food"):
+		snake.spawn_food()
+	else:
+		destroy()
 
 func get_map_pos():
 	if !active:

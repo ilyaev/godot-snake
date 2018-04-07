@@ -1,7 +1,7 @@
 {
  "arena": "SNAKE",
- "version": 21,
- "archive": true,
+ "version": 22,
+ "archive": false,
  "spec": {
   "alpha": 0.01,
   "epsilon": 0.001,
@@ -3859,5 +3859,6 @@
    }
   }
  },
- "maxAvg": 32.34
+ "maxAvg": 32.34,
+ "id": "5abaeaa5e6b2a22525b84451"
 }

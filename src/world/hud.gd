@@ -52,7 +52,7 @@ func _ready():
 	shower.invert = true
 	add_child(shower)
 	shower.connect("faded", self, "on_showed", [shower])
-	set_fixed_process(true)
+	# set_fixed_process(true)
 
 	label_score.set_text("2")
 	label_lifes.set_text("3")
@@ -161,7 +161,6 @@ func tween_hide(component, origin):
 	tween.start()
 
 func tween_complete(obj, key, tween):
-	print("Quet Tween")
 	tween.queue_free()
 
 

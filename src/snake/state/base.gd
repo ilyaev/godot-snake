@@ -12,22 +12,32 @@ func _init():
 
 
 func fixed_process(delta):
+    if !snake or !snake.head or snake.to_be_destroyed:
+        return
+    if snake.thread and snake.thread.is_active():
+        print("NO PROCESS!")
+        return
     var speed = snake.speed
     var base_speed = snake.base_speed
     var de_speed = (base_speed / speed)
 
     delta = delta * speed
+
     var real_delta = ( delta / de_speed )
 
     snake.all_time = snake.all_time + delta
+
     if snake.all_time >= (de_speed + delta) and snake.head.state == snake.head.STATE_INTWEEN:
         snake.head.state = snake.head.STATE_END
         snake.next_move()
         snake.speed = snake.next_speed
     else:
-        snake.head.set_pos(snake.head.get_pos() + snake.head.current_target_direction * real_delta)
-        for body in snake.tail.get_children():
-            body.set_pos(body.get_pos() + body.current_target_direction * real_delta)
+        if snake.head:
+	        snake.head.set_pos(snake.head.get_pos() + snake.head.current_target_direction * real_delta)
+        if snake.tail:
+	        for body in snake.tail.get_children():
+                if body:
+                     body.set_pos(body.get_pos() + body.current_target_direction * real_delta)
 
 
 func next_level():
@@ -97,13 +107,15 @@ func destroy():
     snake.deactivate()
 
     snake.world.add_explode(snake.head.get_pos(), 1)
+
     snake.head.destroy()
+
     for body in snake.tail.get_children():
         snake.world.add_explode(body.get_pos(), rand_range(0, 100))
         body.destroy()
 
     if snake.is_in_group("foe"):
-        snake.queue_free()
+        snake.call_deferred("queue_free")
 
 func proxy_emit_signal(_signal, var1 = null, var2 = null):
     if typeof(var2) != TYPE_NIL:

@@ -15,4 +15,5 @@ func _ready():
 
 
 func _on_timer_timeout():
-	queue_free()
+	call_deferred("queue_free")
+	# queue_free()

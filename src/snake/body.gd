@@ -70,20 +70,23 @@ func move_to(direction):
 
 
 func destroy():
-	queue_free()
+	# queue_free()
+	call_deferred("queue_free")
 
 func explode(pos):
 	var explode = world.explode_class.instance()
 	explode.set_pos(pos)
 	world.add_child(explode)
-	queue_free()
+	# queue_free()
+	call_deferred("queue_free")
 
 
 func is_moving():
 	return target_direction.x + target_direction.y != 0
 
 func set_texture(texture):
-	get_node("sprite").set_texture(texture)
+	if get_node("sprite"):
+		get_node("sprite").set_texture(texture)
 
 func get_texture():
 	return get_node("sprite").get_texture()

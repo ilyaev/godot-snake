@@ -26,6 +26,7 @@ var level3_class = preload("res://src/levels/level3.tscn")
 var level4_class = preload("res://src/levels/level4.tscn")
 var level5_class = preload("res://src/levels/level5.tscn")
 var current_level = false
+var mutex
 
 onready var global = get_node("/root/global")
 
@@ -65,6 +66,7 @@ var DQN
 
 func _ready():
 	# hud.spawn_fader(0.5, true)
+	mutex = Mutex.new()
 	states_classes = [
 		preload("state/waiting_to_start.gd").new(),
 		preload("state/in_play.gd").new(),
@@ -170,8 +172,10 @@ func spawn_player_snake():
 	# map.add_wall(snake.head.get_pos())
 	map.add_wall_map(snake.head.start_position_map)
 
-func spawn_enemy_snake(ignore_max = false):
+func spawn_enemy_snake(ignore_max = false, cell = Vector2(-1,-1)):
 	var spawn_pos = map.get_next_spawn_pos()
+	if cell.x >= 0:
+		spawn_pos = cell
 	if !map.free_around(spawn_pos, 2):
 		return
 	if !ignore_max and snakes.get_children().size() >= current_level.get_max_enemy() + 1:
@@ -203,6 +207,25 @@ func spawn_static(key, pos, anim = ''):
 	food.set_texture(fruit.get_texture())
 	food.effect_type = fruit.type
 	food.set_pos(map.map_to_screen(pos))
+
+func rain_snake(pos):
+	add_explode(pos, 0.1)
+	for i in range(5 + randi() % 5):
+		var drop = food_drop_class.instance()
+		drop.get_node("sprite").set_texture(enemy_head_texture)
+		drop.set_pos(pos)
+		drop.force = randi() % 1000 + 1000
+		drop.ttl = 0.2 + randf() * 0.5
+		drop.delay = randf()
+		drop.direction = Vector2(randf() - 0.5, randf() * -1)
+		drop.connect("finished", self, "snake_dropped", [drop])
+		add_child(drop)
+
+func snake_dropped(pos, drop):
+	var mpos = map.world_to_map(pos)
+	if map.cell_available(mpos):
+		spawn_enemy_snake(true, mpos)
+		# spawn_food(false, mpos, true)
 
 func rain_food(pos):
 	for i in range(20):
@@ -287,11 +310,20 @@ func snake_collide(snake):
 	set_state(STATE_DEATH_ANIMATION, self)
 
 func _process(delta):
-	state.process(delta)
+	if state:
+		state.process(delta)
 
 func _on_snake_spawn_timer_timeout():
-	get_node("snake_spawn_timer").set_wait_time(10)
-	need_spawn = true
+	get_node("snake_spawn_timer").set_wait_time(5)
+	if state_id == STATE_IN_PLAY or state_id == STATE_WAITING_TO_START:
+		spawn_enemy_snake()
+		# need_spawn = true
+	return
+
+	get_node("snake_spawn_timer").set_wait_time(0.1)
+	if state_id == STATE_IN_PLAY or state_id == STATE_WAITING_TO_START:
+		spawn_enemy_snake(true)
+	# need_spawn = true
 
 
 func add_explode(pos, delay, anim_class = explode_class, mode = ''):
@@ -305,7 +337,8 @@ func add_explode(pos, delay, anim_class = explode_class, mode = ''):
 	add_child(timer)
 
 func do_explode(pos, timer, anim_class, mode):
-	timer.queue_free()
+	# timer.queue_free()
+	timer.call_deferred("queue_free")
 	var explode = anim_class.instance()
 	explode.set_mode(mode)
 	explode.set_pos(pos)
@@ -326,7 +359,8 @@ func fly_camera_to(pos):
 
 
 func restart_player():
-	snake.queue_free()
+	# snake.queue_free()
+	snake.call_deferred("queue_free")
 	snake = false
 	spawn_player_snake()
 	direction.x = 0
@@ -346,13 +380,15 @@ func restart_game():
 
 func destroy_all():
 	for one in snakes.get_children():
-		one.queue_free()
+		one.call_deferred("queue_free")
+		# one.queue_free()
 	snake = false
 	direction.x = 0
 	direction.y = 0
 	map.clear_food_map()
 	for one in foods.get_children():
-		one.queue_free()
+		one.call_deferred("queue_free")
+		# one.queue_free()
 
 func restart_all():
 	spawn_player_snake()
@@ -377,32 +413,44 @@ func fetch_thread():
 			return thread
 	var new_thread = Thread.new()
 	_thread_pool.append(new_thread)
+	print("NEW THREAD!: ", _thread_pool.size())
 	return new_thread
 
 func query_action(controller_state, controller):
 
 	controller.snake.calculating = true
 	controller.snake.next_action = []
-
 	var thread = fetch_thread()
-
+	controller.snake.thread = thread
 	thread.start(self, '_query_action', [controller, controller_state, thread])
+	# _query_action([controller, controller_state, false])
 
 func _query_action(params):
+	mutex.lock()
 	var controller = params[0]
 	var controller_state = params[1]
 	var thread = params[2]
-	var action = {}
 	var act_index = -1
 
-	if controller and controller.has_method("queue_free") and controller.DQN:
-		DQN.mutex.lock()
-		act_index = DQN.act(controller_state)
-		DQN.mutex.unlock()
+	DQN.current = controller.snake.id
+	act_index = DQN.act(controller_state)
+	DQN.current = -1
 
-	thread.wait_to_finish()
+	_continue_query(act_index, thread, controller)
+
+func _continue_query(act_index, thread, controller):
+
+	controller.snake.thread = null
+	var action = {}
 
 	if controller and controller.has_method("queue_free") and controller.DQN:
 		action = controller.actions[act_index]
-		controller.snake.next_action = [action]
-		controller.snake.calculating = false
+		if controller.snake and !controller.snake.to_be_destroyed:
+			controller.snake.next_action = [action]
+			controller.snake.calculating = false
+
+	# print("END: ", thread.get_id())
+	mutex.unlock()
+	# print("UNLOCK")
+	thread.wait_to_finish()
+	# DQN.mutex.unlock()

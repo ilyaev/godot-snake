@@ -27,6 +27,7 @@ const RPC_HS_SNAPSHOT = 'highscoreSnapshot'
 const RPC_SCORE_RANK = 'rankByScore'
 
 var last_objects = 0
+var map_ref
 
 var DQN
 
@@ -104,6 +105,10 @@ func post_score(score, name = ""):
 	call_server_async(gen_rpc_query(['mutation', RPC_NEW_SCORE, {"name": name, "score": int(score), "userid": user._id}, '{name,score}']))
 	if int(score) > int(user.maxScore):
 		user.maxScore = str(score)
+		var ufile = File.new()
+		ufile.open(user_file, File.WRITE)
+		ufile.store_line(user.to_json())
+		ufile.close()
 		return true
 	return false
 

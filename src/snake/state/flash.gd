@@ -14,6 +14,6 @@ func do_on_enter(_timeout = 0, _next_state = null):
         snake.head.get_node("sprite").set_modulate(Color(1,0,0))
 
 func on_exit_state():
-    snake.set_speed(old_speed)
+    snake.set_speed(1)
     if snake.head.get_node("sprite"):
         snake.head.get_node("sprite").set_modulate(Color(1,1,1))

@@ -108,6 +108,7 @@ func next_command():
         snake.further_command()
     else:
         var state = build_state()
-        snake.world.query_action(state, self)
+        if snake:
+	        snake.world.query_action(state, self)
 
 

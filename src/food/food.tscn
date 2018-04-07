@@ -3,12 +3,7 @@
 [ext_resource path="res://src/food/food.gd" type="Script" id=1]
 [ext_resource path="res://art/big/fruits/banana_small.png" type="Texture" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
-extents = Vector2( 32, 32 )
-
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 
 resource/name = "Pumpkin"
 length = 2.0
@@ -23,6 +18,43 @@ tracks/0/keys = {
 "transitions": FloatArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0.5, 0.5 ), Vector2( 0.8, 0.2 ), Vector2( 0.3, 0.8 ), Vector2( 0.5, 0.5 ), Vector2( 0.6, 0.4 ), Vector2( 0.5, 0.5 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+
+resource/name = "Skull"
+length = 3.0
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0.5, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.5 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( -14.6782, 0 ), Vector2( 4.8927, 0 ), Vector2( -9.2962, -5.87126 ), Vector2( 8.80692, 8.31764 ), Vector2( -11.2533, 10.764 ), Vector2( -14.1889, -13.2104 ), Vector2( 3.91418, 2.93564 ), Vector2( -15.1674, -14.6782 ), Vector2( 12.7211, -27.3993 ), Vector2( -7.33911, -7.33908 ), Vector2( -18.5924, -20.0602 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("sprite:transform/rot")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0.5, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.5 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 360.0, 360.0, 360.0, 360.0, 360.0, 360.0, 360.0, 360.0, 360.0, 360.0, 360.0, 360.0, 360.0, 360.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("sprite:transform/scale")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0.5, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.5 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.5, 0.5 ) ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -116,9 +148,6 @@ tracks/1/keys = {
 [node name="food" type="Area2D"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
-shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
@@ -131,20 +160,13 @@ transform/rot = 360.0
 transform/scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
-[node name="collision" type="CollisionShape2D" parent="."]
-
-visibility/visible = false
-visibility/opacity = 0.0
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
-
 [node name="animation" type="AnimationPlayer" parent="."]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/Pumpkin = SubResource( 2 )
+anims/Pumpkin = SubResource( 1 )
+anims/Skull = SubResource( 2 )
 anims/portal = SubResource( 3 )
 anims/show = SubResource( 4 )
 anims/spiral = SubResource( 5 )

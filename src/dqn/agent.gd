@@ -8,6 +8,7 @@ var Mat = preload('mat.gd')
 var Graph = preload('graph.gd')
 
 var mutex = Mutex.new()
+var current
 
 func Matrix(n,d):
     var tmp = Mat.new()

@@ -13,5 +13,5 @@ func _ready():
 
 func _on_animator_finished():
 	print("FLASH QUE FREE")
-	queue_free()
-	pass # replace with function body
+	call_deferred("queue_free")
+	# queue_free()

@@ -28,6 +28,8 @@ var states_classes = [
 	preload("state/inactive.gd").new()
 ]
 
+var to_be_destroyed = false
+
 var controller
 var controller_id
 var controller_classes = [
@@ -58,6 +60,7 @@ var turn = 1
 var search_food = false
 var need_shrink = false
 var all_time = 0
+var thread
 
 var active = false
 var calculating = false
@@ -144,6 +147,7 @@ func snake_next_command():
 		controller.find_route()
 
 	controller.next_command()
+	# controller.call_deferred('next_command')
 
 func further_command():
 	var head_pos = map.world_to_map(head.get_pos())
@@ -261,10 +265,12 @@ func clear_path():
 	path.resize(0)
 
 func next_command():
+	# controller.call_deferred('next_command')
 	controller.next_command()
 
 func destroy():
-	state.destroy()
+	to_be_destroyed = true
+	state.call_deferred("destroy")
 	if is_in_group("foe"):
 		world.spawn_food(false)
 

@@ -66,8 +66,8 @@ func call(params):
 		return
 	state = STATE_PROCESSING
 	var raw = post("/", body)
-	print("RPC BODT: ", body)
-	print("RPC RESPONSE: ", raw)
+	# print("RPC BODT: ", body)
+	# print("RPC RESPONSE: ", raw)
 	var dict = {}
 	if raw and raw[0] == '{':
 		dict.parse_json(raw)

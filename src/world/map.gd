@@ -20,6 +20,7 @@ var food_map = {}
 var lock_spots = []
 var unlocked = 0
 var portal_open = false
+var mutex = Mutex.new()
 
 const TILE_WALL = 1
 const TILE_GRASS = 8
@@ -37,8 +38,8 @@ const TILE_UNLOCK = 35
 const TILE_PORTAL = 36
 const TILE_LOCKS = [TILE_LOCK, TILE_UNLOCK, TILE_PORTAL]
 
-
 func _ready():
+	global.map_ref = weakref(self)
 	snake_size = get_cell_size().x
 	half_size = snake_size / 2
 
@@ -187,9 +188,9 @@ func buildSubMap(cx, cy, drange, result, invincible = false):
 		for dy in range(-drange/2, drange / 2):
 			var v = 0
 			var cell = Vector2(cx + dx, cy + dy)
-			if is_wall(cell):
+			if global.map_ref.get_ref() and is_wall(cell):
 				v = -1
-			if is_food_map(cell):
+			if global.map_ref.get_ref() and is_food_map(cell):
 				v = 1
 			result.append(v)
 
@@ -211,7 +212,7 @@ func free_around(cell, rad):
 			if is_wall(ncell):
 				result = false
 			for snake in snakes.get_children():
-				if snake.head.start_position_map.x == ncell.x and snake.head.start_position_map.y == ncell.y:
+				if snake and snake.head.start_position_map.x == ncell.x and snake.head.start_position_map.y == ncell.y:
 					result = false
 	return result
 
