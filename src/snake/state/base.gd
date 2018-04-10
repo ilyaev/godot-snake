@@ -12,11 +12,9 @@ func _init():
 
 
 func fixed_process(delta):
-    if !snake or !snake.head or snake.to_be_destroyed:
+    if !snake or !snake.head or snake.to_be_destroyed or snake.calculating:
         return
-    if snake.thread and snake.thread.is_active():
-        print("NO PROCESS!")
-        return
+
     var speed = snake.speed
     var base_speed = snake.base_speed
     var de_speed = (base_speed / speed)
@@ -102,6 +100,9 @@ func deactivate():
         body.deactivate()
 
 func destroy():
+    if snake.thread and snake.thread.is_active():
+        print('THREAD ACTIVE!!')
+        snake.thread.wait_to_finish()
     if snake.food:
         snake.food.destroy()
     snake.deactivate()
@@ -115,7 +116,10 @@ func destroy():
         body.destroy()
 
     if snake.is_in_group("foe"):
-        snake.call_deferred("queue_free")
+        snake.controller_classes.resize(0)
+        snake.states_classes.resize(0)
+        snake.queue_free()
+        # snake.call_deferred("queue_free")
 
 func proxy_emit_signal(_signal, var1 = null, var2 = null):
     if typeof(var2) != TYPE_NIL:
@@ -165,7 +169,8 @@ func eat_food(one_food):
 
 
 func next_move():
-    if !snake.active:
+    if !snake.active or snake.calculating:
+        print("no next move")
         return
 
     var last_body = snake.head

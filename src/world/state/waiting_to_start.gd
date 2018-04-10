@@ -19,5 +19,5 @@ func process(delta):
     waited = waited + delta
     if scene.snake and scene.camera:
         scene.camera.align_to(scene.snake.head.get_pos())
-    if waited > 3:
-        ui_command('right')
+    # if waited > 3:
+    #     ui_command('right')

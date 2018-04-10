@@ -15,5 +15,5 @@ func do_on_enter(_timeout = 0, _next_state = null):
 
 func on_exit_state():
     snake.set_speed(1)
-    if snake.head.get_node("sprite"):
+    if snake and !global.is_deleted(snake) and !global.is_deleted(snake.head) and snake.head.get_node("sprite"):
         snake.head.get_node("sprite").set_modulate(Color(1,1,1))

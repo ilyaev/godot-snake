@@ -56,7 +56,7 @@ const STATE_DEBUG_MENU = 5
 export var show_debug = true
 
 onready var map = get_node("walls")
-onready var snakes = get_node("snakes")
+# onready var snakes = get_node("snakes")
 onready var foods = get_node("foods")
 onready var camera = get_node("camera")
 onready var hud = get_node("hud")
@@ -66,6 +66,7 @@ var DQN
 
 func _ready():
 	# hud.spawn_fader(0.5, true)
+	snakes = get_node("snakes")
 	mutex = Mutex.new()
 	states_classes = [
 		preload("state/waiting_to_start.gd").new(),
@@ -209,17 +210,18 @@ func spawn_static(key, pos, anim = ''):
 	food.set_pos(map.map_to_screen(pos))
 
 func rain_snake(pos):
-	add_explode(pos, 0.1)
-	for i in range(5 + randi() % 5):
-		var drop = food_drop_class.instance()
-		drop.get_node("sprite").set_texture(enemy_head_texture)
-		drop.set_pos(pos)
-		drop.force = randi() % 1000 + 1000
-		drop.ttl = 0.2 + randf() * 0.5
-		drop.delay = randf()
-		drop.direction = Vector2(randf() - 0.5, randf() * -1)
-		drop.connect("finished", self, "snake_dropped", [drop])
-		add_child(drop)
+	if state_id == STATE_IN_PLAY or state_id == STATE_WAITING_TO_START:
+		add_explode(pos, 0.1)
+		for i in range(5 + randi() % 5):
+			var drop = food_drop_class.instance()
+			drop.get_node("sprite").set_texture(enemy_head_texture)
+			drop.set_pos(pos)
+			drop.force = randi() % 1000 + 1000
+			drop.ttl = 0.2 + randf() * 0.5
+			drop.delay = randf()
+			drop.direction = Vector2(randf() - 0.5, randf() * -1)
+			drop.connect("finished", self, "snake_dropped", [drop])
+			add_child(drop)
 
 func snake_dropped(pos, drop):
 	var mpos = map.world_to_map(pos)
@@ -228,15 +230,16 @@ func snake_dropped(pos, drop):
 		# spawn_food(false, mpos, true)
 
 func rain_food(pos):
-	for i in range(20):
-		var drop = food_drop_class.instance()
-		drop.set_pos(pos)
-		drop.force = randi() % 1000 + 1000
-		drop.ttl = 0.2 + randf() * 0.5
-		drop.delay = randf()
-		drop.direction = Vector2(randf() - 0.5, randf() * -1)
-		drop.connect("finished", self, "rain_dropped", [drop])
-		add_child(drop)
+	if state_id == STATE_IN_PLAY or state_id == STATE_WAITING_TO_START:
+		for i in range(20):
+			var drop = food_drop_class.instance()
+			drop.set_pos(pos)
+			drop.force = randi() % 1000 + 1000
+			drop.ttl = 0.2 + randf() * 0.5
+			drop.delay = randf()
+			drop.direction = Vector2(randf() - 0.5, randf() * -1)
+			drop.connect("finished", self, "rain_dropped", [drop])
+			add_child(drop)
 
 func rain_dropped(pos, drop):
 	var mpos = map.world_to_map(pos)
@@ -337,8 +340,8 @@ func add_explode(pos, delay, anim_class = explode_class, mode = ''):
 	add_child(timer)
 
 func do_explode(pos, timer, anim_class, mode):
-	# timer.queue_free()
-	timer.call_deferred("queue_free")
+	timer.queue_free()
+	# timer.call_deferred("queue_free")
 	var explode = anim_class.instance()
 	explode.set_mode(mode)
 	explode.set_pos(pos)
@@ -359,8 +362,8 @@ func fly_camera_to(pos):
 
 
 func restart_player():
-	# snake.queue_free()
-	snake.call_deferred("queue_free")
+	snake.queue_free()
+	# snake.call_deferred("queue_free")
 	snake = false
 	spawn_player_snake()
 	direction.x = 0
@@ -380,15 +383,15 @@ func restart_game():
 
 func destroy_all():
 	for one in snakes.get_children():
-		one.call_deferred("queue_free")
-		# one.queue_free()
+		# one.call_deferred("queue_free")
+		one.queue_free()
 	snake = false
 	direction.x = 0
 	direction.y = 0
 	map.clear_food_map()
 	for one in foods.get_children():
-		one.call_deferred("queue_free")
-		# one.queue_free()
+		# one.call_deferred("queue_free")
+		one.queue_free()
 
 func restart_all():
 	spawn_player_snake()
@@ -406,51 +409,10 @@ func do_debug_action():
 		push_state()
 		set_state(STATE_DEBUG_MENU, self)
 
-
-func fetch_thread():
-	for thread in _thread_pool:
-		if !thread.is_active():
-			return thread
-	var new_thread = Thread.new()
-	_thread_pool.append(new_thread)
-	print("NEW THREAD!: ", _thread_pool.size())
-	return new_thread
-
-func query_action(controller_state, controller):
-
-	controller.snake.calculating = true
-	controller.snake.next_action = []
-	var thread = fetch_thread()
-	controller.snake.thread = thread
-	thread.start(self, '_query_action', [controller, controller_state, thread])
-	# _query_action([controller, controller_state, false])
-
-func _query_action(params):
-	mutex.lock()
-	var controller = params[0]
-	var controller_state = params[1]
-	var thread = params[2]
-	var act_index = -1
-
-	DQN.current = controller.snake.id
-	act_index = DQN.act(controller_state)
-	DQN.current = -1
-
-	_continue_query(act_index, thread, controller)
-
-func _continue_query(act_index, thread, controller):
-
-	controller.snake.thread = null
-	var action = {}
-
-	if controller and controller.has_method("queue_free") and controller.DQN:
-		action = controller.actions[act_index]
-		if controller.snake and !controller.snake.to_be_destroyed:
-			controller.snake.next_action = [action]
-			controller.snake.calculating = false
-
-	# print("END: ", thread.get_id())
-	mutex.unlock()
-	# print("UNLOCK")
-	thread.wait_to_finish()
-	# DQN.mutex.unlock()
+func get_snake_by_id(id):
+	if global.is_deleted(snakes):
+		return
+	for one in snakes.get_children():
+		if !global.is_deleted(one) and one.id == id and !global.is_deleted(one.head):
+			return one
+	return false

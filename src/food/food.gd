@@ -45,13 +45,15 @@ func prepare_bin():
 	add_child(timer)
 	timer.start()
 
+
 func open_bin(timer):
 	timer.queue_free()
-	world.rain_snake(get_pos())
-	if snake and snake.has_method("spawn_food"):
-		snake.spawn_food()
-	else:
-		destroy()
+	if world.state_id == world.STATE_IN_PLAY or world.state_id == world.STATE_WAITING_TO_START:
+		world.rain_snake(get_pos())
+		if snake and !global.is_deleted(snake) and snake.has_method("spawn_food"):
+			snake.spawn_food()
+		else:
+			destroy()
 
 func get_map_pos():
 	if !active:
@@ -72,7 +74,8 @@ func destroy():
 	fly_up()
 
 func fly_up():
-	sprite.set_modulate(Color(0, 0, 0, 0.5))
+	if sprite:
+		sprite.set_modulate(Color(0, 0, 0, 0.5))
 
 	var tween = Tween.new()
 	tween.interpolate_property(self, "transform/pos", get_pos(), Vector2(get_pos().x + (randi() % 400 - 200), 0),  1.2, Tween.TRANS_SINE, Tween.EASE_IN_OUT)

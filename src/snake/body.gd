@@ -70,15 +70,15 @@ func move_to(direction):
 
 
 func destroy():
-	# queue_free()
-	call_deferred("queue_free")
+	queue_free()
+	# call_deferred("queue_free")
 
 func explode(pos):
 	var explode = world.explode_class.instance()
 	explode.set_pos(pos)
 	world.add_child(explode)
-	# queue_free()
-	call_deferred("queue_free")
+	queue_free()
+	# call_deferred("queue_free")
 
 
 func is_moving():

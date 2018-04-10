@@ -6,6 +6,7 @@ var state_id
 var states_classes
 var state_stack = []
 var _thread_pool = []
+var snakes
 
 func on_scene_enter():
     print("Scene Entered")

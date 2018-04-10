@@ -109,6 +109,7 @@ func next_command():
     else:
         var state = build_state()
         if snake:
-	        snake.world.query_action(state, self)
+            snake.calculating = true
+            global.calculate_dqn_action(0.01, state, snake.id)
 
 

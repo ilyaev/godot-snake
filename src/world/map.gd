@@ -212,7 +212,7 @@ func free_around(cell, rad):
 			if is_wall(ncell):
 				result = false
 			for snake in snakes.get_children():
-				if snake and snake.head.start_position_map.x == ncell.x and snake.head.start_position_map.y == ncell.y:
+				if snake and snake.head and snake.head.start_position_map.x == ncell.x and snake.head.start_position_map.y == ncell.y:
 					result = false
 	return result
 

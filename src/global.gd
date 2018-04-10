@@ -28,6 +28,7 @@ const RPC_SCORE_RANK = 'rankByScore'
 
 var last_objects = 0
 var map_ref
+var mutex = Mutex.new()
 
 var DQN
 
@@ -36,10 +37,29 @@ var perf = {
 	"nodes": 0
 }
 
+const actions = [{
+    dx = 0,
+    dy = 1
+},
+{
+    dx = 0,
+    dy = -1
+},
+{
+    dx = 1,
+    dy = 0
+},
+{
+    dx = -1,
+    dy = 0
+}]
+
+
 
 var rpc_attempt_counter = 0
 
 signal rpc_response
+signal action_ready
 
 func _init():
 	_thread_pool = [
@@ -87,6 +107,9 @@ func load_user_info():
 		user.parse_json(ufile.get_line())
 		ufile.close()
 
+
+func is_deleted(node):
+	return str(node) == '[Deleted Object]'
 
 
 func handshake():
@@ -205,6 +228,10 @@ func _deferred_goto_scene(path):
 			for tp in current_scene._thread_pool:
 				if tp and tp.is_active():
 					tp.wait_to_finish()
+		if current_scene.snakes and current_scene.snakes.get_children().size() > 0:
+			for sn in current_scene.snakes.get_children():
+				if sn.thread and sn.thread.is_active():
+					sn.thread.wait_to_finish()
 		current_scene.free()
 	var s = ResourceLoader.load(path)
 	current_scene = s.instance()
@@ -225,6 +252,32 @@ func arr_join(arr, separator = ""):
 		output += str(s) + separator
 	output = output.left( output.length() - separator.length() )
 	return output
+
+func calculate_dqn_action(timeout, state, snake_id):
+	var thread = fetch_thread()
+	thread.start(self, '_calculate_dqn_action', [thread, timeout, state, snake_id])
+
+func _calculate_dqn_action(params):
+	mutex.lock()
+	var action = DQN.act(params[2])
+	params[0].wait_to_finish()
+	var world = get_node('/root/world')
+	if world and !is_deleted(world):
+		var target = world.get_snake_by_id(params[3])
+		if target:
+			target.calculating = false
+			target.next_action = [actions[action]]
+	mutex.unlock()
+
+
+func fetch_thread():
+	for thread in _thread_pool:
+		if !thread.is_active():
+			return thread
+	var new_thread = Thread.new()
+	_thread_pool.append(new_thread)
+	print("NEW THREAD!: ", _thread_pool.size())
+	return new_thread
 
 func gen_rpc_query(params = ["no", "no", {}, '{}']):
 	var scope = params[0]

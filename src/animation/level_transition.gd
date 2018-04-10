@@ -173,7 +173,8 @@ func apply_scene():
 			sprite.set_pos(food.get_pos() - get_pos())
 			bits.add_child(sprite)
 		else:
-			food.call_deferred("destroy")
+			food.destroy()
+			# food.call_deferred("destroy")
 
 	for wall in scene.map.get_walls():
 		var sprite = Sprite.new()

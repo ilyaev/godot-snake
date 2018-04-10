@@ -126,7 +126,9 @@ func relocate(position):
 	head.relocate_on_map(map.world_to_map(position))
 
 func is_moving():
-	if !active or calculating:
+	if calculating:
+		return false
+	if !active:
 		return true
 	if current_direction.x == 0 and current_direction.y == 0:
 		return false
@@ -270,7 +272,8 @@ func next_command():
 
 func destroy():
 	to_be_destroyed = true
-	state.call_deferred("destroy")
+	# state.call_deferred("destroy")
+	state.destroy()
 	if is_in_group("foe"):
 		world.spawn_food(false)
 
@@ -283,7 +286,8 @@ func _on_animation_finished():
 	state.on_animation_finished()
 
 func ready_to_start():
-	call_deferred("doGrow")
+	# call_deferred("doGrow")
+	doGrow()
 	active = true
 	if is_in_group("foe"):
 		next_command()
@@ -294,6 +298,7 @@ func set_speed(new_speed):
 
 
 func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		controller_classes.resize(0)
-		states_classes.resize(0)
+	pass
+	# if what == NOTIFICATION_PREDELETE:
+	# 	controller_classes.resize(0)
+	# 	states_classes.resize(0)
