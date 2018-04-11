@@ -1,7 +1,7 @@
 extends Area2D
 
 var speed = 1
-var base_speed = 0.2
+# var base_speed = 0.2
 var next_speed = 1
 var start_position = Vector2(0, 0)
 var start_position_map = Vector2(0, 0)

@@ -72,7 +72,7 @@ type = "Fruit"
 state = 1
 action = "Nothing"
 anim = ""
-state_duration = 5
+state_duration = 10
 available = true
 
 [node name="black-berry-light" type="Sprite" parent="."]
@@ -87,7 +87,7 @@ type = "Fruit"
 state = 1
 action = "Nothing"
 anim = ""
-state_duration = 5
+state_duration = 10
 available = true
 
 [node name="black-cherry" type="Sprite" parent="."]
@@ -102,7 +102,7 @@ type = "Fruit"
 state = 1
 action = "Nothing"
 anim = ""
-state_duration = 5
+state_duration = 10
 available = true
 
 [node name="coconut" type="Sprite" parent="."]
@@ -237,7 +237,7 @@ type = "Fruit"
 state = 1
 action = "Nothing"
 anim = ""
-state_duration = 5
+state_duration = 10
 available = true
 
 [node name="raspberry" type="Sprite" parent="."]
@@ -252,7 +252,7 @@ type = "Fruit"
 state = 2
 action = "Nothing"
 anim = ""
-state_duration = 5
+state_duration = 10
 available = true
 
 [node name="red-apple" type="Sprite" parent="."]
@@ -282,7 +282,7 @@ type = "Fruit"
 state = 2
 action = "Nothing"
 anim = ""
-state_duration = 5
+state_duration = 8
 available = true
 
 [node name="red-grape" type="Sprite" parent="."]
@@ -327,7 +327,7 @@ type = "Fruit"
 state = 2
 action = "Nothing"
 anim = ""
-state_duration = 5
+state_duration = 8
 available = true
 
 [node name="pumpkin" type="Sprite" parent="."]
@@ -336,7 +336,7 @@ transform/pos = Vector2( 780.13, 1402.26 )
 texture = ExtResource( 22 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
-experience = 200
+experience = 300
 rarity = 3
 type = "Fruit"
 state = 0
@@ -347,7 +347,7 @@ available = true
 
 [node name="skull" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1275.96, 1442.05 )
+transform/pos = Vector2( 1278.42, 1442.05 )
 texture = ExtResource( 23 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -357,7 +357,7 @@ type = "Fruit"
 state = 0
 action = "SnakeBin"
 anim = "Skull"
-state_duration = 6
+state_duration = 8
 available = true
 
 [node name="grenade" type="Sprite" parent="."]
@@ -392,7 +392,7 @@ available = false
 
 [node name="spice_poganka" type="Sprite" parent="."]
 
-transform/pos = Vector2( 1286.35, 197.062 )
+transform/pos = Vector2( 1283.89, 197.062 )
 texture = ExtResource( 26 )
 offset = Vector2( -17.4171, -25.6882 )
 script/script = ExtResource( 3 )
@@ -402,7 +402,7 @@ type = "Spice"
 state = 2
 action = "Nothing"
 anim = ""
-state_duration = 7
+state_duration = 9
 available = true
 
 [node name="spice_red_flower" type="Sprite" parent="."]

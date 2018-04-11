@@ -15,7 +15,12 @@ func _ready():
 	var sw = scorework_class.instance()
 	sw.set_pos(Vector2(rand_range(0,640) - 320,rand_range(0,480) - 240))
 	add_child(sw)
+	set_process_input(true)
 
+
+func _input(event):
+	if event.type == InputEvent.KEY && event.is_pressed():
+		_on_tch_continue_pressed()
 
 func on_rpc_response(response, command):
 	if command == global.RPC_SCORE_RANK:

@@ -99,11 +99,11 @@ func set_control_style():
 		control2 = slider_class.instance()
 
 	control.set_centered(true)
-	control.set_pos(Vector2(230,225))
+	control.set_pos(Vector2(300,225))
 	control.connect("command", self, "_on_gamepad_command")
 
 	control2.set_centered(true)
-	control2.set_pos(Vector2(230,210))
+	control2.set_pos(Vector2(160,210))
 	control2.connect("command", self, "_on_gamepad_command")
 
 	bottom_left.add_child(control)

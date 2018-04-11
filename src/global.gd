@@ -11,7 +11,7 @@ const CONTROL_SLIDER = "1"
 const TRY_LIMIT = 50
 
 var state = APP_STATE_START_SCREEN
-var control_mode = CONTROL_DPAD
+var control_mode = CONTROL_SLIDER
 
 var user_file = 'user://user.json'
 var user = {}
@@ -74,15 +74,6 @@ func _init():
 	randomize()
 	load_user_info()
 
-func get_free_thread():
-	var result
-	var index = 0
-	for one in _thread_pool:
-		if not one.is_active():
-			return index
-		index = index + 1
-	return -1
-
 func update_name(name):
 	user.name = name
 	var ufile = File.new()
@@ -144,8 +135,8 @@ func call_server(body):
 	return rpc.call(body)
 
 func call_server_async(body):
-	var next_thread = get_free_thread()
-	if next_thread > 0 or rpc.state != rpc.STATE_READY:
+	var next_thread = fetch_thread()
+	if rpc.state != rpc.STATE_READY:
 		var timer = Timer.new()
 		timer.set_one_shot(true)
 		timer.connect("timeout", self, "call_atempt", [body, timer])
@@ -155,7 +146,7 @@ func call_server_async(body):
 		add_child(timer)
 	else:
 		rpc_attempt_counter = 0
-		_thread_pool[next_thread].start(rpc, "call", [body, _thread_pool[next_thread]])
+		next_thread.start(rpc, "call", [body, next_thread])
 
 func call_atempt(body, timer):
 	timer.queue_free()
@@ -260,7 +251,6 @@ func calculate_dqn_action(timeout, state, snake_id):
 func _calculate_dqn_action(params):
 	mutex.lock()
 	var action = DQN.act(params[2])
-	params[0].wait_to_finish()
 	var world = get_node('/root/world')
 	if world and !is_deleted(world):
 		var target = world.get_snake_by_id(params[3])
@@ -268,6 +258,7 @@ func _calculate_dqn_action(params):
 			target.calculating = false
 			target.next_action = [actions[action]]
 	mutex.unlock()
+	params[0].wait_to_finish()
 
 
 func fetch_thread():

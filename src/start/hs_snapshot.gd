@@ -36,7 +36,9 @@ func update_table(table):
 		one.update(row.name, row.score)
 		pos = pos + one.height
 
-	show()
+	get_node('title').show()
+	get_node('grandtitle').show()
+	get_node('loading').hide()
 
 func roll_in():
 	title.set_pos(start_pos)

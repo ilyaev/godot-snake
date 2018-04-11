@@ -19,22 +19,6 @@ const FEATURE_FULL_SCAN_12 = 12
 
 const MAX_DIST_TO_FOOD = 8
 
-const actions = [{
-    dx = 0,
-    dy = 1
-},
-{
-    dx = 0,
-    dy = -1
-},
-{
-    dx = 1,
-    dy = 0
-},
-{
-    dx = -1,
-    dy = 0
-}]
 
 func _init():
     name = 'AI_DQN'
@@ -73,7 +57,7 @@ func build_state():
        elif feature == FEATURE_FULL_SCAN_12:
             snake.map.buildSubMap(pos.x, pos.y, 12, result, invincible)
        elif feature == FEATURE_VISION_CLOSE_RANGE:
-            for action in actions:
+            for action in global.actions:
                 var flag = 0
                 if snake.map.is_wall(Vector2(pos.x + action.dx, pos.y + action.dy)):
                     flag = 1
@@ -85,20 +69,20 @@ func build_state():
 func random_action():
     var avail = []
     var pos = snake.map.world_to_map(snake.head.get_pos())
-    for direction in actions:
+    for direction in global.actions:
         if !snake.map.is_wall(Vector2(pos.x + direction.dx, pos.y + direction.dy)):
             avail.append(direction)
 
     if avail.size() > 0:
         return avail[rand_range(0, avail.size())]
     else:
-        return actions[0]
+        return global.actions[0]
 
 
 func next_command():
     var size = snake.tail.get_children().size()
     var random_chance = max(2, 20 - size * size)
-    var action = actions[0]
+    var action = global.actions[0]
     var pos = snake.map.world_to_map(snake.head.get_pos())
 
     if rand_range(0, 100) < random_chance:

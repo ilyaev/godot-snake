@@ -19,6 +19,8 @@ func _init():
 
 func do_on_enter():
     menu = menu_class.instance()
+    if !scene.snake:
+        return
     snake_speed = scene.snake.speed
     scene.snake.set_state(scene.snake.SNAKE_STATE_INVINCIBLE)
     scene.snake.set_speed(0.5)
@@ -71,6 +73,8 @@ func on_action(action):
         scene.pop_state()
 
 func do_on_exit():
+    if !scene.snake:
+        return
     scene.snake.set_speed(snake_speed)
     if alter_snake_state:
         scene.snake.set_state(scene.snake.SNAKE_STATE_NORMAL)
