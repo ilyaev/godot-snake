@@ -16,10 +16,21 @@ func do_on_enter():
         scene.upload_score()
         return
     scene.restart_player()
-    scene.fly_camera_to(scene.snake.head.get_pos())
     var flash = flash_class.instance()
     flash.set_z(101)
     flash.get_node("sprite").set_modulate(Color(1,0,0,1))
     flash.set_scale(Vector2(scene.map.maxX * scene.map.snake_size, scene.map.maxY * scene.map.snake_size))
     scene.hud.add_child(flash)
     ._update_stats()
+
+    var timer = Timer.new()
+    timer.set_one_shot(true)
+    timer.connect("timeout", self, "do_fly", [timer])
+    timer.set_wait_time(0.5)
+    timer.set_timer_process_mode(Timer.TIMER_PROCESS_FIXED)
+    scene.hud.add_child(timer)
+    timer.start()
+
+func do_fly(timer):
+    timer.queue_free()
+    scene.fly_camera_to(scene.snake.head.get_pos())

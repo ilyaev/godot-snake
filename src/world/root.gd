@@ -160,6 +160,13 @@ func snake_next_level():
 	load_level(levels[current_level_number].instance())
 
 
+func active_snakes_count():
+	var result = 0
+	for one in snakes.get_children():
+		if one.active:
+			result = result + 1
+	return result
+
 func spawn_player_snake():
 	snake = snake_class.instance()
 	snake.id = next_id()
@@ -179,7 +186,7 @@ func spawn_enemy_snake(ignore_max = false, cell = Vector2(-1,-1)):
 		spawn_pos = cell
 	if !map.free_around(spawn_pos, 2):
 		return
-	if !ignore_max and snakes.get_children().size() >= current_level.get_max_enemy() + 1:
+	if !ignore_max and active_snakes_count() >= current_level.get_max_enemy() + 1:
 		return
 	var foe = snake_class.instance()
 	# foe.set_controller(snake.SNAKE_CONTROLLER_AI_ASTAR)
@@ -416,3 +423,10 @@ func get_snake_by_id(id):
 		if !global.is_deleted(one) and one.id == id and !global.is_deleted(one.head):
 			return one
 	return false
+
+
+func _on_purge_timer_timeout():
+	return
+	for one in snakes.get_children():
+		if one.deleted_time > 0 and OS.get_ticks_msec() - one.deleted_time > 3000:
+			snakes.remove_child(one)

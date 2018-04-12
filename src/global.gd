@@ -255,10 +255,14 @@ func _calculate_dqn_action(params):
 	if world and !is_deleted(world):
 		var target = world.get_snake_by_id(params[3])
 		if target:
+			target.mutex.lock()
 			target.calculating = false
 			target.next_action = [actions[action]]
-	mutex.unlock()
+			target.mutex.unlock()
 	params[0].wait_to_finish()
+	mutex.unlock()
+
+	return action
 
 
 func fetch_thread():

@@ -21,7 +21,7 @@ func _draw():
 			draw_circle(map.map_to_screen(cell), 20, Color(1,0,0,0.5))
 
 	for one_snake in snakes.get_children():
-		if one_snake.food:
+		if one_snake.food and !global.is_deleted(one_snake.food):
 			draw_line(one_snake.head.get_pos(), one_snake.food.get_pos(), Color(1,0,0,0.5), 5)
 		if one_snake.is_in_group("foe") and one_snake.path.size() > 0:
 			for cell in one_snake.path:

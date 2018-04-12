@@ -80,16 +80,10 @@ func snake_collide():
     if !snake.is_moving():
         return
 
-    if snake.is_in_group("foe"):
-        snake.controller.find_route()
-        if snake.path.size() == 0:
-            snake.destroy()
-            snake.emit_signal("collide")
-        else:
-            snake.next_command()
-    else:
-        snake.destroy()
-        snake.emit_signal("collide")
+    snake.deactivate()
+    snake.emit_signal("collide")
+    snake.destroy()
+
 
 func deactivate():
     snake.active = false
@@ -100,26 +94,22 @@ func deactivate():
         body.deactivate()
 
 func destroy():
-    if snake.thread and snake.thread.is_active():
-        print('THREAD ACTIVE!!')
-        snake.thread.wait_to_finish()
     if snake.food:
         snake.food.destroy()
-    snake.deactivate()
+        snake.food = false
 
     snake.world.add_explode(snake.head.get_pos(), 1)
-
-    snake.head.destroy()
-
     for body in snake.tail.get_children():
         snake.world.add_explode(body.get_pos(), rand_range(0, 100))
-        body.destroy()
 
     if snake.is_in_group("foe"):
-        snake.controller_classes.resize(0)
-        snake.states_classes.resize(0)
-        snake.queue_free()
-        # snake.call_deferred("queue_free")
+        snake.deleted_time = OS.get_ticks_msec()
+        snake.hide()
+        snake.calculating = true
+    else:
+        snake.head.destroy()
+        for body in snake.tail.get_children():
+            body.destroy()
 
 func proxy_emit_signal(_signal, var1 = null, var2 = null):
     if typeof(var2) != TYPE_NIL:

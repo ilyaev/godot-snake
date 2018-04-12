@@ -29,6 +29,8 @@ var states_classes = [
 ]
 
 var to_be_destroyed = false
+var mutex = Mutex.new()
+var deleted_time = 0
 
 var controller
 var controller_id
@@ -92,6 +94,9 @@ func _ready():
 	set_fixed_process(true)
 
 func _fixed_process(delta):
+	if !active:
+		return
+	mutex.lock()
 	if !calculating:
 		if next_action.size() > 0:
 			var action = next_action[0]
@@ -104,6 +109,7 @@ func _fixed_process(delta):
 			further_command()
 
 		state.fixed_process(delta)
+	mutex.unlock()
 
 func set_controller(new_controller):
 	controller_id = new_controller
@@ -277,6 +283,16 @@ func destroy():
 	if is_in_group("foe"):
 		world.spawn_food(false)
 
+func terminate():
+    head.destroy()
+
+    for body in tail.get_children():
+        body.destroy()
+
+    if is_in_group("foe"):
+        controller_classes.resize(0)
+        states_classes.resize(0)
+        queue_free()
 
 func deactivate():
 	state.deactivate()
@@ -296,9 +312,12 @@ func ready_to_start():
 func set_speed(new_speed):
 	next_speed = new_speed
 
+# func _exit_tree():
+# 	# controller_classes.resize(0)
+# 	# states_classes.resize(0)
+# 	print('EXIT')
 
 func _notification(what):
-	pass
-	# if what == NOTIFICATION_PREDELETE:
-	# 	controller_classes.resize(0)
-	# 	states_classes.resize(0)
+	if what == NOTIFICATION_PREDELETE:
+		controller_classes.resize(0)
+		states_classes.resize(0)
