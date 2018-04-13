@@ -1,0 +1,27 @@
+{
+  "name": "godot-snake",
+  "version": "0.1.0",
+  "description": "Godot Snake",
+  "main": "engine.cfg",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilyaev/godot-snake.git"
+  },
+  "keywords": [
+    "godot",
+    "gamedev",
+    "snake"
+  ],
+  "author": "Yura Ilyaev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilyaev/godot-snake/issues"
+  },
+  "homepage": "https://github.com/ilyaev/godot-snake#readme",
+  "devDependencies": {
+    "standard-version": "^4.3.0"
+  }
+}
