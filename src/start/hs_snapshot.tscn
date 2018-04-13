@@ -79,7 +79,7 @@ max_lines_visible = -1
 
 [node name="rows" type="Node2D" parent="."]
 
-transform/pos = Vector2( 91.105, 161.332 )
+transform/pos = Vector2( 120.447, 176.003 )
 
 [node name="Timer" type="Timer" parent="."]
 

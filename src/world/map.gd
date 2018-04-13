@@ -212,7 +212,7 @@ func free_around(cell, rad):
 			if is_wall(ncell):
 				result = false
 			for snake in snakes.get_children():
-				if snake and snake.head and snake.head.start_position_map.x == ncell.x and snake.head.start_position_map.y == ncell.y:
+				if snake and !global.is_deleted(snake) and snake.active and snake.head and snake.head.start_position_map.x == ncell.x and snake.head.start_position_map.y == ncell.y:
 					result = false
 	return result
 
@@ -354,13 +354,14 @@ func build_wall_map():
 			else:
 				wall_map[cell_id] = false
 
-	for snake in snakes.get_children():
-		if snake.active == true:
-			var cell = snake.head.target_position_map
-			wall_map[get_cell_id(cell.x, cell.y)] = true
-			for body in snake.tail.get_children():
-				var cell = body.target_position_map
-				wall_map[get_cell_id(cell.x, cell.y)] = true
+	# for snake in snakes.get_children():
+	# 	if snake.active == true:
+	# 		print('MAP FOR SNAKE!')
+	# 		var cell = snake.head.target_position_map
+	# 		wall_map[get_cell_id(cell.x, cell.y)] = true
+	# 		for body in snake.tail.get_children():
+	# 			var cell = body.target_position_map
+	# 			wall_map[get_cell_id(cell.x, cell.y)] = true
 	if !astar:
 		build_astar()
 	var run_time = OS.get_ticks_msec() -  start_time

@@ -52,7 +52,7 @@ func _ready():
 	shower.invert = true
 	add_child(shower)
 	shower.connect("faded", self, "on_showed", [shower])
-	set_fixed_process(true)
+	# set_fixed_process(true)
 
 	label_score.set_text("2")
 	label_lifes.set_text("3")

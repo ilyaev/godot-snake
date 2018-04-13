@@ -44,7 +44,10 @@ func _ready():
 
 
 func update_user_hs():
-	ui.get_node("nickscore").show()
+	if str(global.user.maxScore) != '0':
+		ui.get_node("nickscore").show()
+	else:
+		ui.get_node("nickscore").hide()
 	ui.get_node("nickscore").set_text(str(global.user.maxScore))
 
 func load_highscore():

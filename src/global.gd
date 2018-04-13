@@ -1,5 +1,8 @@
 extends Node
 
+var ENV = 'dev'
+# var ENV = 'prod'
+
 var current_scene = null
 
 const APP_STATE_START_SCREEN = 0
@@ -180,6 +183,8 @@ func _ready():
 	current_scene = root.get_child( root.get_child_count() -1 )
 	if current_scene.has_method("on_scene_enter"):
 		current_scene.on_scene_enter()
+	if ENV == 'prod':
+		OS.set_window_fullscreen(true)
 
 func set_control_style(mode):
 	control_mode = mode
@@ -256,7 +261,8 @@ func _calculate_dqn_action(params):
 		var target = world.get_snake_by_id(params[3])
 		if target:
 			target.mutex.lock()
-			target.calculating = false
+			# target.calculating = false
+			target.set_fixed_process(true)
 			target.next_action = [actions[action]]
 			target.mutex.unlock()
 	params[0].wait_to_finish()

@@ -105,7 +105,7 @@ func destroy():
     if snake.is_in_group("foe"):
         snake.deleted_time = OS.get_ticks_msec()
         snake.hide()
-        snake.calculating = true
+        snake.set_fixed_process(false)
     else:
         snake.head.destroy()
         for body in snake.tail.get_children():

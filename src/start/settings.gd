@@ -78,3 +78,12 @@ func _on_LineEdit_text_changed( text ):
 func _on_TouchScreenButton_pressed():
 	global.update_name(nickname.get_text())
 	notify()
+
+
+func _on_nickname_text_entered( text ):
+	_on_TouchScreenButton_pressed()
+	pass # replace with function body
+
+
+func _on_nickname_input_event( ev ):
+	pass # replace with function body

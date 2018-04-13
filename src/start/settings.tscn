@@ -138,7 +138,11 @@ visibility_mode = 0
 
 [connection signal="pressed" from="panel/cb_slider" to="." method="_on_cb_slider_pressed"]
 
+[connection signal="input_event" from="panel/nickname" to="." method="_on_nickname_input_event"]
+
 [connection signal="text_changed" from="panel/nickname" to="." method="_on_LineEdit_text_changed"]
+
+[connection signal="text_entered" from="panel/nickname" to="." method="_on_nickname_text_entered"]
 
 [connection signal="pressed" from="panel/btn_apply" to="." method="_on_TouchScreenButton_pressed"]
 

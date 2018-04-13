@@ -446,12 +446,14 @@ params/anim_initial_pos = 0.0
 
 [node name="lock" type="Sprite" parent="ui"]
 
+visibility/visible = false
 transform/pos = Vector2( 914.559, 272.19 )
 transform/scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 10 )
 
 [node name="whirl" type="Sprite" parent="ui"]
 
+visibility/visible = false
 transform/pos = Vector2( 1127.96, 77.302 )
 transform/rot = 360.0
 transform/scale = Vector2( 0.5, 0.5 )
@@ -470,7 +472,7 @@ autoplay = "whirl"
 
 [node name="tbtn_settings" type="TouchScreenButton" parent="ui"]
 
-transform/pos = Vector2( 1133.83, 609.739 )
+transform/pos = Vector2( 1146.64, 646.896 )
 transform/scale = Vector2( 2, 2 )
 normal = ExtResource( 12 )
 pressed = null
@@ -497,9 +499,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 619.0
-margin/top = 357.0
+margin/top = 382.0
 margin/right = 1532.0
-margin/bottom = 565.0
+margin/bottom = 590.0
 custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0.101961, 0.14902, 0.466667, 1 )
 custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
@@ -517,10 +519,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 784.0
-margin/top = 465.0
-margin/right = 1466.0
-margin/bottom = 673.0
+margin/left = 750.0
+margin/top = 481.0
+margin/right = 1432.0
+margin/bottom = 689.0
 custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0.101961, 0.14902, 0.466667, 1 )
 custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
@@ -528,7 +530,7 @@ custom_constants/shadow_offset_x = 1
 custom_constants/shadow_offset_y = 2
 custom_constants/shadow_as_outline = 1
 text = "4001"
-align = 1
+align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1

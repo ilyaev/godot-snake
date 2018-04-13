@@ -23,6 +23,8 @@ func start_game():
     scene.spawn_fader(0.5)
 
 func input(event):
+    if event.is_action_pressed("ui_cancel"):
+        scene.get_tree().quit()
     if event.type == InputEvent.KEY && event.is_pressed():
         scene._on_tbtn_start_pressed()
 

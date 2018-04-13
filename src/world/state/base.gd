@@ -28,12 +28,12 @@ func process_input(event):
 		scene.ui_command('down')
 	elif event.is_action_pressed("ui_select"):
 		scene.do_debug_action()
-	elif event.is_action_pressed("ui_focus_next"):
+	elif event.is_action_pressed("ui_focus_next") and global.ENV != 'prod':
         scene.show_debug = !scene.show_debug
 	elif event.is_action_pressed("ui_cancel"):
         on_back_btn()
 	elif event.is_action_pressed("ui_accept"):
-		if scene.state_id != scene.STATE_DEBUG_MENU:
+		if global.ENV != 'prod' and scene.state_id != scene.STATE_DEBUG_MENU:
 			scene.spawn_enemy_snake(true)
 
 func on_back_btn():

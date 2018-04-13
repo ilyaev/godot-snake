@@ -93,7 +93,12 @@ func next_command():
     else:
         var state = build_state()
         if snake:
-            snake.calculating = true
-            global.calculate_dqn_action(0.01, state, snake.id)
+            # snake.calculating = true
+            snake.set_fixed_process(false)
+            # global.calculate_dqn_action(0.01, state, snake.id)
+            snake.map.world.ai_worker.add_task({
+                "state": state,
+                "snake_id": snake.id
+            })
 
 

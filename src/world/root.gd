@@ -15,6 +15,7 @@ var explode_class = preload("res://src/particles/explode.tscn")
 var body_class = preload("res://src/snake/body.tscn")
 var food_drop_class = preload("res://src/food/food-drop.tscn")
 var food_class = preload("res://src/food/food.tscn")
+var ai_worker_class = preload("res://src/dqn/worker.tscn")
 var last_id = 0
 var need_spawn = false
 var websocket
@@ -44,6 +45,7 @@ var session_lifes = initial_lifes
 var session_score = 0
 var session_last_score = 0
 var session_locks = 0
+var ai_worker
 
 
 const STATE_WAITING_TO_START = 0
@@ -65,9 +67,11 @@ onready var tween = get_node("tween")
 var DQN
 
 func _ready():
-	# hud.spawn_fader(0.5, true)
+
 	snakes = get_node("snakes")
+
 	mutex = Mutex.new()
+
 	states_classes = [
 		preload("state/waiting_to_start.gd").new(),
 		preload("state/in_play.gd").new(),
@@ -79,7 +83,10 @@ func _ready():
 
 
 	DQN = global.DQN
-	# DQN.fromJSON("res://src/aimodels/DEFAULT.json")
+	ai_worker = ai_worker_class.instance()
+	ai_worker.DQN = DQN
+	ai_worker.connect("done", self, "ai_command_ready")
+	add_child(ai_worker)
 
 	set_state(STATE_WAITING_TO_START, self)
 	load_level(levels[0].instance())
@@ -94,6 +101,12 @@ func _ready():
 	session_locks = map.get_lock_count()
 	state._update_stats()
 	#test_server()
+
+func ai_command_ready(snake_id, action):
+	var target = get_snake_by_id(snake_id)
+	if target and !global.is_deleted(target):
+		target.set_fixed_process(true)
+		target.next_action = [global.actions[action]]
 
 func upload_score():
 	var name = global.user.name
@@ -410,6 +423,8 @@ func _on_tween_tween_complete( object, key ):
 
 
 func do_debug_action():
+	if global.ENV == 'prod':
+		return
 	if state_id == STATE_DEBUG_MENU:
 		pop_state()
 	else:

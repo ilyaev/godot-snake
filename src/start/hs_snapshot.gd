@@ -23,22 +23,25 @@ func on_rpc_response(response, command):
 		update_table(table)
 
 func update_table(table):
+	get_node('loading').hide()
 	for child in rows.get_children():
 		child.update("","")
 		child.queue_free()
 	caption.set_text(table.caption)
 	roll_in()
 	var pos = 0
+	var index = 0
 	for row in table.rows:
 		var one = row_class.instance()
 		one.set_pos(Vector2(0, pos))
+		one.position = index
+		index = index + 1
 		rows.add_child(one)
 		one.update(row.name, row.score)
 		pos = pos + one.height
-
 	get_node('title').show()
 	get_node('grandtitle').show()
-	get_node('loading').hide()
+
 
 func roll_in():
 	title.set_pos(start_pos)
