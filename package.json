@@ -1,22 +1,26 @@
 {
-    "name": "godot-snake",
-    "version": "0.1.16",
-    "description": "Godot Snake",
-    "main": "engine.cfg",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "bump": "cd ../godot-snake-build && yarn run bump",
-        "android": "cd ../godot-snake-build && yarn run android"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ilyaev/godot-snake.git"
-    },
-    "keywords": ["godot", "gamedev", "snake"],
-    "author": "Yura Ilyaev",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/ilyaev/godot-snake/issues"
-    },
-    "homepage": "https://github.com/ilyaev/godot-snake#readme"
+  "name": "godot-snake",
+  "version": "0.1.17",
+  "description": "Godot Snake",
+  "main": "engine.cfg",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bump": "cd ../godot-snake-build && yarn run bump",
+    "android": "cd ../godot-snake-build && yarn run android"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilyaev/godot-snake.git"
+  },
+  "keywords": [
+    "godot",
+    "gamedev",
+    "snake"
+  ],
+  "author": "Yura Ilyaev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilyaev/godot-snake/issues"
+  },
+  "homepage": "https://github.com/ilyaev/godot-snake#readme"
 }
