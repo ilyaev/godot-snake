@@ -16,6 +16,11 @@
             "label": "Echo",
             "type": "shell",
             "command": "tools/run_scene.sh ${file}"
+        },
+        {
+            "type": "npm",
+            "script": "android",
+            "problemMatcher": []
         }
     ]
 }

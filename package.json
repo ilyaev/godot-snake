@@ -4,7 +4,9 @@
     "description": "Godot Snake",
     "main": "engine.cfg",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "bump": "cd ../godot-snake-build && yarn run bump",
+        "android": "cd ../godot-snake-build && yarn run android"
     },
     "repository": {
         "type": "git",
