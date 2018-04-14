@@ -3,7 +3,7 @@ extends Node
 var ENV = 'dev'
 
 var current_scene = null
-var current_version = '0.1.16'
+var current_version = '0.1.17'
 
 const APP_STATE_START_SCREEN = 0
 const APP_STATE_PLAY = 1

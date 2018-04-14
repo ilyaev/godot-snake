@@ -21,6 +21,11 @@
             "type": "npm",
             "script": "android",
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "bump",
+            "problemMatcher": []
         }
     ]
 }
