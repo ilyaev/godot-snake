@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.18"></a>
+## [0.1.18](https://github.com/ilyaev/godot-snake/compare/v0.1.17...v0.1.18) (2018-04-14)
+
+
+### Bug Fixes
+
+* http thread improvements ([c98949d](https://github.com/ilyaev/godot-snake/commit/c98949d))
+
+
+
 <a name="0.1.17"></a>
 ## [0.1.17](https://github.com/ilyaev/godot-snake/compare/v0.1.0...v0.1.17) (2018-04-14)
 
