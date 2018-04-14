@@ -17,6 +17,8 @@ var _response = ""
 var _thread
 var _thread_pool = []
 
+var do_quit = false
+
 signal response
 signal initialized
 
@@ -45,6 +47,7 @@ func get_free_thread():
 
 
 func init_host(thread):
+	thread.wait_to_finish()
 	state = STATE_NOT_INITED
 	var raw = post("/", '{"query":"query {godotSnakeServerHost {host,port}}","variables":null}')
 	var dict = {}
@@ -55,8 +58,8 @@ func init_host(thread):
 		_port = dict.data.godotSnakeServerHost.port
 		state = STATE_READY
 		print("RPC Ready: ", _host,":", _port)
-		emit_signal("initialized")
-	thread.wait_to_finish()
+		call_deferred("emit_signal", "initialized")
+
 
 func call(params):
 	var body = params[0]
@@ -66,13 +69,13 @@ func call(params):
 		return
 	state = STATE_PROCESSING
 	var raw = post("/", body)
-	# print("RPC BODT: ", body)
-	# print("RPC RESPONSE: ", raw)
+	print("RPC BODT: ", body)
+	print("RPC RESPONSE: ", raw)
 	var dict = {}
 	if raw and raw[0] == '{':
 		dict.parse_json(raw)
-
-	emit_signal("response", dict, thread, body)
+	thread.wait_to_finish()
+	call_deferred("emit_signal", "response", dict, thread, body)
 	state = STATE_READY
 	return dict
 
@@ -119,7 +122,7 @@ func _setError(msg):
 func _poll():
 	var status = -1
 	var current_status
-	while(true):
+	while(true and !do_quit):
 		client.poll()
 		current_status = client.get_status()
 		if( status != current_status ):

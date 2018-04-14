@@ -16,7 +16,7 @@ const TRY_LIMIT = 50
 var state = APP_STATE_START_SCREEN
 var control_mode = CONTROL_SLIDER
 
-var user_file = 'user://user.json'
+var user_file = 'user://user.pson'
 var user = {}
 var _start_time = 0
 
@@ -131,7 +131,9 @@ func post_score(score, name = ""):
 
 
 func gen_user_id():
-	var result = String(rand_range(100, 1000)) + '-' + String(rand_range(100,10000)) + '-' + String(rand_range(100,100000))
+	var result = OS.get_unique_ID()
+	if !result:
+		result = String(rand_range(100, 1000)) + '-' + String(rand_range(100,10000)) + '-' + String(rand_range(100,100000))
 	return result
 
 func call_server(body):
@@ -168,9 +170,6 @@ func on_rpc_response(response, thread, body):
 
 	command = query.split("{")[1].split("(")[0].split('{')[0]
 
-	if thread:
-		thread.wait_to_finish()
-
 	if typeof(response) == TYPE_DICTIONARY and response.has('data'):
 		if command == RPC_HANDSHAKE:
 			user._id = response.data.handshake._id
@@ -196,6 +195,12 @@ func goto_scene(path):
 	call_deferred("_deferred_goto_scene",path)
 
 func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		rpc_attempt_counter = 10000
+		rpc.do_quit = true
+		for one in _thread_pool:
+			if one and one.is_active():
+				one.wait_to_finish()
 	pass
 
 func start_game():
