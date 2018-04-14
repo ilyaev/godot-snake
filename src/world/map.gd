@@ -20,7 +20,6 @@ var food_map = {}
 var lock_spots = []
 var unlocked = 0
 var portal_open = false
-var mutex = Mutex.new()
 
 const TILE_WALL = 1
 const TILE_GRASS = 8

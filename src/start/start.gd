@@ -41,6 +41,7 @@ func _ready():
 	ui.get_node("nickname").set_text(global.user.name)
 	update_user_hs()
 	load_highscore()
+	ui.get_node("version").set_text(global.current_version)
 
 
 func update_user_hs():

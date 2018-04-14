@@ -96,7 +96,6 @@ func _ready():
 func _fixed_process(delta):
 	if !active:
 		return
-	mutex.lock()
 	if !calculating:
 		if next_action.size() > 0:
 			var action = next_action[0]
@@ -109,7 +108,6 @@ func _fixed_process(delta):
 			further_command()
 
 		state.fixed_process(delta)
-	mutex.unlock()
 
 func set_controller(new_controller):
 	controller_id = new_controller

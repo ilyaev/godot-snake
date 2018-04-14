@@ -57,7 +57,7 @@ func process(t):
 			var action = DQN.act(next.state)
 			call_deferred("emit_signal", "done", next.snake_id, action)
 		else:
-			OS.delay_msec(2)
+			OS.delay_msec(1)
 	print('STOP!')
 
 

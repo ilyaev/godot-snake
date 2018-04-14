@@ -27,7 +27,6 @@ var level3_class = preload("res://src/levels/level3.tscn")
 var level4_class = preload("res://src/levels/level4.tscn")
 var level5_class = preload("res://src/levels/level5.tscn")
 var current_level = false
-var mutex
 
 onready var global = get_node("/root/global")
 
@@ -69,8 +68,6 @@ var DQN
 func _ready():
 
 	snakes = get_node("snakes")
-
-	mutex = Mutex.new()
 
 	states_classes = [
 		preload("state/waiting_to_start.gd").new(),

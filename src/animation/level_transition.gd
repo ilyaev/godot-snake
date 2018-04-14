@@ -153,18 +153,19 @@ func apply_scene():
 	half_size = scene.map.half_size
 
 	for snake in scene.snakes.get_children():
-		snake.active = false
-		var sprite = snake.head.get_node("sprite")
-		sprite.get_owner().remove_child(sprite)
-		sprite.set_pos(snake.head.get_pos() - get_pos())
-		bits.add_child(sprite)
-
-
-		for body in snake.tail.get_children():
-			var sprite = body.get_node("sprite")
+		if snake.active:
+			snake.active = false
+			var sprite = snake.head.get_node("sprite")
 			sprite.get_owner().remove_child(sprite)
-			sprite.set_pos(body.get_pos() - get_pos())
+			sprite.set_pos(snake.head.get_pos() - get_pos())
 			bits.add_child(sprite)
+
+
+			for body in snake.tail.get_children():
+				var sprite = body.get_node("sprite")
+				sprite.get_owner().remove_child(sprite)
+				sprite.set_pos(body.get_pos() - get_pos())
+				bits.add_child(sprite)
 
 	for food in scene.foods.get_children():
 		if food.effect_type != 'Static':
