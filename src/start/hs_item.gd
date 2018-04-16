@@ -1,6 +1,6 @@
 extends Node2D
 
-var height = 55
+var height = 65
 var start_pos = Vector2(0, 400)
 var position = 0
 
