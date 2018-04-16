@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/ilyaev/godot-snake/compare/v0.1.19...v0.2.0) (2018-04-16)
+
+
+### Features
+
+* release one ([909c722](https://github.com/ilyaev/godot-snake/commit/909c722))
+
+
+
 <a name="0.1.19"></a>
 ## [0.1.19](https://github.com/ilyaev/godot-snake/compare/v0.1.18...v0.1.19) (2018-04-16)
 
