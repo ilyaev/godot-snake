@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/ilyaev/godot-snake/compare/v0.2.3...v0.3.0) (2018-04-16)
+
+
+### Features
+
+* updated AI models ([1cd0167](https://github.com/ilyaev/godot-snake/commit/1cd0167))
+
+
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/ilyaev/godot-snake/compare/v0.2.2...v0.2.3) (2018-04-16)
 
