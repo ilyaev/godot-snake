@@ -42,7 +42,7 @@ func save_settings():
 func load_settings():
 	var settings = File.new()
 	if not settings.file_exists(settings_file):
-		control_mode = CONTROL_SLIDER
+		control_mode = CONTROL_DPAD
 	else:
 		settings.open(settings_file, File.READ)
 		var line = settings.get_line()
