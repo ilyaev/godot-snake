@@ -1,5 +1,8 @@
 # godot-snake
 
+## Watch the video
+[![Watch the video](https://img.youtube.com/vi/7b_Nwv22eGA/hqdefault.jpg)](https://youtu.be/7b_Nwv22eGA)
+
 Godot snake
 
-https://play.google.com/store/apps/details?id=pbartz.games.snake.lost 
+https://ilyaev.itch.io/lost-snake
